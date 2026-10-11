@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://akash-vaidya.dev/sitemap.xml
