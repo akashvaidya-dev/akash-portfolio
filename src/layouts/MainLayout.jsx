@@ -6,6 +6,7 @@ import Footer from '../components/Footer';
 import CursorUniverse from '../components/CursorUniverse';
 import VisitorTerminal from '../components/VisitorTerminal';
 import ThemeCustomizerDrawer from '../components/ThemeCustomizerDrawer';
+import LiveDeveloperStatus from '../components/LiveDeveloperStatus';
 
 /**
  * ScrollToTop Component
@@ -68,6 +69,9 @@ function MainLayout() {
       <main className="main-content" id="main-content" style={{ position: 'relative', zIndex: 1 }}>
         <Outlet />
       </main>
+
+      {/* Live Developer Status (Bottom Telemetry) */}
+      <LiveDeveloperStatus />
 
       {/* Footer */}
       <Footer />

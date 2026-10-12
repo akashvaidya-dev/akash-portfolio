@@ -55,6 +55,9 @@ function Footer() {
               <li>
                 <Link to="/contact">Contact</Link>
               </li>
+              <li>
+                <a href="#developer-status">Live GitHub Status</a>
+              </li>
             </ul>
           </div>
 
@@ -73,7 +76,7 @@ function Footer() {
           <p>© {currentYear} Akash Vaidya. Built with craftsmanship &amp; clean code.</p>
           <div className="footer-bottom-actions">
             <p className="footer-stack-note">
-              React 19 • Vite • Framer Motion • Lucide Icons
+              React 19 • Vite • GitHub REST API • Framer Motion
             </p>
             <button
               type="button"
