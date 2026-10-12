@@ -1,15 +1,31 @@
-import { motion } from 'framer-motion';
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Briefcase, Calendar, CheckCircle2, ArrowRight, Layers, Cpu, ShieldCheck, Zap } from 'lucide-react';
+import { Briefcase, Calendar, CheckCircle2, ArrowRight, Layers, Cpu, ShieldCheck, Zap, Sparkles } from 'lucide-react';
 import { experienceTimeline, engineeringPrinciples } from '../data/experience';
 import SectionTitle from '../components/SectionTitle';
 
+const filters = [
+  { id: 'all', label: 'All Milestones' },
+  { id: 'mobile', label: 'Mobile & Hardware' },
+  { id: 'web', label: 'Web Expansion' },
+];
+
 /**
  * Experience Page Component
- * Detailed timeline of real engineering milestones, client product deliveries,
- * hackathon achievements, and foundational engineering principles.
+ * Enhanced interactive timeline of real engineering milestones, client product deliveries,
+ * hackathon achievements, and standing engineering principles.
  */
 function Experience() {
+  const [activeFilter, setActiveFilter] = useState('all');
+
+  const filteredTimeline = experienceTimeline.filter((item) => {
+    if (activeFilter === 'all') return true;
+    if (activeFilter === 'mobile') return item.tech.includes('Flutter') || item.tech.includes('Dart');
+    if (activeFilter === 'web') return item.tech.includes('React 19') || item.tech.includes('Modern CSS');
+    return true;
+  });
+
   return (
     <div className="page-wrapper experience-page">
       {/* Header */}
@@ -20,6 +36,30 @@ function Experience() {
             title="Engineering Experience &amp; Journey"
             subtitle="Verified history of building production Flutter applications, hardware integrations, and modern web systems."
           />
+
+          {/* Interactive Filter Pills */}
+          <div className="timeline-filter-tabs">
+            {filters.map((tab) => {
+              const isActive = activeFilter === tab.id;
+              return (
+                <button
+                  key={tab.id}
+                  type="button"
+                  className={`category-tab-btn ${isActive ? 'active' : ''}`}
+                  onClick={() => setActiveFilter(tab.id)}
+                >
+                  <span>{tab.label}</span>
+                  {isActive && (
+                    <motion.span
+                      layoutId="active-experience-pill"
+                      className="tab-active-pill"
+                      transition={{ type: 'spring', stiffness: 350, damping: 30 }}
+                    />
+                  )}
+                </button>
+              );
+            })}
+          </div>
         </div>
       </section>
 
@@ -27,61 +67,67 @@ function Experience() {
       <section className="section-padding" style={{ paddingTop: 0 }}>
         <div className="container">
           <div className="timeline-wrap">
-            {experienceTimeline.map((item, index) => (
-              <motion.div
-                key={item.role + index}
-                className="timeline-item"
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-40px' }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-              >
-                {/* Timeline Marker */}
-                <div className="timeline-marker">
-                  <div className="timeline-dot">
-                    <Briefcase size={14} className="text-accent" />
-                  </div>
-                  {index < experienceTimeline.length - 1 && <div className="timeline-line" />}
-                </div>
-
-                {/* Timeline Card */}
-                <div className="timeline-card">
-                  <div className="timeline-card-header">
-                    <div className="timeline-header-titles">
-                      <span className="timeline-badge">{item.badge}</span>
-                      <h3 className="timeline-role">{item.role}</h3>
-                      <h4 className="timeline-org">{item.organization}</h4>
+            <AnimatePresence mode="popLayout">
+              {filteredTimeline.map((item, index) => (
+                <motion.div
+                  layout
+                  key={item.role + index}
+                  className="timeline-item"
+                  initial={{ opacity: 0, y: 24 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  transition={{ duration: 0.4, delay: index * 0.08 }}
+                >
+                  {/* Timeline Marker */}
+                  <div className="timeline-marker">
+                    <div className="timeline-dot">
+                      <Briefcase size={14} className="text-accent" />
                     </div>
-                    <div className="timeline-date">
-                      <Calendar size={14} style={{ marginRight: 6 }} />
-                      <span>{item.period}</span>
-                    </div>
+                    {index < filteredTimeline.length - 1 && <div className="timeline-line" />}
                   </div>
 
-                  <p className="timeline-desc">{item.description}</p>
+                  {/* Timeline Card with Hover Glow */}
+                  <div className="timeline-card">
+                    <div className="timeline-card-header">
+                      <div className="timeline-header-titles">
+                        <span className="timeline-badge">
+                          <Sparkles size={11} style={{ marginRight: 4, display: 'inline' }} />
+                          {item.badge}
+                        </span>
+                        <h3 className="timeline-role">{item.role}</h3>
+                        <h4 className="timeline-org">{item.organization}</h4>
+                      </div>
+                      <div className="timeline-date">
+                        <Calendar size={14} style={{ marginRight: 6 }} />
+                        <span>{item.period}</span>
+                      </div>
+                    </div>
 
-                  <div className="timeline-achievements">
-                    <h5 className="timeline-achievements-title">// Key Engineering Deliverables:</h5>
-                    <ul className="timeline-achievements-list">
-                      {item.achievements.map((ach, achIdx) => (
-                        <li key={achIdx}>
-                          <CheckCircle2 size={15} className="text-accent" style={{ flexShrink: 0, marginTop: 3 }} />
-                          <span>{ach}</span>
-                        </li>
+                    <p className="timeline-desc">{item.description}</p>
+
+                    <div className="timeline-achievements">
+                      <h5 className="timeline-achievements-title">// Key Engineering Deliverables:</h5>
+                      <ul className="timeline-achievements-list">
+                        {item.achievements.map((ach, achIdx) => (
+                          <li key={achIdx}>
+                            <CheckCircle2 size={15} className="text-accent" style={{ flexShrink: 0, marginTop: 3 }} />
+                            <span>{ach}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    <div className="timeline-tech-stack">
+                      {item.tech.map((t) => (
+                        <span key={t} className="badge">
+                          {t}
+                        </span>
                       ))}
-                    </ul>
+                    </div>
                   </div>
-
-                  <div className="timeline-tech-stack">
-                    {item.tech.map((t) => (
-                      <span key={t} className="badge">
-                        {t}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </motion.div>
-            ))}
+                </motion.div>
+              ))}
+            </AnimatePresence>
           </div>
         </div>
       </section>

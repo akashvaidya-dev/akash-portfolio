@@ -1565,3 +1565,280 @@
     animation: none !important;
   }
 }
+
+/* ==========================================================================
+   Code Playground / Interactive Terminal Component
+   ========================================================================== */
+.code-playground-wrap {
+  background-color: #0b0f17;
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-xl);
+  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.7), 0 0 30px rgba(16, 185, 129, 0.12);
+  overflow: hidden;
+  margin-top: var(--space-8);
+  font-family: var(--font-mono);
+}
+
+.terminal-titlebar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  background-color: #121824;
+  border-bottom: 1px solid var(--border-subtle);
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.window-dots {
+  display: flex;
+  gap: 7px;
+  align-items: center;
+}
+
+.window-dots .dot {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+}
+
+.dot-red { background-color: #ef4444; }
+.dot-yellow { background-color: #f59e0b; }
+.dot-green { background-color: #10b981; }
+
+.terminal-tabs {
+  display: flex;
+  gap: var(--space-2);
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+.terminal-tab {
+  background: transparent;
+  border: none;
+  padding: 6px 14px;
+  font-size: var(--fs-xs);
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  position: relative;
+  transition: color var(--transition-fast);
+  white-space: nowrap;
+}
+
+.terminal-tab:hover {
+  color: var(--text-primary);
+}
+
+.terminal-tab.tab-active {
+  color: var(--accent-light);
+  font-weight: 500;
+}
+
+.tab-highlight-bar {
+  position: absolute;
+  bottom: -11px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: var(--accent-primary);
+  border-radius: 2px;
+}
+
+.terminal-copy-btn {
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-muted);
+  padding: 4px 10px;
+  border-radius: var(--radius-sm);
+  font-size: 11px;
+  font-family: var(--font-mono);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: all var(--transition-fast);
+}
+
+.terminal-copy-btn:hover {
+  color: var(--text-primary);
+  border-color: var(--border-medium);
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.terminal-content-area {
+  padding: var(--space-6);
+  background-color: #0b0f17;
+  overflow: hidden;
+}
+
+.terminal-meta-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-4);
+  padding-bottom: var(--space-3);
+  border-bottom: 1px dashed var(--border-subtle);
+}
+
+.terminal-lang-badge {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+}
+
+.terminal-code-scroll {
+  max-height: 420px;
+  overflow-y: auto;
+  overflow-x: auto;
+}
+
+.code-block {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.65;
+  color: #d1d5db;
+}
+
+.code-block code {
+  background: transparent !important;
+  padding: 0 !important;
+  color: inherit !important;
+}
+
+/* ==========================================================================
+   Infinite Tech Marquee Ticker
+   ========================================================================== */
+.ticker-container {
+  width: 100%;
+  overflow: hidden;
+  background-color: #0e131d;
+  border-top: 1px solid var(--border-subtle);
+  border-bottom: 1px solid var(--border-subtle);
+  padding: 14px 0;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.ticker-fade-left {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 80px;
+  background: linear-gradient(90deg, #0e131d 0%, transparent 100%);
+  z-index: 2;
+  pointer-events: none;
+}
+
+.ticker-fade-right {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 80px;
+  background: linear-gradient(270deg, #0e131d 0%, transparent 100%);
+  z-index: 2;
+  pointer-events: none;
+}
+
+.ticker-track {
+  display: flex;
+  gap: var(--space-8);
+  white-space: nowrap;
+  width: max-content;
+}
+
+.ticker-item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--text-secondary);
+}
+
+.ticker-bullet {
+  color: var(--accent-light);
+  font-weight: 700;
+}
+
+.ticker-text {
+  letter-spacing: 0.04em;
+  font-weight: 500;
+}
+
+/* ==========================================================================
+   Dynamic Role Ticker in Hero
+   ========================================================================== */
+.hero-role-ticker {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  background-color: rgba(16, 185, 129, 0.07);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  padding: 5px 16px;
+  border-radius: var(--radius-full);
+}
+
+.role-prefix {
+  color: var(--text-muted);
+}
+
+.role-highlight {
+  color: var(--accent-light);
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   Category Tab Counts & Active Pill
+   ========================================================================== */
+.category-tab-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  z-index: 1;
+}
+
+.tab-count-badge {
+  font-size: 10px;
+  padding: 1px 6px;
+  border-radius: var(--radius-full);
+  background-color: rgba(255, 255, 255, 0.1);
+  color: var(--text-muted);
+}
+
+.category-tab-btn.active .tab-count-badge {
+  background-color: rgba(0, 0, 0, 0.25);
+  color: var(--text-inverse);
+}
+
+.tab-active-pill {
+  position: absolute;
+  inset: 0;
+  background-color: var(--accent-primary);
+  border-radius: var(--radius-full);
+  z-index: -1;
+}
+
+.timeline-filter-tabs {
+  display: flex;
+  gap: var(--space-2);
+  background-color: var(--bg-secondary);
+  padding: 4px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-subtle);
+  width: fit-content;
+  margin-top: var(--space-6);
+}

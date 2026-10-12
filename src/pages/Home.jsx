@@ -1,20 +1,47 @@
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { ArrowRight, Cpu, Layers, ShieldCheck, Zap, Terminal, ExternalLink } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import {
+  ArrowRight,
+  Cpu,
+  Layers,
+  ShieldCheck,
+  Zap,
+  Terminal,
+  ExternalLink,
+} from 'lucide-react';
 import { projects } from '../data/projects';
 import { skillCategories } from '../data/skills';
 import { engineeringPrinciples } from '../data/experience';
 import { socialLinks } from '../data/socials';
 import ProjectCard from '../components/ProjectCard';
 import SectionTitle from '../components/SectionTitle';
+import CodePlayground from '../components/CodePlayground';
+import TechTicker from '../components/TechTicker';
+
+const rotatingRoles = [
+  'Senior Flutter Developer',
+  'Hardware & POS Integrator',
+  'Riverpod & Offline Architect',
+  'Modern React Web Engineer',
+];
 
 /**
  * Home Page Component
- * Premium editorial layout introducing Akash Vaidya's Flutter & React engineering background,
- * key architectural pillars, flagship projects, and quick contact action.
+ * Ultra-premium, animated, editorial layout introducing Akash Vaidya's mobile & web engineering work,
+ * featuring interactive code playground, live architecture blueprints, and real flagship systems.
  */
 function Home() {
+  const [roleIndex, setRoleIndex] = useState(0);
   const featuredProjects = projects.filter((p) => p.featured).slice(0, 3);
+
+  // Auto-rotate role title every 3 seconds
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setRoleIndex((prev) => (prev + 1) % rotatingRoles.length);
+    }, 3200);
+    return () => clearInterval(timer);
+  }, []);
 
   return (
     <div className="page-wrapper home-page">
@@ -24,7 +51,7 @@ function Home() {
       <section className="hero-section" aria-label="Introduction">
         <div className="container">
           <div className="hero-content">
-            {/* Availability Badge */}
+            {/* Availability Status Badge */}
             <motion.div
               className="hero-badge-wrap"
               initial={{ opacity: 0, y: -16 }}
@@ -37,36 +64,58 @@ function Home() {
               </div>
             </motion.div>
 
-            {/* Main Headline */}
+            {/* Main Headline with Animated Rotating Role */}
             <motion.h1
               className="hero-title"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
             >
-              Engineering <span className="text-gradient">High-Performance</span> Mobile Apps &amp; Modern Web Systems.
+              Engineering <span className="text-gradient">High-Performance</span> Mobile Apps &amp; Modern Systems
             </motion.h1>
+
+            {/* Dynamic Animated Role Badge */}
+            <motion.div
+              className="hero-role-ticker"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.2 }}
+            >
+              <span className="role-prefix">// Specializing in: </span>
+              <AnimatePresence mode="wait">
+                <motion.span
+                  key={rotatingRoles[roleIndex]}
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -12 }}
+                  transition={{ duration: 0.35, ease: 'easeOut' }}
+                  className="role-highlight"
+                >
+                  {rotatingRoles[roleIndex]}
+                </motion.span>
+              </AnimatePresence>
+            </motion.div>
 
             {/* Subtitle / Positioning */}
             <motion.p
               className="hero-subtitle"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
+              transition={{ duration: 0.6, delay: 0.25 }}
             >
-              I am <strong className="text-primary-light">Akash Vaidya</strong>, an experienced{' '}
-              <span className="text-accent">Flutter Developer</span> specializing in enterprise-grade mobile
-              architecture, hardware-level POS integrations (thermal printers, voice dictation), and modern{' '}
+              I am <strong className="text-primary-light">Akash Vaidya</strong>, a senior{' '}
+              <span className="text-accent">Flutter Developer</span> specializing in production mobile
+              architecture, real-world hardware integrations (thermal printers, voice POS dictation), and modern{' '}
               <span className="text-accent">React</span> web applications. Focused on deterministic state management,
-              offline resilience, and 60 FPS polish.
+              sub-millisecond local caching, and 60 FPS fluidity.
             </motion.p>
 
-            {/* Call to Actions */}
+            {/* Primary Calls to Action */}
             <motion.div
               className="hero-actions"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
+              transition={{ duration: 0.6, delay: 0.35 }}
             >
               <Link to="/projects" className="btn btn-primary btn-lg">
                 <span>Explore Projects</span>
@@ -86,12 +135,12 @@ function Home() {
               </a>
             </motion.div>
 
-            {/* Metrics & Highlights Strip */}
+            {/* Quick Metrics / Proof Points */}
             <motion.div
               className="hero-stats-strip"
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
+              transition={{ duration: 0.6, delay: 0.45 }}
             >
               <div className="stat-card">
                 <div className="stat-number">Flutter &amp; Dart</div>
@@ -114,15 +163,42 @@ function Home() {
         </div>
       </section>
 
+      {/* Infinite Animated Tech Marquee */}
+      <TechTicker />
+
       {/* =========================================================================
-          Architecture Principles Section
+          Interactive Code & Architecture Showcase
           ========================================================================= */}
-      <section className="section-padding bg-surface" aria-label="Engineering Principles">
+      <section className="section-padding bg-surface" aria-label="Interactive Code & Architecture">
+        <div className="container">
+          <SectionTitle
+            badge="Engineering Depth"
+            title="Production Code &amp; Architectural Blueprints"
+            subtitle="Explore real architectural patterns: hardware-level ESC/POS streaming, immutable Riverpod state flows, and WebSocket sync."
+            align="center"
+          />
+
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-50px' }}
+            transition={{ duration: 0.6 }}
+            style={{ maxWidth: 960, margin: '0 auto' }}
+          >
+            <CodePlayground />
+          </motion.div>
+        </div>
+      </section>
+
+      {/* =========================================================================
+          Engineering Principles Section
+          ========================================================================= */}
+      <section className="section-padding" aria-label="Engineering Principles">
         <div className="container">
           <SectionTitle
             badge="Engineering Rigor"
             title="How I Build Software"
-            subtitle="I approach both mobile apps and web platforms with architectural discipline, real-world fault tolerance, and zero-compromise UX."
+            subtitle="I approach both mobile applications and web platforms with architectural discipline, real-world fault tolerance, and zero-compromise UX."
           />
 
           <div className="principles-grid">
@@ -153,7 +229,7 @@ function Home() {
       {/* =========================================================================
           Featured Projects Section
           ========================================================================= */}
-      <section className="section-padding" aria-label="Featured Projects">
+      <section className="section-padding bg-surface" aria-label="Featured Projects">
         <div className="container">
           <div className="section-header-flex">
             <SectionTitle
@@ -185,7 +261,7 @@ function Home() {
       {/* =========================================================================
           Skills Overview Snapshot
           ========================================================================= */}
-      <section className="section-padding bg-surface" aria-label="Technical Skills Overview">
+      <section className="section-padding" aria-label="Technical Skills Overview">
         <div className="container">
           <SectionTitle
             badge="Technical Toolkit"

@@ -1,19 +1,20 @@
 import { useState, useMemo } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Search, Layers, AlertCircle, RefreshCw } from 'lucide-react';
 import { projects } from '../data/projects';
 import ProjectCard from '../components/ProjectCard';
 import SectionTitle from '../components/SectionTitle';
 
 const categories = [
-  { id: 'all', label: 'All Projects' },
-  { id: 'mobile', label: 'Mobile (Flutter)' },
-  { id: 'web', label: 'Web & Fullstack' },
+  { id: 'all', label: 'All Projects', count: projects.length },
+  { id: 'mobile', label: 'Mobile (Flutter & Hardware)', count: projects.filter(p => p.tags.includes('Flutter')).length },
+  { id: 'web', label: 'Web & Fullstack', count: projects.filter(p => p.tags.includes('React') || p.tags.includes('Web')).length },
 ];
 
 /**
  * Projects Page Component
- * Filterable projects catalog with interactive search, category filters,
- * and deep-dive case study modal presentations.
+ * Enhanced filterable projects catalog with animated FLIP grid layouts,
+ * category counts, search highlighting, and deep-dive case studies.
  */
 function Projects() {
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -53,20 +54,31 @@ function Projects() {
 
           {/* Filter & Search Bar */}
           <div className="projects-controls-wrap">
-            {/* Category Tabs */}
+            {/* Category Tabs with Animated Spring Highlight */}
             <div className="category-tabs" role="tablist" aria-label="Filter projects by category">
-              {categories.map((cat) => (
-                <button
-                  key={cat.id}
-                  type="button"
-                  role="tab"
-                  aria-selected={selectedCategory === cat.id}
-                  className={`category-tab-btn ${selectedCategory === cat.id ? 'active' : ''}`}
-                  onClick={() => setSelectedCategory(cat.id)}
-                >
-                  {cat.label}
-                </button>
-              ))}
+              {categories.map((cat) => {
+                const isActive = selectedCategory === cat.id;
+                return (
+                  <button
+                    key={cat.id}
+                    type="button"
+                    role="tab"
+                    aria-selected={isActive}
+                    className={`category-tab-btn ${isActive ? 'active' : ''}`}
+                    onClick={() => setSelectedCategory(cat.id)}
+                  >
+                    <span>{cat.label}</span>
+                    <span className="tab-count-badge">{cat.count}</span>
+                    {isActive && (
+                      <motion.span
+                        layoutId="active-category-pill"
+                        className="tab-active-pill"
+                        transition={{ type: 'spring', stiffness: 350, damping: 30 }}
+                      />
+                    )}
+                  </button>
+                );
+              })}
             </div>
 
             {/* Search Input */}
@@ -74,7 +86,7 @@ function Projects() {
               <Search size={16} className="search-icon" aria-hidden="true" />
               <input
                 type="text"
-                placeholder="Search by technology, name, keyword..."
+                placeholder="Search by tech, hardware, keyword..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="search-input"
@@ -95,7 +107,7 @@ function Projects() {
         </div>
       </section>
 
-      {/* Projects Grid Section */}
+      {/* Projects Grid Section with Animated Layout */}
       <section className="section-padding" style={{ paddingTop: 0 }}>
         <div className="container">
           {/* Active Results Summary */}
@@ -111,31 +123,47 @@ function Projects() {
           </div>
 
           {/* Grid or Empty State */}
-          {filteredProjects.length > 0 ? (
-            <div className="projects-grid">
-              {filteredProjects.map((project, index) => (
-                <ProjectCard key={project.id} project={project} index={index} />
-              ))}
-            </div>
-          ) : (
-            <div className="empty-state-box">
-              <AlertCircle size={36} className="text-muted" style={{ marginBottom: 12 }} />
-              <h3>No matching projects found</h3>
-              <p>Try adjusting your search query or selecting a different category filter.</p>
-              <button
-                type="button"
-                className="btn btn-secondary btn-sm"
-                style={{ marginTop: 16 }}
-                onClick={() => {
-                  setSelectedCategory('all');
-                  setSearchQuery('');
-                }}
+          <AnimatePresence mode="popLayout">
+            {filteredProjects.length > 0 ? (
+              <motion.div layout className="projects-grid">
+                {filteredProjects.map((project, index) => (
+                  <motion.div
+                    layout
+                    key={project.id}
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.95 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <ProjectCard project={project} index={index} />
+                  </motion.div>
+                ))}
+              </motion.div>
+            ) : (
+              <motion.div
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0 }}
+                className="empty-state-box"
               >
-                <RefreshCw size={14} style={{ marginRight: 6 }} />
-                Reset Filters
-              </button>
-            </div>
-          )}
+                <AlertCircle size={36} className="text-muted" style={{ marginBottom: 12 }} />
+                <h3>No matching projects found</h3>
+                <p>Try adjusting your search query or selecting a different category filter.</p>
+                <button
+                  type="button"
+                  className="btn btn-secondary btn-sm"
+                  style={{ marginTop: 16 }}
+                  onClick={() => {
+                    setSelectedCategory('all');
+                    setSearchQuery('');
+                  }}
+                >
+                  <RefreshCw size={14} style={{ marginRight: 6 }} />
+                  Reset Filters
+                </button>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
           {/* Client & Proprietary Code Disclosure */}
           <div className="proprietary-note-box">
