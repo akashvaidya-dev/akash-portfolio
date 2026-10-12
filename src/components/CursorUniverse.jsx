@@ -23,7 +23,7 @@ function hexToRgba(hex, alpha) {
  */
 function CursorUniverse() {
   const containerRef = useRef(null);
-  const { theme, accent, activeAccent } = useTheme();
+  const { theme, accent, activeAccent, activePeriod, livingTimeEnabled } = useTheme();
   const isReducedMotion = typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   useEffect(() => {
@@ -38,6 +38,7 @@ function CursorUniverse() {
       const gl = testCanvas.getContext('webgl') || testCanvas.getContext('experimental-webgl');
       if (gl) {
         cleanup = initThreeUniverse(container, {
+          activePeriod: livingTimeEnabled ? activePeriod : null,
           isDark: theme === 'dark',
           accentHex: activeAccent.hex,
           accentLightHex: activeAccent.lightHex,
@@ -45,6 +46,7 @@ function CursorUniverse() {
         });
       } else {
         cleanup = init2DCanvasUniverse(container, {
+          activePeriod: livingTimeEnabled ? activePeriod : null,
           isDark: theme === 'dark',
           accentHex: activeAccent.hex,
           isReducedMotion,
@@ -61,12 +63,12 @@ function CursorUniverse() {
     return () => {
       if (cleanup) cleanup();
     };
-  }, [theme, accent, activeAccent, isReducedMotion]);
+  }, [theme, accent, activeAccent, activePeriod, livingTimeEnabled, isReducedMotion]);
 
   return (
     <div
       ref={containerRef}
-      className={`cursor-universe-canvas-container ${theme === 'light' ? 'light-mode-universe' : ''}`}
+      className={`cursor-universe-canvas-container ${theme === 'light' ? 'light-mode-universe' : ''} ${livingTimeEnabled ? `universe-period-${activePeriod}` : ''}`}
       aria-hidden="true"
     />
   );
@@ -75,7 +77,7 @@ function CursorUniverse() {
 // =============================================================================
 // Engine 1: Three.js 3D Space Constellation & Floating Wireframe Objects
 // =============================================================================
-function initThreeUniverse(container, { isDark, accentHex, accentLightHex, isReducedMotion }) {
+function initThreeUniverse(container, { isDark, accentHex, accentLightHex, isReducedMotion, activePeriod }) {
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
   camera.position.z = 80;
@@ -96,7 +98,12 @@ function initThreeUniverse(container, { isDark, accentHex, accentLightHex, isRed
 
   const mainColor = new THREE.Color(accentHex);
   const lightColor = new THREE.Color(accentLightHex);
-  const neutralColor = isDark ? new THREE.Color('#334155') : new THREE.Color('#94a3b8');
+  let neutralColor = isDark ? new THREE.Color("#334155") : new THREE.Color("#94a3b8");
+  if (activePeriod === "morning") {
+    neutralColor = new THREE.Color("#d97706");
+  } else if (activePeriod === "evening") {
+    neutralColor = new THREE.Color("#8b5cf6");
+  }
 
   for (let i = 0; i < particleCount; i++) {
     positions[i * 3] = (Math.random() - 0.5) * 160;

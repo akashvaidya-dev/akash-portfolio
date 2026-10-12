@@ -4560,3 +4560,230 @@
 [data-theme="light"] .footer-link-list a:hover {
   color: var(--accent-primary) !important;
 }
+
+/* ==========================================================================
+   Living Time Theme Styles (Feature & Controls)
+   ========================================================================== */
+
+.living-time-feature-card {
+  background: var(--bg-card);
+  border: 1px solid var(--accent-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  box-shadow: 0 4px 16px rgba(var(--accent-rgb), 0.08);
+  transition: all var(--transition-normal);
+}
+
+.living-time-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.living-time-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.living-time-icon-badge {
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-md);
+  background: var(--accent-bg);
+  border: 1px solid var(--accent-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.living-time-title {
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 2px;
+}
+
+.living-time-desc {
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+  line-height: var(--lh-snug);
+}
+
+/* Accessible Switch Toggle */
+.living-time-switch {
+  position: relative;
+  width: 50px;
+  height: 28px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-medium);
+  border-radius: 9999px;
+  cursor: pointer;
+  padding: 2px;
+  transition: all var(--transition-normal);
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+}
+
+.living-time-switch:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 2px;
+}
+
+.living-time-switch-handle {
+  width: 22px;
+  height: 22px;
+  background: var(--text-muted);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform var(--transition-normal), background-color var(--transition-normal);
+  transform: translateX(0);
+}
+
+.living-time-switch-on {
+  background: rgba(var(--accent-rgb), 0.2);
+  border-color: var(--accent-primary);
+  box-shadow: var(--accent-subtle-glow);
+}
+
+.living-time-switch-on .living-time-switch-handle {
+  background: var(--accent-primary);
+  transform: translateX(22px);
+  color: #ffffff;
+}
+
+.switch-sparkle-icon {
+  color: #ffffff;
+}
+
+/* Active Period Panel */
+.living-time-active-panel {
+  border-top: 1px dashed var(--border-subtle);
+  padding-top: var(--space-3);
+}
+
+.active-period-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  background: var(--accent-bg);
+  border: 1px solid var(--accent-border);
+  border-radius: var(--radius-full);
+  font-size: var(--fs-xs);
+  color: var(--text-primary);
+}
+
+.period-badge-emoji {
+  font-size: 15px;
+  line-height: 1;
+}
+
+.period-badge-text strong {
+  color: var(--text-accent);
+}
+
+.period-tagline-text {
+  font-style: italic;
+  padding-left: 2px;
+}
+
+/* Interactive Period Tester */
+.period-tester-box {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: var(--space-3);
+}
+
+.period-tester-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.period-reset-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  text-decoration: underline;
+}
+
+.period-tester-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+}
+
+@media (max-width: 480px) {
+  .period-tester-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.period-tester-chip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  padding: 6px 4px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.period-tester-chip:hover {
+  border-color: var(--border-medium);
+  background: var(--bg-card-hover);
+}
+
+.period-tester-chip-active {
+  border-color: var(--accent-primary) !important;
+  background: var(--accent-bg) !important;
+  box-shadow: 0 0 10px rgba(var(--accent-rgb), 0.2);
+}
+
+.period-chip-emoji {
+  font-size: 14px;
+  line-height: 1;
+}
+
+.period-chip-name {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.living-time-off-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding-top: var(--space-2);
+}
+
+.status-dot-off {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--text-muted);
+  display: inline-block;
+}
+
+.auto-mode-note {
+  display: flex;
+  align-items: center;
+  padding: 6px 10px;
+  background: var(--accent-bg);
+  border: 1px solid var(--accent-border);
+  border-radius: var(--radius-md);
+}
+

@@ -36,7 +36,7 @@ function Navbar({ onOpenTerminal, onOpenThemeStudio }) {
   const [waterRipples, setWaterRipples] = useState([]);
   const [dragConstraints, setDragConstraints] = useState({ left: -240, right: 240 });
 
-  const { isDark, toggleTheme } = useTheme();
+  const { isDark, toggleTheme, livingTimeEnabled, activePeriodData } = useTheme();
 
   const navContainerRef = useRef(null);
   const itemRefs = useRef({});
@@ -281,7 +281,7 @@ function Navbar({ onOpenTerminal, onOpenThemeStudio }) {
             className="btn btn-secondary btn-sm nav-glass-btn theme-quick-toggle-btn"
             onClick={toggleTheme}
             aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
-            title={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+            title={livingTimeEnabled ? `Living Time Active (${activePeriodData?.name}) · Click to switch mode` : isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
           >
             {isDark ? (
               <Sun size={15} className="text-accent" />

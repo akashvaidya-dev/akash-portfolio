@@ -88,6 +88,164 @@ html[data-theme="light"] {
   --terminal-bg: #1e2430;
 }
 
+
+/* --------------------------------------------------------------------------
+   2B. Living Time Themes (Automatic Local Time Palettes)
+   Morning (6am-12pm) | Afternoon (12pm-5pm) | Evening (5pm-8pm) | Night (8pm-6am)
+   -------------------------------------------------------------------------- */
+
+/* Morning: Warm, bright & welcoming surfaces (Ivory/cream & golden ambient) */
+html[data-time-period="morning"] {
+  color-scheme: light;
+
+  /* Surfaces */
+  --bg-primary: #fcf9f5;
+  --bg-secondary: #f4ede2;
+  --bg-card: #ffffff;
+  --bg-card-hover: #faf4eb;
+  --bg-card-secondary: #f3eae0;
+  --bg-input: #f7f1e7;
+  --bg-glass: rgba(252, 249, 245, 0.88);
+  --bg-glass-card: rgba(255, 255, 255, 0.86);
+
+  /* Typography Colors */
+  --text-primary: #1c1917;
+  --text-secondary: #57534e;
+  --text-muted: #78716c;
+  --text-inverse: #ffffff;
+
+  /* Borders & Dividers */
+  --border-subtle: rgba(140, 90, 45, 0.09);
+  --border-medium: rgba(140, 90, 45, 0.18);
+  --border-focus: var(--accent-primary);
+
+  /* Shadows */
+  --shadow-sm: 0 2px 8px rgba(120, 80, 40, 0.05);
+  --shadow-md: 0 8px 20px rgba(120, 80, 40, 0.08);
+  --shadow-lg: 0 16px 36px rgba(120, 80, 40, 0.12);
+
+  /* Glassmorphism & Background Grid */
+  --grid-line: rgba(217, 119, 6, 0.04);
+  --glass-sheen: rgba(255, 255, 255, 0.75);
+  --glass-dock-bg: rgba(254, 250, 245, 0.86);
+  --glass-border: rgba(180, 130, 80, 0.16);
+  --terminal-bg: #292524;
+}
+
+/* Afternoon: Crisp, clean daylight colors with crystal-clear contrast */
+html[data-time-period="afternoon"] {
+  color-scheme: light;
+
+  /* Surfaces */
+  --bg-primary: #f8fafc;
+  --bg-secondary: #f1f5f9;
+  --bg-card: #ffffff;
+  --bg-card-hover: #f8fafc;
+  --bg-card-secondary: #f1f5f9;
+  --bg-input: #f8fafc;
+  --bg-glass: rgba(255, 255, 255, 0.88);
+  --bg-glass-card: rgba(255, 255, 255, 0.82);
+
+  /* Typography Colors */
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #64748b;
+  --text-inverse: #ffffff;
+
+  /* Borders & Dividers */
+  --border-subtle: rgba(15, 23, 42, 0.08);
+  --border-medium: rgba(15, 23, 42, 0.16);
+  --border-focus: var(--accent-primary);
+
+  /* Shadows */
+  --shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.05);
+  --shadow-md: 0 8px 20px rgba(15, 23, 42, 0.08);
+  --shadow-lg: 0 16px 36px rgba(15, 23, 42, 0.12);
+
+  /* Glassmorphism & Background Grid */
+  --grid-line: rgba(15, 23, 42, 0.04);
+  --glass-sheen: rgba(255, 255, 255, 0.7);
+  --glass-dock-bg: rgba(255, 255, 255, 0.82);
+  --glass-border: rgba(15, 23, 42, 0.1);
+  --terminal-bg: #1e2430;
+}
+
+/* Evening: Muted backgrounds & warmer accent treatments (Dusky indigo & sunset warmth) */
+html[data-time-period="evening"] {
+  color-scheme: dark;
+
+  /* Surfaces */
+  --bg-primary: #121520;
+  --bg-secondary: #181d2c;
+  --bg-card: #1f2538;
+  --bg-card-hover: #262e45;
+  --bg-card-secondary: #191f30;
+  --bg-input: #151a28;
+  --bg-glass: rgba(18, 21, 32, 0.88);
+  --bg-glass-card: rgba(31, 37, 56, 0.78);
+
+  /* Typography Colors */
+  --text-primary: #f8fafc;
+  --text-secondary: #a0aec0;
+  --text-muted: #718096;
+  --text-inverse: #0f121d;
+
+  /* Borders & Dividers */
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-medium: rgba(255, 255, 255, 0.16);
+  --border-focus: var(--accent-primary);
+
+  /* Shadows */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 8px 22px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.7);
+
+  /* Glassmorphism & Background Grid */
+  --grid-line: rgba(244, 63, 94, 0.035);
+  --glass-sheen: rgba(255, 255, 255, 0.09);
+  --glass-dock-bg: rgba(24, 29, 44, 0.82);
+  --glass-border: rgba(255, 255, 255, 0.14);
+  --terminal-bg: #111420;
+}
+
+/* Night: Deep, comfortable obsidian backgrounds with restrained luminous highlights */
+html[data-time-period="night"] {
+  color-scheme: dark;
+
+  /* Surfaces */
+  --bg-primary: #0a0d12;
+  --bg-secondary: #10141e;
+  --bg-card: #151b26;
+  --bg-card-hover: #1b2332;
+  --bg-card-secondary: #0f141f;
+  --bg-input: #0c1017;
+  --bg-glass: rgba(10, 13, 18, 0.88);
+  --bg-glass-card: rgba(21, 27, 38, 0.75);
+
+  /* Typography Colors */
+  --text-primary: #f9fafb;
+  --text-secondary: #9ca3af;
+  --text-muted: #6b7280;
+  --text-inverse: #0a0d12;
+
+  /* Borders & Dividers */
+  --border-subtle: rgba(255, 255, 255, 0.07);
+  --border-medium: rgba(255, 255, 255, 0.14);
+  --border-focus: var(--accent-primary);
+
+  /* Shadows */
+  --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.35);
+  --shadow-md: 0 6px 18px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 0 14px 36px rgba(0, 0, 0, 0.65);
+
+  /* Glassmorphism & Background Grid */
+  --grid-line: rgba(255, 255, 255, 0.02);
+  --glass-sheen: rgba(255, 255, 255, 0.08);
+  --glass-dock-bg: rgba(16, 20, 30, 0.8);
+  --glass-border: rgba(255, 255, 255, 0.11);
+  --terminal-bg: #090d14;
+}
+
 /* --------------------------------------------------------------------------
    3. Dynamic Accent Colors (6 Curated Palettes)
    -------------------------------------------------------------------------- */

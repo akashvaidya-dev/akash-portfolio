@@ -1,30 +1,47 @@
 import { motion } from 'framer-motion';
-import { Sun, Moon, RotateCcw, Check, Sparkles, Sliders, ArrowUpRight } from 'lucide-react';
+import {
+  Sun,
+  Moon,
+  Sparkles,
+  Sliders,
+  RotateCcw,
+  Check,
+  ArrowUpRight,
+  Clock,
+  Info,
+} from 'lucide-react';
 import { useTheme } from '../context/useTheme';
-import { ACCENT_PALETTES } from '../data/theme';
+import { ACCENT_PALETTES, TIME_PERIODS } from '../data/theme';
 
 /**
- * Interactive Theme Playground
- * Allows visitors to customize:
- * - Appearance: ☀️ Light / 🌙 Dark
- * - Accent Colors: 6 Curated Colors (Emerald, Electric blue, Purple, Rose, Amber, Cyan)
- * Every component across the portfolio adapts in real time.
+ * Interactive Theme Playground Section
+ * Allows visitors to experiment with:
+ * - Living Time Theme (automatic adaptation based on local time)
+ * - Manual Appearance (Light / Dark)
+ * - 6 Curated Accent Colors
  */
 function ThemePlayground() {
   const {
     theme,
+    manualTheme,
     accent,
     setTheme,
     setAccent,
     resetDefaults,
     activeAccent,
+    livingTimeEnabled,
+    toggleLivingTime,
+    activePeriod,
+    activePeriodData,
+    previewPeriod,
+    setPreviewPeriod,
   } = useTheme();
 
   return (
-    <section className="section-padding theme-playground-section" id="theme-studio">
+    <section id="theme-studio" className="section theme-playground-section">
       <div className="container">
         {/* Section Header */}
-        <div className="section-header-compact text-center">
+        <div className="section-header text-center">
           <div className="badge badge-accent mb-3">
             <Sliders size={13} className="mr-1.5" />
             <span>Interactive Theme Studio</span>
@@ -33,7 +50,7 @@ function ThemePlayground() {
             Personalize Visual <span className="text-gradient">Experience</span>
           </h2>
           <p className="section-subtitle max-w-2xl mx-auto">
-            Switch between light and dark appearance and choose your signature accent color.
+            Switch between living time automatic adaptation, manual appearance, and your signature accent color.
             Every component across the portfolio updates automatically.
           </p>
         </div>
@@ -67,7 +84,11 @@ function ThemePlayground() {
                     <span className="mini-brand-bracket">/&gt;</span>
                   </div>
                   <span className="mini-theme-indicator-badge">
-                    {theme === 'dark' ? '🌙 Dark' : '☀️ Light'}
+                    {livingTimeEnabled
+                      ? `${activePeriodData.emoji} ${activePeriodData.name}`
+                      : theme === 'dark'
+                      ? '🌙 Dark'
+                      : '☀️ Light'}
                   </span>
                 </div>
 
@@ -106,7 +127,9 @@ function ThemePlayground() {
                 <div className="mini-card-footer">
                   <span className="pulsing-mini-dot" />
                   <span className="mini-summary-text">
-                    Theme: {theme === 'dark' ? 'Dark Mode' : 'Light Mode'} · {activeAccent?.name || 'Emerald'} Accent
+                    {livingTimeEnabled
+                      ? `Living Time: ${activePeriodData.name} (${activePeriodData.timeRange}) · ${activeAccent?.name} Accent`
+                      : `Theme: ${theme === 'dark' ? 'Dark Mode' : 'Light Mode'} · ${activeAccent?.name || 'Emerald'} Accent`}
                   </span>
                 </div>
               </motion.div>
@@ -122,20 +145,149 @@ function ThemePlayground() {
              ========================================================= */}
           <div className="playground-controls-col">
             <div className="controls-panel-card card">
-              {/* Control 1: Appearance (Light / Dark) */}
-              <div className="control-group">
+              {/* ---------------------------------------------------------
+                  Control 1: Living Time Theme Feature (Automatic Local Time)
+                 --------------------------------------------------------- */}
+              <div className="control-group living-time-feature-card">
+                <div className="living-time-header-row">
+                  <div className="living-time-title-wrap">
+                    <div className="living-time-icon-badge">
+                      <Clock size={16} className="text-accent" />
+                    </div>
+                    <div>
+                      <h4 className="living-time-title">Living Time Theme</h4>
+                      <p className="living-time-desc">
+                        Let your portfolio evolve with the time of day.
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Accessible Switch Toggle */}
+                  <button
+                    type="button"
+                    role="switch"
+                    aria-checked={livingTimeEnabled}
+                    onClick={toggleLivingTime}
+                    className={`living-time-switch ${
+                      livingTimeEnabled ? 'living-time-switch-on' : ''
+                    }`}
+                    aria-label="Toggle Living Time Theme"
+                    title={
+                      livingTimeEnabled
+                        ? 'Disable Living Time Theme (restore manual appearance)'
+                        : 'Enable Living Time Theme (auto-adapt to local time)'
+                    }
+                  >
+                    <span className="living-time-switch-handle">
+                      {livingTimeEnabled ? (
+                        <Sparkles size={11} className="switch-sparkle-icon" />
+                      ) : null}
+                    </span>
+                  </button>
+                </div>
+
+                {/* Living Time Active State Details */}
+                {livingTimeEnabled ? (
+                  <motion.div
+                    className="living-time-active-panel mt-3"
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 'auto' }}
+                    exit={{ opacity: 0, height: 0 }}
+                  >
+                    <div className="active-period-badge">
+                      <span className="period-badge-emoji">{activePeriodData.emoji}</span>
+                      <span className="period-badge-text">
+                        <strong>Currently: {activePeriodData.name}</strong> ({activePeriodData.timeRange})
+                      </span>
+                    </div>
+
+                    <p className="period-tagline-text mt-1 text-xs text-muted">
+                      {activePeriodData.tagline}
+                    </p>
+
+                    {/* Interactive Period Tester */}
+                    <div className="period-tester-box mt-3">
+                      <div className="period-tester-header">
+                        <span className="text-xs font-semibold">Preview Time Periods</span>
+                        {previewPeriod && (
+                          <button
+                            type="button"
+                            onClick={() => setPreviewPeriod(null)}
+                            className="period-reset-btn text-xs text-accent"
+                          >
+                            Reset to live clock
+                          </button>
+                        )}
+                      </div>
+                      <div className="period-tester-grid mt-2">
+                        {TIME_PERIODS.map((period) => {
+                          const isActive = activePeriod === period.id;
+                          return (
+                            <button
+                              key={period.id}
+                              type="button"
+                              onClick={() => setPreviewPeriod(period.id)}
+                              className={`period-tester-chip ${
+                                isActive ? 'period-tester-chip-active' : ''
+                              }`}
+                              title={`${period.name}: ${period.timeRange}`}
+                            >
+                              <span className="period-chip-emoji">{period.emoji}</span>
+                              <span className="period-chip-name">{period.name}</span>
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  </motion.div>
+                ) : (
+                  <div className="living-time-off-status mt-2">
+                    <span className="status-dot-off" />
+                    <span className="text-xs text-muted">
+                      OFF · Using your manually saved appearance below
+                    </span>
+                  </div>
+                )}
+              </div>
+
+              {/* ---------------------------------------------------------
+                  Control 2: Manual Appearance (Light / Dark)
+                 --------------------------------------------------------- */}
+              <div className="control-group mt-6">
                 <div className="control-header">
-                  <span className="control-title">Appearance</span>
+                  <span className="control-title">Manual Appearance</span>
                   <span className="control-hint">
-                    {theme === 'dark' ? 'Immersive · Futuristic · Calm' : 'Clean · Bright · Minimal'}
+                    {livingTimeEnabled
+                      ? `Auto Mode (${theme === 'dark' ? 'Dark' : 'Light'})`
+                      : manualTheme === 'dark'
+                      ? 'Immersive · Futuristic · Calm'
+                      : 'Clean · Bright · Minimal'}
                   </span>
                 </div>
+
+                {livingTimeEnabled && (
+                  <div className="auto-mode-note mb-2">
+                    <Info size={13} className="text-accent mr-1.5 flex-shrink-0" />
+                    <span className="text-xs text-muted">
+                      Living Time is actively adjusting surfaces. Selecting Light or Dark below will switch to manual mode.
+                    </span>
+                  </div>
+                )}
+
                 <div className="segmented-control-grid appearance-toggle-grid">
                   <button
                     type="button"
                     onClick={() => setTheme('light')}
-                    className={`segmented-btn ${theme === 'light' ? 'segmented-btn-active' : ''}`}
-                    aria-pressed={theme === 'light'}
+                    className={`segmented-btn ${
+                      (!livingTimeEnabled && manualTheme === 'light') ||
+                      (livingTimeEnabled && theme === 'light')
+                        ? 'segmented-btn-active'
+                        : ''
+                    }`}
+                    aria-pressed={
+                      (!livingTimeEnabled && manualTheme === 'light') ||
+                      (livingTimeEnabled && theme === 'light')
+                    }
                   >
                     <Sun size={15} />
                     <span>☀️ Light</span>
@@ -143,8 +295,16 @@ function ThemePlayground() {
                   <button
                     type="button"
                     onClick={() => setTheme('dark')}
-                    className={`segmented-btn ${theme === 'dark' ? 'segmented-btn-active' : ''}`}
-                    aria-pressed={theme === 'dark'}
+                    className={`segmented-btn ${
+                      (!livingTimeEnabled && manualTheme === 'dark') ||
+                      (livingTimeEnabled && theme === 'dark')
+                        ? 'segmented-btn-active'
+                        : ''
+                    }`}
+                    aria-pressed={
+                      (!livingTimeEnabled && manualTheme === 'dark') ||
+                      (livingTimeEnabled && theme === 'dark')
+                    }
                   >
                     <Moon size={15} />
                     <span>🌙 Dark</span>
@@ -152,7 +312,9 @@ function ThemePlayground() {
                 </div>
               </div>
 
-              {/* Control 2: Accent Color (6 Curated Options) */}
+              {/* ---------------------------------------------------------
+                  Control 3: Accent Color (6 Curated Options)
+                 --------------------------------------------------------- */}
               <div className="control-group mt-6">
                 <div className="control-header">
                   <span className="control-title">Accent color</span>
