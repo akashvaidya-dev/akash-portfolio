@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { NavLink, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, ArrowUpRight } from 'lucide-react';
+import { Menu, X, ArrowUpRight, Terminal } from 'lucide-react';
 import { socialLinks } from '../data/socials';
 
 const navItems = [
@@ -15,9 +15,9 @@ const navItems = [
 /**
  * Navbar Component
  * Responsive, accessible navigation bar with dark charcoal & emerald accents,
- * active route indicator, and accessible mobile drawer.
+ * active route indicator, mobile drawer, and Akash-OS Terminal launcher.
  */
-function Navbar() {
+function Navbar({ onOpenTerminal }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -95,8 +95,21 @@ function Navbar() {
           </ul>
         </nav>
 
-        {/* Desktop Header CTA */}
+        {/* Desktop Header Actions */}
         <div className="navbar-actions-desktop">
+          {onOpenTerminal && (
+            <button
+              type="button"
+              className="btn btn-secondary btn-sm"
+              onClick={onOpenTerminal}
+              aria-label="Launch Visitor Terminal"
+              title="Open Terminal (Press ` or Ctrl+K)"
+            >
+              <Terminal size={14} className="text-accent" />
+              <span>Terminal</span>
+            </button>
+          )}
+
           <Link to="/contact" className="btn btn-primary btn-sm">
             <span>Let's Talk</span>
             <ArrowUpRight size={15} aria-hidden="true" />
@@ -161,6 +174,20 @@ function Navbar() {
               </nav>
 
               <div className="mobile-drawer-footer">
+                {onOpenTerminal && (
+                  <button
+                    type="button"
+                    className="btn btn-secondary btn-block"
+                    onClick={() => {
+                      closeMenu();
+                      onOpenTerminal();
+                    }}
+                  >
+                    <Terminal size={16} className="text-accent" />
+                    <span>Open Akash-OS Terminal</span>
+                  </button>
+                )}
+
                 <Link to="/contact" className="btn btn-primary btn-block" onClick={closeMenu}>
                   <span>Get in Touch</span>
                   <ArrowUpRight size={16} />
