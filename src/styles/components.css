@@ -3895,3 +3895,365 @@
     gap: 6px;
   }
 }
+
+/* ==========================================================================
+   Complete Light Theme Surface & Contrast Polish
+   Fixes all dark elements, containers, and comments in Light mode
+   ========================================================================== */
+
+/* 1. Code Comments & Syntax Highlighting */
+.code-comment {
+  color: var(--accent-light);
+  font-style: italic;
+  font-weight: 500;
+}
+
+[data-theme="light"] .code-comment {
+  color: var(--text-accent) !important;
+  font-style: italic;
+  font-weight: 600;
+}
+
+/* 2. Subtitles and Section Comments (// Style) */
+.principle-subtitle,
+.timeline-achievements-title,
+.about-col-title,
+.contact-col-title,
+.form-card-title,
+.footer-col-title,
+.ticker-bullet,
+.metric-tag,
+.not-found-code {
+  color: var(--text-accent);
+}
+
+[data-theme="light"] .principle-subtitle,
+[data-theme="light"] .timeline-achievements-title,
+[data-theme="light"] .about-col-title,
+[data-theme="light"] .contact-col-title,
+[data-theme="light"] .form-card-title,
+[data-theme="light"] .footer-col-title,
+[data-theme="light"] .ticker-bullet,
+[data-theme="light"] .metric-tag,
+[data-theme="light"] .not-found-code,
+[data-theme="light"] .role-prefix {
+  color: var(--text-accent) !important;
+}
+
+[data-theme="light"] .role-highlight {
+  color: var(--text-accent) !important;
+  font-weight: 700;
+}
+
+[data-theme="light"] .hero-role-ticker {
+  background-color: var(--bg-badge) !important;
+  border-color: var(--accent-border) !important;
+}
+
+/* 3. Text Gradient in Light mode */
+[data-theme="light"] .text-gradient,
+[data-theme="light"] .gradient-text {
+  background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-primary) 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+}
+
+/* 4. TechTicker in Light Mode */
+[data-theme="light"] .ticker-container {
+  background-color: var(--bg-secondary) !important;
+  border-top-color: var(--border-medium) !important;
+  border-bottom-color: var(--border-medium) !important;
+}
+
+[data-theme="light"] .ticker-fade-left {
+  background: linear-gradient(90deg, var(--bg-secondary) 0%, transparent 100%) !important;
+}
+
+[data-theme="light"] .ticker-fade-right {
+  background: linear-gradient(270deg, var(--bg-secondary) 0%, transparent 100%) !important;
+}
+
+[data-theme="light"] .ticker-item {
+  color: var(--text-secondary) !important;
+}
+
+[data-theme="light"] .ticker-text {
+  color: var(--text-primary) !important;
+}
+
+/* 5. CodePlayground in Light Mode */
+[data-theme="light"] .code-playground-wrap {
+  background-color: #ffffff !important;
+  border: 1px solid var(--border-medium) !important;
+  box-shadow: 0 16px 36px rgba(15, 23, 42, 0.08), 0 0 24px rgba(var(--accent-rgb), 0.12) !important;
+}
+
+[data-theme="light"] .terminal-titlebar {
+  background-color: #f1f5f9 !important;
+  border-bottom: 1px solid var(--border-subtle) !important;
+}
+
+[data-theme="light"] .terminal-tab {
+  color: var(--text-secondary) !important;
+}
+
+[data-theme="light"] .terminal-tab:hover {
+  color: var(--text-primary) !important;
+}
+
+[data-theme="light"] .terminal-tab.tab-active {
+  color: var(--accent-primary) !important;
+}
+
+[data-theme="light"] .terminal-copy-btn {
+  background-color: #ffffff !important;
+  border: 1px solid var(--border-medium) !important;
+  color: var(--text-secondary) !important;
+}
+
+[data-theme="light"] .terminal-copy-btn:hover {
+  color: var(--text-primary) !important;
+  background-color: #f8fafc !important;
+}
+
+[data-theme="light"] .terminal-content-area {
+  background-color: #ffffff !important;
+}
+
+[data-theme="light"] .terminal-meta-bar {
+  border-bottom: 1px dashed var(--border-subtle) !important;
+}
+
+[data-theme="light"] .terminal-lang-badge {
+  color: var(--text-secondary) !important;
+}
+
+[data-theme="light"] .code-block {
+  color: #1e293b !important;
+}
+
+/* 6. LivingDevice in Light Mode */
+[data-theme="light"] .living-device-container {
+  background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%) !important;
+  border: 1px solid var(--border-medium) !important;
+  box-shadow: 0 16px 36px rgba(15, 23, 42, 0.08) !important;
+}
+
+[data-theme="light"] .device-type-toggle,
+[data-theme="light"] .device-screen-tabs {
+  background-color: var(--bg-secondary) !important;
+  border: 1px solid var(--border-subtle) !important;
+}
+
+[data-theme="light"] .device-btn {
+  color: var(--text-muted) !important;
+}
+
+[data-theme="light"] .device-btn.active {
+  background-color: #ffffff !important;
+  color: var(--accent-primary) !important;
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.08) !important;
+}
+
+[data-theme="light"] .screen-tab-btn {
+  color: var(--text-muted) !important;
+}
+
+[data-theme="light"] .phone-chassis {
+  background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%) !important;
+  box-shadow:
+    0 18px 45px rgba(15, 23, 42, 0.12),
+    inset 0 0 0 2px rgba(255, 255, 255, 0.9),
+    inset 0 0 0 4px #e2e8f0 !important;
+}
+
+[data-theme="light"] .phone-outer-rim {
+  background-color: #ffffff !important;
+}
+
+[data-theme="light"] .phone-screen {
+  background-color: #ffffff !important;
+  border: 1px solid var(--border-subtle) !important;
+}
+
+[data-theme="light"] .phone-home-indicator {
+  background-color: rgba(15, 23, 42, 0.25) !important;
+}
+
+[data-theme="light"] .phone-btn-volume-up,
+[data-theme="light"] .phone-btn-volume-down,
+[data-theme="light"] .phone-btn-power {
+  background: #94a3b8 !important;
+}
+
+[data-theme="light"] .laptop-lid {
+  background: linear-gradient(145deg, #f8fafc 0%, #e2e8f0 100%) !important;
+  border: 1px solid var(--border-medium) !important;
+  box-shadow: 0 15px 35px rgba(15, 23, 42, 0.1) !important;
+}
+
+[data-theme="light"] .laptop-screen {
+  background-color: #ffffff !important;
+  border: 1px solid var(--border-subtle) !important;
+}
+
+[data-theme="light"] .browser-top-bar {
+  background-color: #f1f5f9 !important;
+  border-bottom: 1px solid var(--border-subtle) !important;
+}
+
+[data-theme="light"] .browser-url-pill {
+  background-color: #ffffff !important;
+  color: var(--text-secondary) !important;
+  border: 1px solid var(--border-subtle) !important;
+}
+
+[data-theme="light"] .laptop-base {
+  background: linear-gradient(180deg, #cbd5e1 0%, #94a3b8 100%) !important;
+  box-shadow: 0 10px 20px rgba(15, 23, 42, 0.08) !important;
+}
+
+[data-theme="light"] .pos-app-header,
+[data-theme="light"] .vedic-header {
+  border-bottom-color: var(--border-subtle) !important;
+}
+
+[data-theme="light"] .pos-item-row,
+[data-theme="light"] .crm-msg-inbox,
+[data-theme="light"] .crm-msg-outbox {
+  background-color: var(--bg-secondary) !important;
+  border: 1px solid var(--border-subtle) !important;
+  color: var(--text-primary) !important;
+}
+
+[data-theme="light"] .pos-order-id,
+[data-theme="light"] .vedic-card-title,
+[data-theme="light"] .crm-sender {
+  color: var(--text-primary) !important;
+}
+
+[data-theme="light"] .chip-btn {
+  background-color: var(--bg-secondary) !important;
+  border-color: var(--border-subtle) !important;
+  color: var(--text-secondary) !important;
+}
+
+[data-theme="light"] .chip-btn:hover {
+  background-color: var(--bg-badge) !important;
+  color: var(--text-accent) !important;
+  border-color: var(--accent-primary) !important;
+}
+
+[data-theme="light"] .story-metric-box {
+  background-color: var(--bg-badge) !important;
+  border-color: var(--accent-border) !important;
+}
+
+/* 7. About Fact Card & Avatar */
+[data-theme="light"] .fact-card,
+[data-theme="light"] .matrix-card {
+  background-color: #ffffff !important;
+  border-color: var(--border-subtle) !important;
+  box-shadow: var(--shadow-sm) !important;
+}
+
+.avatar-placeholder {
+  background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-dark) 100%) !important;
+  color: #ffffff !important;
+}
+
+/* 8. Floating HUD dock in Light Mode */
+[data-theme="light"] .floating-hud-btn {
+  background: rgba(255, 255, 255, 0.9) !important;
+  border-color: var(--border-medium) !important;
+  color: var(--text-primary) !important;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.1) !important;
+}
+
+[data-theme="light"] .floating-hud-btn:hover {
+  background: #ffffff !important;
+  border-color: var(--accent-primary) !important;
+}
+
+/* 9. Theme Drawer in Light Mode */
+[data-theme="light"] .theme-customizer-drawer {
+  background: #ffffff !important;
+  border-left-color: var(--border-medium) !important;
+  color: var(--text-primary) !important;
+  box-shadow: -15px 0 40px rgba(15, 23, 42, 0.15) !important;
+}
+
+[data-theme="light"] .drawer-header {
+  border-bottom-color: var(--border-subtle) !important;
+}
+
+[data-theme="light"] .drawer-heading {
+  color: var(--text-primary) !important;
+}
+
+[data-theme="light"] .drawer-option-pill {
+  background: var(--bg-secondary) !important;
+  border-color: var(--border-subtle) !important;
+  color: var(--text-secondary) !important;
+}
+
+[data-theme="light"] .drawer-pill-active {
+  background: var(--bg-badge) !important;
+  border-color: var(--accent-primary) !important;
+  color: var(--text-accent) !important;
+}
+
+[data-theme="light"] .drawer-swatch-chip {
+  background: var(--bg-secondary) !important;
+  border-color: var(--border-subtle) !important;
+}
+
+[data-theme="light"] .drawer-swatch-chip:hover,
+[data-theme="light"] .drawer-swatch-active {
+  border-color: var(--accent-primary) !important;
+}
+
+[data-theme="light"] .drawer-footer {
+  background: var(--bg-secondary) !important;
+  border-top-color: var(--border-subtle) !important;
+}
+
+/* 10. Project Modal in Light Mode */
+[data-theme="light"] .modal-card {
+  background-color: #ffffff !important;
+  border-color: var(--border-medium) !important;
+  box-shadow: var(--shadow-lg), 0 0 20px rgba(var(--accent-rgb), 0.15) !important;
+}
+
+[data-theme="light"] .modal-header {
+  background-color: #f8fafc !important;
+  border-bottom-color: var(--border-subtle) !important;
+}
+
+[data-theme="light"] .modal-arch-box,
+[data-theme="light"] .modal-problem-box,
+[data-theme="light"] .modal-solution-box {
+  background-color: #f1f5f9 !important;
+  border-color: var(--border-subtle) !important;
+}
+
+[data-theme="light"] .modal-arch-desc,
+[data-theme="light"] .modal-metric-val {
+  color: var(--text-accent) !important;
+}
+
+[data-theme="light"] .modal-footer {
+  background-color: #f8fafc !important;
+  border-top-color: var(--border-subtle) !important;
+}
+
+/* Mobile Drawer Light Mode Override */
+[data-theme="light"] .mobile-drawer {
+  background-color: #ffffff !important;
+  border-left: 1px solid var(--border-medium) !important;
+  box-shadow: -10px 0 35px rgba(15, 23, 42, 0.15) !important;
+}
+
+[data-theme="light"] .mobile-drawer-header {
+  border-bottom: 1px solid var(--border-subtle) !important;
+}

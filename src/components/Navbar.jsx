@@ -297,7 +297,7 @@ function Navbar({ onOpenTerminal, onOpenThemeStudio }) {
               className="btn btn-secondary btn-sm nav-glass-btn theme-palette-trigger-btn"
               onClick={onOpenThemeStudio}
               aria-label="Open Design System Studio"
-              title="Personalize theme, accents & corners"
+              title="Personalize theme & accent colors"
             >
               <Palette size={14} className="text-accent" />
               <span className="hidden sm:inline">Theme</span>

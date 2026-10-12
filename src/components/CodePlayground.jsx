@@ -105,6 +105,33 @@ export function useRealtimeInbox(channelId) {
   },
 ];
 
+/**
+ * Format code lines with highlighted comments so comments stand out cleanly
+ * and adapt with optimal contrast in both light and dark themes.
+ */
+function renderHighlightedCode(code) {
+  const lines = code.split('\n');
+  return lines.map((line, idx) => {
+    const trimmed = line.trimStart();
+    if (trimmed.startsWith('//')) {
+      const indent = line.slice(0, line.length - trimmed.length);
+      return (
+        <span key={idx} className="code-line">
+          {indent}
+          <span className="code-comment">{trimmed}</span>
+          {idx < lines.length - 1 ? '\n' : ''}
+        </span>
+      );
+    }
+    return (
+      <span key={idx} className="code-line">
+        {line}
+        {idx < lines.length - 1 ? '\n' : ''}
+      </span>
+    );
+  });
+}
+
 export default function CodePlayground() {
   const [activeTab, setActiveTab] = useState(snippets[0].id);
   const [copied, setCopied] = useState(false);
@@ -188,7 +215,7 @@ export default function CodePlayground() {
             className="terminal-code-scroll"
           >
             <pre className="code-block">
-              <code>{currentSnippet.code}</code>
+              <code>{renderHighlightedCode(currentSnippet.code)}</code>
             </pre>
           </motion.div>
         </AnimatePresence>

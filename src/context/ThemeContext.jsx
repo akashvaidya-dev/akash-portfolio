@@ -1,15 +1,9 @@
 import { useState, useEffect } from 'react';
-import {
-  ACCENT_PALETTES,
-  CORNER_STYLES,
-  ANIMATION_PREFERENCES,
-  DEFAULT_SETTINGS,
-  STORAGE_KEY,
-} from '../data/theme';
+import { ACCENT_PALETTES, DEFAULT_SETTINGS, STORAGE_KEY } from '../data/theme';
 import { ThemeContext } from './useTheme';
 
 /**
- * Safely read initial settings from localStorage without crashing during SSR or disabled storage.
+ * Safely read initial settings from localStorage without crashing.
  */
 function getInitialSettings() {
   if (typeof window === 'undefined') return DEFAULT_SETTINGS;
@@ -20,8 +14,6 @@ function getInitialSettings() {
       return {
         theme: parsed.theme === 'light' ? 'light' : 'dark',
         accent: ACCENT_PALETTES.some((a) => a.id === parsed.accent) ? parsed.accent : 'emerald',
-        corners: CORNER_STYLES.some((c) => c.id === parsed.corners) ? parsed.corners : 'rounded',
-        animation: ANIMATION_PREFERENCES.some((m) => m.id === parsed.animation) ? parsed.animation : 'smooth',
       };
     }
   } catch (err) {
@@ -32,11 +24,9 @@ function getInitialSettings() {
 
 /**
  * ThemeProvider Component
- * Manages global adaptive design system state:
- * - Appearance mode (Light / Dark)
- * - Accent color palette (6 options)
- * - Corner style (Rounded / Soft / Sharp)
- * - Motion preference (Smooth / Fast / Reduced)
+ * Manages clean visual customization:
+ * - Appearance Mode: ☀️ Light / 🌙 Dark
+ * - Accent Color: 6 curated colors (Emerald, Electric blue, Purple, Rose, Amber, Cyan)
  * Synchronizes with DOM documentElement attributes and localStorage.
  */
 export function ThemeProvider({ children }) {
@@ -47,8 +37,6 @@ export function ThemeProvider({ children }) {
     const root = document.documentElement;
     root.setAttribute('data-theme', settings.theme);
     root.setAttribute('data-accent', settings.accent);
-    root.setAttribute('data-corners', settings.corners);
-    root.setAttribute('data-animation', settings.animation);
     root.style.colorScheme = settings.theme;
 
     try {
@@ -72,18 +60,6 @@ export function ThemeProvider({ children }) {
     }
   };
 
-  const setCorners = (corners) => {
-    if (CORNER_STYLES.some((c) => c.id === corners)) {
-      setSettings((prev) => ({ ...prev, corners }));
-    }
-  };
-
-  const setAnimation = (animation) => {
-    if (ANIMATION_PREFERENCES.some((m) => m.id === animation)) {
-      setSettings((prev) => ({ ...prev, animation }));
-    }
-  };
-
   const resetDefaults = () => {
     setSettings(DEFAULT_SETTINGS);
   };
@@ -91,13 +67,9 @@ export function ThemeProvider({ children }) {
   const value = {
     theme: settings.theme,
     accent: settings.accent,
-    corners: settings.corners,
-    animation: settings.animation,
     setTheme,
     toggleTheme,
     setAccent,
-    setCorners,
-    setAnimation,
     resetDefaults,
     isDark: settings.theme === 'dark',
     activeAccent: ACCENT_PALETTES.find((a) => a.id === settings.accent) || ACCENT_PALETTES[0],

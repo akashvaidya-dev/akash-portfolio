@@ -6,9 +6,9 @@ export const ThemeContext = createContext({
   setTheme: () => {},
   toggleTheme: () => {},
   setAccent: () => {},
-  setCorners: () => {},
-  setAnimation: () => {},
   resetDefaults: () => {},
+  isDark: true,
+  activeAccent: null,
 });
 
 export function useTheme() {

@@ -23,7 +23,8 @@ function hexToRgba(hex, alpha) {
  */
 function CursorUniverse() {
   const containerRef = useRef(null);
-  const { theme, accent, animation, activeAccent } = useTheme();
+  const { theme, accent, activeAccent } = useTheme();
+  const isReducedMotion = typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   useEffect(() => {
     const container = containerRef.current;
@@ -40,27 +41,27 @@ function CursorUniverse() {
           isDark: theme === 'dark',
           accentHex: activeAccent.hex,
           accentLightHex: activeAccent.lightHex,
-          isReducedMotion: animation === 'reduced',
+          isReducedMotion,
         });
       } else {
         cleanup = init2DCanvasUniverse(container, {
           isDark: theme === 'dark',
           accentHex: activeAccent.hex,
-          isReducedMotion: animation === 'reduced',
+          isReducedMotion,
         });
       }
     } catch {
       cleanup = init2DCanvasUniverse(container, {
         isDark: theme === 'dark',
         accentHex: activeAccent.hex,
-        isReducedMotion: animation === 'reduced',
+        isReducedMotion,
       });
     }
 
     return () => {
       if (cleanup) cleanup();
     };
-  }, [theme, accent, animation, activeAccent]);
+  }, [theme, accent, activeAccent, isReducedMotion]);
 
   return (
     <div

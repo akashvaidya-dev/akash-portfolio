@@ -1,22 +1,18 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Sun, Moon, RotateCcw, Check, Palette } from 'lucide-react';
 import { useTheme } from '../context/useTheme';
-import { ACCENT_PALETTES, CORNER_STYLES, ANIMATION_PREFERENCES } from '../data/theme';
+import { ACCENT_PALETTES } from '../data/theme';
 
 /**
  * Slide-out Theme Customizer Drawer
- * Allows visitors to personalize the portfolio from anywhere across all routes.
+ * Allows visitors to personalize appearance and accent colors across all routes.
  */
 function ThemeCustomizerDrawer({ isOpen, onClose }) {
   const {
     theme,
     accent,
-    corners,
-    animation,
     setTheme,
     setAccent,
-    setCorners,
-    setAnimation,
     resetDefaults,
     activeAccent,
   } = useTheme();
@@ -93,11 +89,11 @@ function ThemeCustomizerDrawer({ isOpen, onClose }) {
               </div>
 
               {/* 2. Accent Color */}
-              <div className="drawer-section mt-5">
+              <div className="drawer-section mt-6">
                 <div className="drawer-section-title">
                   <span>Accent color</span>
-                  <span className="text-xs font-semibold" style={{ color: activeAccent.hex }}>
-                    {activeAccent.name}
+                  <span className="text-xs font-semibold" style={{ color: activeAccent?.hex }}>
+                    {activeAccent?.name}
                   </span>
                 </div>
                 <div className="drawer-swatches-grid">
@@ -118,56 +114,6 @@ function ThemeCustomizerDrawer({ isOpen, onClose }) {
                           {isSelected && <Check size={11} className="text-white" />}
                         </span>
                         <span className="drawer-swatch-name">{palette.name}</span>
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-
-              {/* 3. Corner Style */}
-              <div className="drawer-section mt-5">
-                <div className="drawer-section-title">
-                  <span>Corner style</span>
-                  <span className="text-xs text-muted">{corners}</span>
-                </div>
-                <div className="drawer-grid-3">
-                  {CORNER_STYLES.map((style) => {
-                    const isSelected = corners === style.id;
-                    return (
-                      <button
-                        key={style.id}
-                        type="button"
-                        onClick={() => setCorners(style.id)}
-                        className={`drawer-option-pill ${isSelected ? 'drawer-pill-active' : ''}`}
-                      >
-                        <span>{style.name}</span>
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-
-              {/* 4. Animation Preference */}
-              <div className="drawer-section mt-5">
-                <div className="drawer-section-title">
-                  <span>Animation preference</span>
-                  <span className="text-xs text-muted">{animation}</span>
-                </div>
-                <div className="drawer-motion-col">
-                  {ANIMATION_PREFERENCES.map((pref) => {
-                    const isSelected = animation === pref.id;
-                    return (
-                      <button
-                        key={pref.id}
-                        type="button"
-                        onClick={() => setAnimation(pref.id)}
-                        className={`drawer-motion-pill ${isSelected ? 'drawer-pill-active' : ''}`}
-                      >
-                        <div className="text-left">
-                          <div className="font-medium text-sm">{pref.name}</div>
-                          <div className="text-xs text-muted">{pref.description}</div>
-                        </div>
-                        {isSelected && <Check size={14} className="text-accent" />}
                       </button>
                     );
                   })}

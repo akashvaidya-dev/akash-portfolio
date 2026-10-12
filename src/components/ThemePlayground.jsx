@@ -1,37 +1,24 @@
 import { motion } from 'framer-motion';
 import { Sun, Moon, RotateCcw, Check, Sparkles, Sliders, ArrowUpRight } from 'lucide-react';
 import { useTheme } from '../context/useTheme';
-import { ACCENT_PALETTES, CORNER_STYLES, ANIMATION_PREFERENCES } from '../data/theme';
+import { ACCENT_PALETTES } from '../data/theme';
 
 /**
- * Interactive Theme Playground & Adaptive Design System Studio
- * Allows visitors to customize the complete portfolio design system in real time:
- * - Appearance mode (Light / Dark)
- * - Accent color (6 curated palettes)
- * - Corner style (Rounded, Soft, Sharp)
- * - Animation preference (Smooth, Fast, Reduced)
- * Includes a live interactive mini preview card and instant full-site adaptation.
+ * Interactive Theme Playground
+ * Allows visitors to customize:
+ * - Appearance: ☀️ Light / 🌙 Dark
+ * - Accent Colors: 6 Curated Colors (Emerald, Electric blue, Purple, Rose, Amber, Cyan)
+ * Every component across the portfolio adapts in real time.
  */
 function ThemePlayground() {
   const {
     theme,
     accent,
-    corners,
-    animation,
     setTheme,
     setAccent,
-    setCorners,
-    setAnimation,
     resetDefaults,
     activeAccent,
   } = useTheme();
-
-  // Dynamic preview description based on active choices
-  const getPreviewSummary = () => {
-    const cornerName = corners === 'rounded' ? 'rounded corners' : corners === 'soft' ? 'soft corners' : 'sharp corners';
-    const animName = animation === 'smooth' ? 'Smooth transitions' : animation === 'fast' ? 'Fast transitions' : 'Reduced motion';
-    return `Preview: ${animName} · ${cornerName}`;
-  };
 
   return (
     <section className="section-padding theme-playground-section" id="theme-studio">
@@ -40,14 +27,14 @@ function ThemePlayground() {
         <div className="section-header-compact text-center">
           <div className="badge badge-accent mb-3">
             <Sliders size={13} className="mr-1.5" />
-            <span>Adaptive Design System</span>
+            <span>Interactive Theme Studio</span>
           </div>
           <h2 className="section-title">
-            Interactive Theme <span className="text-gradient">Playground</span>
+            Personalize Visual <span className="text-gradient">Experience</span>
           </h2>
           <p className="section-subtitle max-w-2xl mx-auto">
-            Take full control of the visual experience. Customize appearance, accent color palettes,
-            corner geometry, and motion dynamics—every component across the portfolio updates instantly.
+            Switch between light and dark appearance and choose your signature accent color.
+            Every component across the portfolio updates automatically.
           </p>
         </div>
 
@@ -118,12 +105,14 @@ function ThemePlayground() {
                 {/* Live Summary Footer */}
                 <div className="mini-card-footer">
                   <span className="pulsing-mini-dot" />
-                  <span className="mini-summary-text">{getPreviewSummary()}</span>
+                  <span className="mini-summary-text">
+                    Theme: {theme === 'dark' ? 'Dark Mode' : 'Light Mode'} · {activeAccent?.name || 'Emerald'} Accent
+                  </span>
                 </div>
               </motion.div>
 
               <p className="preview-note text-center mt-3 text-xs text-muted">
-                Changes apply instantly to navbar, cards, 3D universe, devices, forms, and modals.
+                Changes apply instantly across navbar, cards, devices, code blocks, and forms.
               </p>
             </div>
           </div>
@@ -167,8 +156,8 @@ function ThemePlayground() {
               <div className="control-group mt-6">
                 <div className="control-header">
                   <span className="control-title">Accent color</span>
-                  <span className="control-value-badge" style={{ color: activeAccent.hex }}>
-                    {activeAccent.name}
+                  <span className="control-value-badge" style={{ color: activeAccent?.hex }}>
+                    {activeAccent?.name}
                   </span>
                 </div>
                 <div className="accent-swatches-grid">
@@ -197,62 +186,13 @@ function ThemePlayground() {
                 </div>
               </div>
 
-              {/* Control 3: Corner Style (Rounded, Soft, Sharp) */}
-              <div className="control-group mt-6">
-                <div className="control-header">
-                  <span className="control-title">Corner style</span>
-                  <span className="control-hint">Border curvature</span>
-                </div>
-                <div className="segmented-control-grid corner-toggle-grid">
-                  {CORNER_STYLES.map((style) => {
-                    const isSelected = corners === style.id;
-                    return (
-                      <button
-                        key={style.id}
-                        type="button"
-                        onClick={() => setCorners(style.id)}
-                        className={`segmented-btn ${isSelected ? 'segmented-btn-active' : ''}`}
-                        aria-pressed={isSelected}
-                      >
-                        <span className={`corner-shape-icon corner-icon-${style.id}`} />
-                        <span>{style.name}</span>
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-
-              {/* Control 4: Animation Preference (Smooth, Fast, Reduced) */}
-              <div className="control-group mt-6">
-                <div className="control-header">
-                  <span className="control-title">Animation preference</span>
-                  <span className="control-hint">Motion velocity & accessibility</span>
-                </div>
-                <div className="segmented-control-grid motion-toggle-grid">
-                  {ANIMATION_PREFERENCES.map((pref) => {
-                    const isSelected = animation === pref.id;
-                    return (
-                      <button
-                        key={pref.id}
-                        type="button"
-                        onClick={() => setAnimation(pref.id)}
-                        className={`segmented-btn ${isSelected ? 'segmented-btn-active' : ''}`}
-                        aria-pressed={isSelected}
-                      >
-                        <span>{pref.name}</span>
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-
               {/* Action: Reset to Default */}
               <div className="playground-actions-footer mt-8 pt-5 border-t border-subtle">
                 <button
                   type="button"
                   onClick={resetDefaults}
                   className="btn btn-secondary btn-sm reset-defaults-btn"
-                  title="Reset design system to dark mode, emerald, and rounded corners"
+                  title="Reset to Dark mode & Emerald accent"
                 >
                   <RotateCcw size={14} />
                   <span>Reset to default</span>
