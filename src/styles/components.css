@@ -3012,11 +3012,11 @@
   mix-blend-mode: overlay;
 }
 
-/* Draggable Nav List */
-.draggable-nav-list {
+/* Fixed Stationary Nav Options List */
+.fixed-nav-list {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
   list-style: none;
   margin: 0;
   padding: 0;
@@ -3026,28 +3026,19 @@
   backdrop-filter: none !important;
 }
 
-.nav-draggable-item {
+.nav-item {
   position: relative;
-  touch-action: pan-y;
-}
-
-.nav-drag-handle {
   display: flex;
   align-items: center;
-  cursor: grab;
 }
 
-.nav-draggable-item.dragging .nav-drag-handle {
-  cursor: grabbing;
-}
-
-/* Liquid Pill Button */
+/* Liquid Glass Pill Button - Stationary Options */
 .nav-liquid-pill {
   position: relative;
   display: inline-flex;
   align-items: center;
-  gap: 5px;
-  padding: 8px 16px;
+  justify-content: center;
+  padding: 8px 18px;
   background: transparent;
   border: 1px solid transparent;
   border-radius: var(--radius-full);
@@ -3057,14 +3048,20 @@
   font-weight: 500;
   text-decoration: none;
   cursor: pointer;
-  overflow: hidden;
-  transition: color var(--transition-fast), border-color var(--transition-fast), background-color var(--transition-fast);
-  z-index: 1;
+  overflow: visible; /* Allows moving notch to glide outside pill bounds freely */
+  transition: color var(--transition-fast), background-color var(--transition-fast);
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .nav-liquid-pill:hover {
   color: #f8fafc;
   background-color: rgba(255, 255, 255, 0.04);
+}
+
+.nav-liquid-pill.nav-link-hovered {
+  color: #ffffff;
+  background-color: rgba(16, 185, 129, 0.08);
 }
 
 .nav-liquid-pill.nav-link-active {
@@ -3073,47 +3070,53 @@
   text-shadow: 0 0 12px rgba(16, 185, 129, 0.5);
 }
 
-/* Drag Grip Icon */
-.drag-grip-icon {
-  display: inline-flex;
-  align-items: center;
-  opacity: 0.35;
-  color: var(--text-muted);
-  transition: opacity var(--transition-fast), color var(--transition-fast);
-  margin-right: -1px;
-}
-
-.nav-liquid-pill:hover .drag-grip-icon,
-.nav-draggable-item.dragging .drag-grip-icon {
-  opacity: 0.85;
-  color: var(--accent-light);
-}
-
 .nav-link-text {
   position: relative;
-  z-index: 2;
+  z-index: 3;
   letter-spacing: -0.01em;
+  pointer-events: none;
 }
 
-/* Water Drop / Liquid Active Indicator */
+/* Pill Water Ripple Container */
+.pill-ripple-container {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Moving Liquid Water-Drop Notch Indicator */
 .nav-water-drop-indicator {
   position: absolute;
   inset: 0;
   background: linear-gradient(
     135deg,
-    rgba(16, 185, 129, 0.28) 0%,
-    rgba(5, 150, 105, 0.2) 60%,
-    rgba(16, 185, 129, 0.35) 100%
+    rgba(16, 185, 129, 0.32) 0%,
+    rgba(5, 150, 105, 0.22) 60%,
+    rgba(16, 185, 129, 0.4) 100%
   );
-  border: 1px solid rgba(52, 211, 153, 0.5);
+  border: 1px solid rgba(52, 211, 153, 0.55);
   border-radius: var(--radius-full);
-  z-index: 0;
+  z-index: 1;
   box-shadow:
-    0 4px 16px rgba(16, 185, 129, 0.3),
-    inset 0 1px 2px rgba(255, 255, 255, 0.35),
+    0 4px 18px rgba(16, 185, 129, 0.32),
+    inset 0 1px 2px rgba(255, 255, 255, 0.4),
     inset 0 -1px 2px rgba(0, 0, 0, 0.3);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
+  cursor: grab;
+  touch-action: pan-y;
+}
+
+.nav-water-drop-indicator.notch-dragging {
+  cursor: grabbing !important;
+  z-index: 10;
+  box-shadow:
+    0 8px 26px rgba(16, 185, 129, 0.5),
+    inset 0 1px 3px rgba(255, 255, 255, 0.6),
+    inset 0 -1px 2px rgba(0, 0, 0, 0.4);
 }
 
 .water-drop-core {
@@ -3125,10 +3128,25 @@
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(255, 255, 255, 0.65),
+    rgba(255, 255, 255, 0.75),
     transparent
   );
   border-radius: var(--radius-full);
+  pointer-events: none;
+}
+
+/* Dynamic Notch Pip Indicator */
+.notch-handle-pip {
+  position: absolute;
+  top: 3px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 14px;
+  height: 2px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.5);
+  box-shadow: 0 0 4px rgba(52, 211, 153, 0.8);
+  pointer-events: none;
 }
 
 .water-drop-sheen {
@@ -3139,7 +3157,7 @@
   height: 60%;
   background: radial-gradient(
     ellipse at 50% 100%,
-    rgba(52, 211, 153, 0.2),
+    rgba(52, 211, 153, 0.25),
     transparent 70%
   );
   pointer-events: none;

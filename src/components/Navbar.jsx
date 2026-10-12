@@ -1,10 +1,10 @@
 import { useState, useEffect, useRef } from 'react';
 import { NavLink, Link, useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, ArrowUpRight, Terminal, GripVertical } from 'lucide-react';
+import { Menu, X, ArrowUpRight, Terminal } from 'lucide-react';
 import { socialLinks } from '../data/socials';
 
-const defaultNavItems = [
+const NAV_ITEMS = [
   { id: 'home', name: 'Home', path: '/' },
   { id: 'about', name: 'About', path: '/about' },
   { id: 'projects', name: 'Projects', path: '/projects' },
@@ -14,26 +14,57 @@ const defaultNavItems = [
 
 /**
  * Navbar Component with:
- * 1. Ultra-smooth Glassmorphism & Liquid Water-drop Ripple Effect.
- *    - Glass pill container with specular rim highlight, noise/backdrop-filter blur.
- *    - Dynamic liquid ripple expanding from pointer location on click & hover.
- * 2. Draggable & Reorderable Navigation Options.
- *    - Interactive Framer Motion reordering: grab, drag, and reorder tabs freely.
- *    - Spring-physics snapping and haptic visual feedback while dragging.
- *    - Visual drag affordance indicator with grab cursor.
+ * 1. Ultra-smooth Liquid Glassmorphism Dock & Water Ripple Effect.
+ *    - Specular rim highlight, backdrop blur, fluid caustic reflections.
+ *    - Localized water ripple waves expanding on click.
+ * 2. Stationary Nav Options with Sliding & Draggable Notch Indicator:
+ *    - All menu options (Home, About, Projects, Experience, Contact) remain strictly fixed in place.
+ *    - Only the liquid glass notch / active indicator pill moves between options.
+ *    - Spring-physics animated gliding when selecting or clicking tabs.
+ *    - The notch can also be grabbed and dragged horizontally across options, snapping to the target.
  * 3. Mobile Responsive Drawer & Akash-OS Terminal launcher.
  */
 function Navbar({ onOpenTerminal }) {
-  const [navItems, setNavItems] = useState(defaultNavItems);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [activeDragId, setActiveDragId] = useState(null);
+  const [isDraggingNotch, setIsDraggingNotch] = useState(false);
+  const [hoveredTabId, setHoveredTabId] = useState(null);
   const [waterRipples, setWaterRipples] = useState([]);
+  const [dragConstraints, setDragConstraints] = useState({ left: -240, right: 240 });
 
   const navContainerRef = useRef(null);
+  const itemRefs = useRef({});
   const rippleIdRef = useRef(0);
   const navigate = useNavigate();
   const location = useLocation();
+
+  // Current active item based on current URL
+  const activeItem =
+    NAV_ITEMS.find((item) =>
+      item.path === '/'
+        ? location.pathname === '/'
+        : location.pathname.startsWith(item.path)
+    ) || NAV_ITEMS[0];
+
+  // Dynamically compute dock drag boundaries for the notch relative to the active tab
+  useEffect(() => {
+    const updateConstraints = () => {
+      if (!navContainerRef.current || !activeItem) return;
+      const activeEl = itemRefs.current[activeItem.id];
+      if (!activeEl) return;
+      const dockRect = navContainerRef.current.getBoundingClientRect();
+      const activeRect = activeEl.getBoundingClientRect();
+
+      setDragConstraints({
+        left: Math.round(dockRect.left + 8 - activeRect.left),
+        right: Math.round(dockRect.right - 8 - activeRect.right),
+      });
+    };
+
+    updateConstraints();
+    window.addEventListener('resize', updateConstraints);
+    return () => window.removeEventListener('resize', updateConstraints);
+  }, [activeItem]);
 
   // Monitor scroll for subtle shadow & background blur transition
   useEffect(() => {
@@ -69,8 +100,10 @@ function Navbar({ onOpenTerminal }) {
 
   const closeMenu = () => setMobileMenuOpen(false);
 
-  // Liquid Water Ripple Effect on Click
+  // Handle Tab Click & Trigger Water Ripple Wave
   const handleNavPillClick = (e, item) => {
+    if (isDraggingNotch) return;
+
     const navPill = e.currentTarget;
     const rect = navPill.getBoundingClientRect();
     const x = e.clientX - rect.left;
@@ -92,38 +125,48 @@ function Navbar({ onOpenTerminal }) {
       setWaterRipples((prev) => prev.filter((r) => r.id !== currentRippleId));
     }, 900);
 
-    // If item was clicked rather than dragged, navigate cleanly
-    if (!activeDragId && location.pathname !== item.path) {
+    if (location.pathname !== item.path) {
       navigate(item.path);
     }
   };
 
-  // Drag reordering logic
-  const handleDragEnd = (event, info, itemId) => {
-    setActiveDragId(null);
-    const offset = info.offset.x;
-    const threshold = 40; // pixel distance to shift item position
-
-    if (Math.abs(offset) > threshold) {
-      const currentIndex = navItems.findIndex((it) => it.id === itemId);
-      let targetIndex;
-
-      if (offset > 0) {
-        // Dragged right
-        const steps = Math.min(Math.round(offset / 70), navItems.length - 1 - currentIndex);
-        targetIndex = Math.min(navItems.length - 1, currentIndex + Math.max(1, steps));
-      } else {
-        // Dragged left
-        const steps = Math.min(Math.round(Math.abs(offset) / 70), currentIndex);
-        targetIndex = Math.max(0, currentIndex - Math.max(1, steps));
+  // Drag notch across fixed options
+  const handleNotchDrag = (event, info) => {
+    const pointerX = info.point.x;
+    for (const item of NAV_ITEMS) {
+      const el = itemRefs.current[item.id];
+      if (!el) continue;
+      const rect = el.getBoundingClientRect();
+      if (pointerX >= rect.left && pointerX <= rect.right) {
+        setHoveredTabId(item.id);
+        return;
       }
+    }
+  };
 
-      if (targetIndex !== currentIndex) {
-        const reordered = [...navItems];
-        const [movedItem] = reordered.splice(currentIndex, 1);
-        reordered.splice(targetIndex, 0, movedItem);
-        setNavItems(reordered);
+  // Release notch: snap to nearest target option and navigate
+  const handleNotchDragEnd = (event, info) => {
+    setIsDraggingNotch(false);
+    setHoveredTabId(null);
+    const pointerX = info.point.x;
+
+    let closestItem = activeItem;
+    let minDistance = Infinity;
+
+    for (const item of NAV_ITEMS) {
+      const el = itemRefs.current[item.id];
+      if (!el) continue;
+      const rect = el.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const dist = Math.abs(pointerX - centerX);
+      if (dist < minDistance) {
+        minDistance = dist;
+        closestItem = item;
       }
+    }
+
+    if (closestItem && closestItem.path !== location.pathname) {
+      navigate(closestItem.path);
     }
   };
 
@@ -142,75 +185,67 @@ function Navbar({ onOpenTerminal }) {
           <span className="brand-bracket">/&gt;</span>
         </Link>
 
-        {/* Desktop Navigation: Liquid Glass Dock with Draggable Options */}
+        {/* Desktop Navigation: Liquid Glass Dock with Sliding & Draggable Notch */}
         <nav className="navbar-nav-desktop" aria-label="Main navigation">
           <div
             ref={navContainerRef}
             className="nav-liquid-glass-dock"
-            title="Tip: You can click, select, or drag tabs horizontally to reorder them"
+            title="Tip: Click any tab or drag the liquid notch to navigate"
           >
-            {/* Water Drop Surface Highlight */}
+            {/* Specular Top Rim Reflection & Fluid Caustic Flow */}
             <div className="dock-specular-reflection" aria-hidden="true" />
             <div className="dock-fluid-flow" aria-hidden="true" />
 
-            <ul className="nav-list draggable-nav-list">
-              {navItems.map((item) => {
-                const isActive =
-                  item.path === '/'
-                    ? location.pathname === '/'
-                    : location.pathname.startsWith(item.path);
-                const isDragging = activeDragId === item.id;
+            <ul className="nav-list fixed-nav-list">
+              {NAV_ITEMS.map((item) => {
+                const isActive = item.id === activeItem.id;
+                const isHovered = item.id === hoveredTabId && !isActive;
 
                 return (
-                  <motion.li
-                    key={item.id}
-                    layout
-                    transition={{
-                      type: 'spring',
-                      stiffness: 420,
-                      damping: 32,
-                    }}
-                    className={`nav-draggable-item ${isDragging ? 'dragging' : ''}`}
-                  >
-                    <motion.div
-                      drag="x"
-                      dragConstraints={{ left: -140, right: 140 }}
-                      dragElastic={0.2}
-                      onDragStart={() => setActiveDragId(item.id)}
-                      onDragEnd={(e, info) => handleDragEnd(e, info, item.id)}
-                      whileDrag={{
-                        scale: 1.08,
-                        zIndex: 20,
-                        cursor: 'grabbing',
+                  <li key={item.id} className="nav-item">
+                    <button
+                      type="button"
+                      ref={(el) => {
+                        itemRefs.current[item.id] = el;
                       }}
-                      className="nav-drag-handle"
+                      onClick={(e) => handleNavPillClick(e, item)}
+                      className={`nav-link nav-liquid-pill ${isActive ? 'nav-link-active' : ''} ${isHovered ? 'nav-link-hovered' : ''}`}
+                      aria-current={isActive ? 'page' : undefined}
                     >
-                      <button
-                        type="button"
-                        onClick={(e) => handleNavPillClick(e, item)}
-                        className={`nav-link nav-liquid-pill ${isActive ? 'nav-link-active' : ''}`}
-                        aria-current={isActive ? 'page' : undefined}
-                      >
-                        {/* Drag Handle Grip Icon */}
-                        <span className="drag-grip-icon" title="Drag to move" aria-hidden="true">
-                          <GripVertical size={11} />
-                        </span>
+                      {/* Fixed Stationary Tab Label */}
+                      <span className="nav-link-text">{item.name}</span>
 
-                        <span className="nav-link-text">{item.name}</span>
+                      {/* Moving Notch: Liquid Water-Drop Glass Indicator */}
+                      {isActive && (
+                        <motion.span
+                          layoutId="navbar-indicator"
+                          className={`nav-indicator nav-water-drop-indicator ${isDraggingNotch ? 'notch-dragging' : ''}`}
+                          transition={{
+                            type: 'spring',
+                            stiffness: 420,
+                            damping: 30,
+                          }}
+                          drag="x"
+                          dragConstraints={dragConstraints}
+                          dragElastic={0.15}
+                          dragSnapToOrigin={true}
+                          onDragStart={() => setIsDraggingNotch(true)}
+                          onDrag={handleNotchDrag}
+                          onDragEnd={handleNotchDragEnd}
+                          whileDrag={{
+                            scale: 1.05,
+                            cursor: 'grabbing',
+                          }}
+                          title="Drag notch along options to navigate"
+                        >
+                          <span className="water-drop-core" />
+                          <span className="notch-handle-pip" />
+                          <span className="water-drop-sheen" />
+                        </motion.span>
+                      )}
 
-                        {/* Active Water-Drop Droplet Glow */}
-                        {isActive && (
-                          <motion.span
-                            layoutId="navbar-indicator"
-                            className="nav-indicator nav-water-drop-indicator"
-                            transition={{ type: 'spring', stiffness: 400, damping: 28 }}
-                          >
-                            <span className="water-drop-core" />
-                            <span className="water-drop-sheen" />
-                          </motion.span>
-                        )}
-
-                        {/* Water Ripple Waves */}
+                      {/* Water Ripple Waves Container */}
+                      <span className="pill-ripple-container" aria-hidden="true">
                         {waterRipples
                           .filter((r) => r.itemId === item.id)
                           .map((ripple) => (
@@ -223,9 +258,9 @@ function Navbar({ onOpenTerminal }) {
                               }}
                             />
                           ))}
-                      </button>
-                    </motion.div>
-                  </motion.li>
+                      </span>
+                    </button>
+                  </li>
                 );
               })}
             </ul>
@@ -297,7 +332,7 @@ function Navbar({ onOpenTerminal }) {
               </div>
 
               <nav className="mobile-nav-list" aria-label="Mobile navigation">
-                {navItems.map((item) => (
+                {NAV_ITEMS.map((item) => (
                   <NavLink
                     key={item.id}
                     to={item.path}
