@@ -18,6 +18,7 @@ import ProjectCard from '../components/ProjectCard';
 import SectionTitle from '../components/SectionTitle';
 import CodePlayground from '../components/CodePlayground';
 import TechTicker from '../components/TechTicker';
+import ThemePlayground from '../components/ThemePlayground';
 
 const rotatingRoles = [
   'Senior Flutter Developer',
@@ -189,6 +190,11 @@ function Home() {
           </motion.div>
         </div>
       </section>
+
+      {/* =========================================================================
+          Adaptive Design System & Theme Playground
+          ========================================================================= */}
+      <ThemePlayground />
 
       {/* =========================================================================
           Engineering Principles Section

@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
-import { Terminal } from 'lucide-react';
+import { Terminal, Palette } from 'lucide-react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import CursorUniverse from '../components/CursorUniverse';
 import VisitorTerminal from '../components/VisitorTerminal';
+import ThemeCustomizerDrawer from '../components/ThemeCustomizerDrawer';
 
 /**
  * ScrollToTop Component
@@ -23,10 +24,12 @@ function ScrollToTop() {
 /**
  * MainLayout Component
  * Wraps page routes with shared Navbar, Main content wrapper, Footer,
- * 3D CursorUniverse background, and interactive Akash-OS VisitorTerminal.
+ * 3D CursorUniverse background, interactive Akash-OS VisitorTerminal,
+ * and the Adaptive Design System ThemeCustomizerDrawer.
  */
 function MainLayout() {
   const [terminalOpen, setTerminalOpen] = useState(false);
+  const [themeStudioOpen, setThemeStudioOpen] = useState(false);
 
   // Global Keyboard Shortcut: Backtick (`) or Ctrl+K / Cmd+K to toggle terminal
   useEffect(() => {
@@ -56,7 +59,10 @@ function MainLayout() {
       <CursorUniverse />
 
       {/* Navigation */}
-      <Navbar onOpenTerminal={() => setTerminalOpen(true)} />
+      <Navbar
+        onOpenTerminal={() => setTerminalOpen(true)}
+        onOpenThemeStudio={() => setThemeStudioOpen(true)}
+      />
 
       {/* Main Content */}
       <main className="main-content" id="main-content" style={{ position: 'relative', zIndex: 1 }}>
@@ -66,23 +72,44 @@ function MainLayout() {
       {/* Footer */}
       <Footer />
 
-      {/* Persistent Floating OS Terminal HUD Trigger */}
-      <button
-        type="button"
-        className="floating-terminal-trigger-btn"
-        onClick={() => setTerminalOpen(true)}
-        aria-label="Open Futuristic Akash-OS Visitor Terminal"
-        title="Open OS Terminal (Press ` or Ctrl+K)"
-      >
-        <Terminal size={14} className="text-accent" />
-        <span>Akash-OS</span>
-        <span className="terminal-hotkey-badge">~</span>
-      </button>
+      {/* Floating Action Triggers HUD */}
+      <div className="floating-hud-dock" aria-label="Quick actions dock">
+        {/* Design System Studio Trigger */}
+        <button
+          type="button"
+          className="floating-hud-btn floating-theme-trigger-btn"
+          onClick={() => setThemeStudioOpen(true)}
+          aria-label="Open Design System Studio"
+          title="Customize Theme & Design System"
+        >
+          <Palette size={14} className="text-accent" />
+          <span>Theme Studio</span>
+        </button>
+
+        {/* Persistent Floating OS Terminal HUD Trigger */}
+        <button
+          type="button"
+          className="floating-hud-btn floating-terminal-trigger-btn"
+          onClick={() => setTerminalOpen(true)}
+          aria-label="Open Futuristic Akash-OS Visitor Terminal"
+          title="Open OS Terminal (Press ` or Ctrl+K)"
+        >
+          <Terminal size={14} className="text-accent" />
+          <span>Akash-OS</span>
+          <span className="terminal-hotkey-badge">~</span>
+        </button>
+      </div>
 
       {/* Futuristic Visitor Terminal Modal */}
       <VisitorTerminal
         isOpen={terminalOpen}
         onClose={() => setTerminalOpen(false)}
+      />
+
+      {/* Slide-out Adaptive Design System Customizer Drawer */}
+      <ThemeCustomizerDrawer
+        isOpen={themeStudioOpen}
+        onClose={() => setThemeStudioOpen(false)}
       />
     </>
   );

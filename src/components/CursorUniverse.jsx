@@ -1,99 +1,101 @@
 import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 import gsap from 'gsap';
+import { useTheme } from '../context/useTheme';
+
+function hexToRgba(hex, alpha) {
+  try {
+    let c = hex.replace('#', '');
+    if (c.length === 3) c = c.split('').map((x) => x + x).join('');
+    const num = parseInt(c, 16);
+    return `rgba(${(num >> 16) & 255}, ${(num >> 8) & 255}, ${num & 255}, ${alpha})`;
+  } catch {
+    return `rgba(16, 185, 129, ${alpha})`;
+  }
+}
 
 /**
- * CursorUniverse Component
- * 3D Cursor-Reactive and Scroll-Transforming Universe.
- *
- * Resilient Architecture:
- * - Attempts Three.js WebGL rendering first with 1,000+ 3D particles & geometric nodes.
- * - If WebGL is unavailable (e.g., sandboxed browser, disabled hardware acceleration),
- *   gracefully falls back to high-performance HTML5 2D Canvas particle universe with GSAP.
- * - Zero uncaught exceptions, 100% universal compatibility.
+ * CursorReactiveUniverse Component
+ * Implements:
+ * 1. Three.js 3D constellation with cursor parallax & scroll transformation.
+ * 2. Adaptive to Design System: Reacts to Theme (Light/Dark), Accent Color, and Reduced Motion.
+ * 3. 2D Canvas fallback engine when WebGL is unavailable.
  */
 function CursorUniverse() {
-  const mountRef = useRef(null);
+  const containerRef = useRef(null);
+  const { theme, accent, animation, activeAccent } = useTheme();
 
   useEffect(() => {
-    // Check prefers-reduced-motion
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReducedMotion) return;
-
-    const container = mountRef.current;
+    const container = containerRef.current;
     if (!container) return;
 
     let cleanup = null;
 
-    // Helper: Test WebGL availability
-    const isWebGLAvailable = () => {
-      try {
-        const canvas = document.createElement('canvas');
-        return !!(
-          window.WebGLRenderingContext &&
-          (canvas.getContext('webgl') || canvas.getContext('experimental-webgl'))
-        );
-      } catch {
-        return false;
+    try {
+      // Test WebGL availability safely
+      const testCanvas = document.createElement('canvas');
+      const gl = testCanvas.getContext('webgl') || testCanvas.getContext('experimental-webgl');
+      if (gl) {
+        cleanup = initThreeUniverse(container, {
+          isDark: theme === 'dark',
+          accentHex: activeAccent.hex,
+          accentLightHex: activeAccent.lightHex,
+          isReducedMotion: animation === 'reduced',
+        });
+      } else {
+        cleanup = init2DCanvasUniverse(container, {
+          isDark: theme === 'dark',
+          accentHex: activeAccent.hex,
+          isReducedMotion: animation === 'reduced',
+        });
       }
-    };
-
-    if (isWebGLAvailable()) {
-      try {
-        cleanup = initThreeWebGL(container);
-      } catch (err) {
-        console.warn('WebGL init failed, using 2D Canvas fallback:', err);
-        cleanup = init2DCanvasUniverse(container);
-      }
-    } else {
-      cleanup = init2DCanvasUniverse(container);
+    } catch {
+      cleanup = init2DCanvasUniverse(container, {
+        isDark: theme === 'dark',
+        accentHex: activeAccent.hex,
+        isReducedMotion: animation === 'reduced',
+      });
     }
 
     return () => {
       if (cleanup) cleanup();
     };
-  }, []);
+  }, [theme, accent, animation, activeAccent]);
 
   return (
     <div
-      ref={mountRef}
-      className="cursor-universe-canvas-layer"
+      ref={containerRef}
+      className={`cursor-universe-canvas-container ${theme === 'light' ? 'light-mode-universe' : ''}`}
       aria-hidden="true"
     />
   );
 }
 
 // =============================================================================
-// Engine 1: Three.js WebGL 3D Universe
+// Engine 1: Three.js 3D Space Constellation & Floating Wireframe Objects
 // =============================================================================
-function initThreeWebGL(container) {
+function initThreeUniverse(container, { isDark, accentHex, accentLightHex, isReducedMotion }) {
   const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(
-    60,
-    window.innerWidth / window.innerHeight,
-    0.1,
-    1000
-  );
+  const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
   camera.position.z = 80;
 
-  const renderer = new THREE.WebGLRenderer({
-    alpha: true,
-    antialias: true,
-    powerPreference: 'high-performance',
-  });
+  const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, powerPreference: 'high-performance' });
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.domElement.style.position = 'absolute';
+  renderer.domElement.style.inset = '0';
+  renderer.domElement.style.pointerEvents = 'none';
   container.appendChild(renderer.domElement);
 
-  // Particle Constellation
-  const particleCount = 1000;
+  // Particle System
+  const particleCount = window.innerWidth < 768 ? 400 : 900;
   const geometry = new THREE.BufferGeometry();
   const positions = new Float32Array(particleCount * 3);
   const colors = new Float32Array(particleCount * 3);
 
-  const emeraldColor = new THREE.Color('#10b981');
-  const mintColor = new THREE.Color('#34d399');
-  const slateColor = new THREE.Color('#334155');
+  const mainColor = new THREE.Color(accentHex);
+  const lightColor = new THREE.Color(accentLightHex);
+  const neutralColor = isDark ? new THREE.Color('#334155') : new THREE.Color('#94a3b8');
 
   for (let i = 0; i < particleCount; i++) {
     positions[i * 3] = (Math.random() - 0.5) * 160;
@@ -101,7 +103,7 @@ function initThreeWebGL(container) {
     positions[i * 3 + 2] = (Math.random() - 0.5) * 120;
 
     const rand = Math.random();
-    const col = rand > 0.6 ? emeraldColor : rand > 0.3 ? mintColor : slateColor;
+    const col = rand > 0.5 ? mainColor : rand > 0.25 ? lightColor : neutralColor;
     colors[i * 3] = col.r;
     colors[i * 3 + 1] = col.g;
     colors[i * 3 + 2] = col.b;
@@ -116,19 +118,19 @@ function initThreeWebGL(container) {
   const ctx = canvas.getContext('2d');
   const grad = ctx.createRadialGradient(16, 16, 0, 16, 16, 16);
   grad.addColorStop(0, 'rgba(255, 255, 255, 1)');
-  grad.addColorStop(0.3, 'rgba(16, 185, 129, 0.8)');
+  grad.addColorStop(0.3, isDark ? accentHex : '#475569');
   grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
   ctx.fillStyle = grad;
   ctx.fillRect(0, 0, 32, 32);
 
   const texture = new THREE.CanvasTexture(canvas);
   const material = new THREE.PointsMaterial({
-    size: 1.8,
+    size: isDark ? 1.8 : 1.5,
     vertexColors: true,
     map: texture,
     transparent: true,
-    opacity: 0.75,
-    blending: THREE.AdditiveBlending,
+    opacity: isDark ? 0.75 : 0.45,
+    blending: isDark ? THREE.AdditiveBlending : THREE.NormalBlending,
     depthWrite: false,
   });
 
@@ -138,10 +140,10 @@ function initThreeWebGL(container) {
   // Geometric Nodes
   const icoGeo = new THREE.IcosahedronGeometry(12, 1);
   const icoMat = new THREE.MeshBasicMaterial({
-    color: 0x10b981,
+    color: mainColor,
     wireframe: true,
     transparent: true,
-    opacity: 0.18,
+    opacity: isDark ? 0.18 : 0.22,
   });
   const icosahedron = new THREE.Mesh(icoGeo, icoMat);
   icosahedron.position.set(38, -10, 10);
@@ -149,10 +151,10 @@ function initThreeWebGL(container) {
 
   const torusGeo = new THREE.TorusGeometry(18, 0.4, 8, 48);
   const torusMat = new THREE.MeshBasicMaterial({
-    color: 0x34d399,
+    color: lightColor,
     wireframe: true,
     transparent: true,
-    opacity: 0.12,
+    opacity: isDark ? 0.12 : 0.18,
   });
   const torus = new THREE.Mesh(torusGeo, torusMat);
   torus.position.set(-36, 15, -15);
@@ -162,6 +164,7 @@ function initThreeWebGL(container) {
   // Mouse Parallax
   const mouse = { x: 0, y: 0 };
   const handleMouseMove = (e) => {
+    if (isReducedMotion) return;
     const targetX = (e.clientX / window.innerWidth) * 2 - 1;
     const targetY = -(e.clientY / window.innerHeight) * 2 + 1;
     gsap.to(mouse, { x: targetX, y: targetY, duration: 0.8, ease: 'power2.out' });
@@ -170,6 +173,7 @@ function initThreeWebGL(container) {
 
   // Scroll Transformation
   const handleScroll = () => {
+    if (isReducedMotion) return;
     const totalScroll = document.documentElement.scrollHeight - window.innerHeight;
     const scrollProgress = totalScroll > 0 ? window.scrollY / totalScroll : 0;
     gsap.to(camera.position, {
@@ -189,17 +193,19 @@ function initThreeWebGL(container) {
     animationFrameId = requestAnimationFrame(animate);
     const elapsedTime = clock.getElapsedTime();
 
-    scene.rotation.y = mouse.x * 0.25;
-    scene.rotation.x = -mouse.y * 0.25;
+    if (!isReducedMotion) {
+      scene.rotation.y = mouse.x * 0.25;
+      scene.rotation.x = -mouse.y * 0.25;
 
-    icosahedron.rotation.x = elapsedTime * 0.12 + mouse.y * 0.5;
-    icosahedron.rotation.y = elapsedTime * 0.18 + mouse.x * 0.5;
+      icosahedron.rotation.x = elapsedTime * 0.12 + mouse.y * 0.5;
+      icosahedron.rotation.y = elapsedTime * 0.18 + mouse.x * 0.5;
 
-    torus.rotation.z = elapsedTime * 0.08;
-    torus.rotation.y = elapsedTime * 0.12;
+      torus.rotation.z = elapsedTime * 0.08;
+      torus.rotation.y = elapsedTime * 0.12;
 
-    particles.rotation.y = elapsedTime * 0.02 + mouse.x * 0.1;
-    particles.rotation.x = elapsedTime * 0.01 - mouse.y * 0.1;
+      particles.rotation.y = elapsedTime * 0.02 + mouse.x * 0.1;
+      particles.rotation.x = elapsedTime * 0.01 - mouse.y * 0.1;
+    }
 
     renderer.render(scene, camera);
   };
@@ -235,7 +241,7 @@ function initThreeWebGL(container) {
 // =============================================================================
 // Engine 2: 2D Canvas High-Performance Fallback
 // =============================================================================
-function init2DCanvasUniverse(container) {
+function init2DCanvasUniverse(container, { isDark, accentHex, isReducedMotion }) {
   const canvas = document.createElement('canvas');
   canvas.style.width = '100%';
   canvas.style.height = '100%';
@@ -256,11 +262,12 @@ function init2DCanvasUniverse(container) {
       vx: (Math.random() - 0.5) * 0.6,
       vy: (Math.random() - 0.5) * 0.6,
       size: Math.random() * 2 + 1,
-      color: Math.random() > 0.4 ? 'rgba(16, 185, 129, 0.7)' : 'rgba(52, 211, 153, 0.4)',
+      color: Math.random() > 0.4 ? accentHex : isDark ? '#334155' : '#94a3b8',
     });
   }
 
   const handleMouseMove = (e) => {
+    if (isReducedMotion) return;
     mouse.x = e.clientX;
     mouse.y = e.clientY;
   };
@@ -278,59 +285,29 @@ function init2DCanvasUniverse(container) {
     animationFrameId = requestAnimationFrame(render);
     ctx.clearRect(0, 0, width, height);
 
-    // Draw glowing cursor spot
-    const cursorGrad = ctx.createRadialGradient(
-      mouse.x,
-      mouse.y,
-      0,
-      mouse.x,
-      mouse.y,
-      mouse.radius
-    );
-    cursorGrad.addColorStop(0, 'rgba(16, 185, 129, 0.12)');
-    cursorGrad.addColorStop(1, 'rgba(16, 185, 129, 0)');
-    ctx.fillStyle = cursorGrad;
-    ctx.fillRect(0, 0, width, height);
+    if (!isReducedMotion) {
+      const cursorGrad = ctx.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, mouse.radius);
+      cursorGrad.addColorStop(0, hexToRgba(accentHex, isDark ? 0.12 : 0.08));
+      cursorGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+      ctx.fillStyle = cursorGrad;
+      ctx.fillRect(0, 0, width, height);
+    }
 
-    // Update and draw particles
     for (let i = 0; i < particles.length; i++) {
       const p = particles[i];
-      p.x += p.vx;
-      p.y += p.vy;
-
-      if (p.x < 0) p.x = width;
-      if (p.x > width) p.x = 0;
-      if (p.y < 0) p.y = height;
-      if (p.y > height) p.y = 0;
-
-      // Mouse repulsion/interaction
-      const dx = mouse.x - p.x;
-      const dy = mouse.y - p.y;
-      const dist = Math.sqrt(dx * dx + dy * dy);
-      if (dist < mouse.radius) {
-        const force = (mouse.radius - dist) / mouse.radius;
-        p.x -= (dx / dist) * force * 2;
-        p.y -= (dy / dist) * force * 2;
+      if (!isReducedMotion) {
+        p.x += p.vx;
+        p.y += p.vy;
+        if (p.x < 0) p.x = width;
+        if (p.x > width) p.x = 0;
+        if (p.y < 0) p.y = height;
+        if (p.y > height) p.y = 0;
       }
 
       ctx.fillStyle = p.color;
       ctx.beginPath();
       ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
       ctx.fill();
-
-      // Connect near particles with glowing lines
-      for (let j = i + 1; j < particles.length; j++) {
-        const p2 = particles[j];
-        const pDist = Math.hypot(p.x - p2.x, p.y - p2.y);
-        if (pDist < 90) {
-          ctx.strokeStyle = `rgba(16, 185, 129, ${0.2 * (1 - pDist / 90)})`;
-          ctx.lineWidth = 0.6;
-          ctx.beginPath();
-          ctx.moveTo(p.x, p.y);
-          ctx.lineTo(p2.x, p2.y);
-          ctx.stroke();
-        }
-      }
     }
   };
 

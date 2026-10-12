@@ -1,8 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
 import { NavLink, Link, useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, ArrowUpRight, Terminal } from 'lucide-react';
+import { Menu, X, ArrowUpRight, Terminal, Sun, Moon, Palette } from 'lucide-react';
 import { socialLinks } from '../data/socials';
+import { useTheme } from '../context/useTheme';
 
 const NAV_ITEMS = [
   { id: 'home', name: 'Home', path: '/' },
@@ -22,15 +23,20 @@ const NAV_ITEMS = [
  *    - Only the liquid glass notch / active indicator pill moves between options.
  *    - Spring-physics animated gliding when selecting or clicking tabs.
  *    - The notch can also be grabbed and dragged horizontally across options, snapping to the target.
- * 3. Mobile Responsive Drawer & Akash-OS Terminal launcher.
+ * 3. Adaptive Design System Quick-Controls:
+ *    - ☀️/🌙 Light & Dark appearance quick toggle.
+ *    - 🎨 Palette button to launch the full Design System Studio drawer.
+ * 4. Mobile Responsive Drawer & Akash-OS Terminal launcher.
  */
-function Navbar({ onOpenTerminal }) {
+function Navbar({ onOpenTerminal, onOpenThemeStudio }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [isDraggingNotch, setIsDraggingNotch] = useState(false);
   const [hoveredTabId, setHoveredTabId] = useState(null);
   const [waterRipples, setWaterRipples] = useState([]);
   const [dragConstraints, setDragConstraints] = useState({ left: -240, right: 240 });
+
+  const { isDark, toggleTheme } = useTheme();
 
   const navContainerRef = useRef(null);
   const itemRefs = useRef({});
@@ -269,6 +275,36 @@ function Navbar({ onOpenTerminal }) {
 
         {/* Desktop Header Actions */}
         <div className="navbar-actions-desktop">
+          {/* Quick Theme Toggle (Light / Dark) */}
+          <button
+            type="button"
+            className="btn btn-secondary btn-sm nav-glass-btn theme-quick-toggle-btn"
+            onClick={toggleTheme}
+            aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+            title={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+          >
+            {isDark ? (
+              <Sun size={15} className="text-accent" />
+            ) : (
+              <Moon size={15} className="text-accent" />
+            )}
+          </button>
+
+          {/* Theme Studio Palette Trigger */}
+          {onOpenThemeStudio && (
+            <button
+              type="button"
+              className="btn btn-secondary btn-sm nav-glass-btn theme-palette-trigger-btn"
+              onClick={onOpenThemeStudio}
+              aria-label="Open Design System Studio"
+              title="Personalize theme, accents & corners"
+            >
+              <Palette size={14} className="text-accent" />
+              <span className="hidden sm:inline">Theme</span>
+            </button>
+          )}
+
+          {/* Terminal Launcher */}
           {onOpenTerminal && (
             <button
               type="button"
@@ -282,6 +318,7 @@ function Navbar({ onOpenTerminal }) {
             </button>
           )}
 
+          {/* Contact CTA */}
           <Link to="/contact" className="btn btn-primary btn-sm nav-glass-cta">
             <span>Let's Talk</span>
             <ArrowUpRight size={15} aria-hidden="true" />
@@ -346,6 +383,34 @@ function Navbar({ onOpenTerminal }) {
               </nav>
 
               <div className="mobile-drawer-footer">
+                {/* Mobile Theme Toggle & Studio */}
+                <div className="mobile-theme-row mb-3">
+                  <button
+                    type="button"
+                    className="btn btn-secondary btn-block mb-2"
+                    onClick={() => {
+                      toggleTheme();
+                    }}
+                  >
+                    {isDark ? <Sun size={16} className="text-accent" /> : <Moon size={16} className="text-accent" />}
+                    <span>{isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}</span>
+                  </button>
+
+                  {onOpenThemeStudio && (
+                    <button
+                      type="button"
+                      className="btn btn-secondary btn-block"
+                      onClick={() => {
+                        closeMenu();
+                        onOpenThemeStudio();
+                      }}
+                    >
+                      <Palette size={16} className="text-accent" />
+                      <span>Design System Studio</span>
+                    </button>
+                  )}
+                </div>
+
                 {onOpenTerminal && (
                   <button
                     type="button"

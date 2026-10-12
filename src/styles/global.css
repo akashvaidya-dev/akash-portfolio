@@ -14,8 +14,7 @@ html {
   font-family: var(--font-sans);
   font-size: 16px;
   line-height: var(--lh-normal);
-  color-scheme: dark;
-  scroll-behavior: smooth;
+    scroll-behavior: smooth;
   background-color: var(--bg-primary);
   color: var(--text-primary);
   -webkit-font-smoothing: antialiased;
@@ -34,18 +33,19 @@ body {
   position: relative;
 }
 
-/* Subtle background grid pattern */
+/* Subtle background grid pattern - adaptive to theme and accent */
 body::before {
-  content: '';
+  content: "";
   position: fixed;
   inset: 0;
   pointer-events: none;
   background-image: 
-    radial-gradient(circle at 50% 0%, rgba(16, 185, 129, 0.05) 0%, transparent 65%),
-    linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+    radial-gradient(circle at 50% 0%, rgba(var(--accent-rgb), 0.07) 0%, transparent 65%),
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
   background-size: 100% 100%, 48px 48px, 48px 48px;
   z-index: 0;
+  transition: background-image var(--transition-normal);
 }
 
 #root {
