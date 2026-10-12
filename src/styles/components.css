@@ -6625,3 +6625,393 @@
   font-size: 0.8rem;
   color: var(--text-muted);
 }
+
+/* ==========================================================================
+   Death Note 3D Realistic Book (pakagronglb/animated-book-slider-threejs) Styles
+   ========================================================================== */
+
+.death-note-view-switch-bar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.view-segmented-group {
+  display: inline-flex;
+  background: var(--bg-card);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-full);
+  padding: 3px;
+  box-shadow: var(--shadow-sm);
+}
+
+.view-segment-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.view-segment-btn:hover {
+  color: var(--text-primary);
+}
+
+.view-segment-btn.active {
+  background: var(--accent-primary);
+  color: var(--text-inverse);
+  box-shadow: 0 2px 8px var(--accent-glow);
+}
+
+/* 3D Realistic Book Container */
+.death-note-3d-wrapper {
+  max-width: 1160px;
+  margin: 0 auto;
+}
+
+.death-note-3d-container {
+  position: relative;
+  background: #090c12;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 
+    0 24px 60px rgba(0, 0, 0, 0.7),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  background-image: 
+    radial-gradient(circle at 50% 15%, rgba(220, 38, 38, 0.12), transparent 60%),
+    radial-gradient(circle at 50% 85%, rgba(var(--accent-rgb), 0.08), transparent 70%),
+    linear-gradient(180deg, #101520 0%, #06080c 100%);
+}
+
+[data-theme="light"] .death-note-3d-container {
+  background: #171d27;
+  border-color: rgba(15, 23, 42, 0.25);
+  background-image: 
+    radial-gradient(circle at 50% 15%, rgba(220, 38, 38, 0.16), transparent 60%),
+    radial-gradient(circle at 50% 85%, rgba(var(--accent-rgb), 0.12), transparent 70%),
+    linear-gradient(180deg, #222b3a 0%, #111622 100%);
+}
+
+/* Top Floating HUD */
+.death-note-3d-topbar {
+  position: absolute;
+  top: 14px;
+  left: 16px;
+  right: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.d3d-badge-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  background: rgba(9, 12, 18, 0.82);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-full);
+  pointer-events: auto;
+}
+
+.d3d-badge-pulse {
+  width: 8px;
+  height: 8px;
+  background: #ef4444;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #ef4444;
+  animation: pulse 1.8s infinite;
+}
+
+.d3d-badge-text {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #f1f5f9;
+  letter-spacing: 0.03em;
+}
+
+.d3d-status-pill {
+  padding: 2px 8px;
+  background: rgba(220, 38, 38, 0.2);
+  border: 1px solid rgba(220, 38, 38, 0.4);
+  color: #fca5a5;
+  border-radius: var(--radius-full);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+}
+
+.d3d-top-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  pointer-events: auto;
+}
+
+.d3d-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 11px;
+  background: rgba(13, 17, 24, 0.82);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-full);
+  color: #f8fafc;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+}
+
+.d3d-icon-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.25);
+  transform: translateY(-1px);
+}
+
+.d3d-active-btn {
+  background: rgba(220, 38, 38, 0.25);
+  border-color: #ef4444;
+  color: #fca5a5;
+}
+
+.d3d-inspect-btn {
+  background: rgba(var(--accent-rgb), 0.18);
+  border-color: var(--accent-primary);
+  color: #f8fafc;
+  font-weight: 600;
+}
+
+.d3d-inspect-btn:hover {
+  background: rgba(var(--accent-rgb), 0.3);
+  box-shadow: 0 0 14px var(--accent-glow);
+}
+
+/* 3D Canvas */
+.death-note-webgl-canvas {
+  width: 100%;
+  height: 580px;
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .death-note-webgl-canvas {
+    height: 440px;
+  }
+  .d3d-badge-text {
+    display: none;
+  }
+}
+
+/* Floating Hint */
+.d3d-interaction-hint {
+  position: absolute;
+  top: 70px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 4px 14px;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-full);
+  color: #94a3b8;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.d3d-interaction-hint.hint-dim {
+  opacity: 0.2;
+}
+
+/* Bottom Scrubber Dock */
+.death-note-3d-scrubber {
+  position: absolute;
+  bottom: 14px;
+  left: 16px;
+  right: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  z-index: 10;
+  pointer-events: auto;
+}
+
+.d3d-nav-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(15, 20, 28, 0.88);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #f8fafc;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.d3d-nav-arrow:hover:not(:disabled) {
+  background: rgba(220, 38, 38, 0.3);
+  border-color: #ef4444;
+  transform: scale(1.08);
+}
+
+.d3d-nav-arrow:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.d3d-pills-track {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 8px;
+  background: rgba(10, 14, 20, 0.85);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-full);
+  max-width: 82%;
+  overflow-x: auto;
+}
+
+.d3d-pills-track::-webkit-scrollbar {
+  display: none;
+}
+
+.d3d-page-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 12px;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--radius-full);
+  color: #94a3b8;
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all var(--transition-fast);
+}
+
+.d3d-page-pill:hover {
+  color: #f8fafc;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.d3d-page-pill.d3d-pill-active {
+  background: #dc2626;
+  border-color: #ef4444;
+  color: #ffffff;
+  box-shadow: 0 0 12px rgba(220, 38, 38, 0.5);
+  transform: scale(1.03);
+}
+
+.pill-icon {
+  font-size: 0.8rem;
+}
+
+/* 3D Active Case Synchronized Dossier Card Below 3D Book */
+.d3d-active-case-card {
+  margin-top: var(--space-4);
+  padding: var(--space-5) var(--space-6);
+  background: var(--bg-card);
+  border: 1px solid var(--border-medium);
+  border-left: 4px solid #ef4444;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.d3d-card-header-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.d3d-case-badge-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+}
+
+.d3d-case-id {
+  color: var(--text-accent);
+  font-weight: 800;
+}
+
+.d3d-case-subsystem {
+  color: var(--text-secondary);
+}
+
+.d3d-card-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.d3d-card-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.d3d-card-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.d3d-card-summary {
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.d3d-snippet-preview {
+  background: #090d14;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 10px 14px;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: #e2e8f0;
+  overflow-x: auto;
+  max-height: 120px;
+}
