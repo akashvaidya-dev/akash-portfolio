@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Bookmark,
@@ -24,7 +24,7 @@ import { bugCases, bugLogRules, bugCategories } from '../data/bugs';
 export default function BugDeathNote() {
   const [viewMode, setViewMode] = useState('3d-book'); // '3d-book' (Default) | 'dossier-roster'
   const [selectedCaseId, setSelectedCaseId] = useState(bugCases[0].id);
-  const [bookPageIndex, setBookPageIndex] = useState(2); // Start at Case #001
+  const [bookPageIndex, setBookPageIndex] = useState(0); // Start at Front Cover (Notebook closed)
   const [activeCategory, setActiveCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [showRules, setShowRules] = useState(false);
@@ -66,8 +66,8 @@ export default function BugDeathNote() {
 
   const currentIndex = filteredCases.findIndex((c) => c.id === activeCase.id);
 
-  // Synchronize 3D book page when page changes
-  const handle3DPageChange = (newPage) => {
+  // Synchronize 3D book page when page changes (memoized to keep stable reference)
+  const handle3DPageChange = useCallback((newPage) => {
     setBookPageIndex(newPage);
     if (newPage >= 2 && newPage <= 7) {
       const targetCase = bugCases[newPage - 2];
@@ -75,12 +75,12 @@ export default function BugDeathNote() {
         setSelectedCaseId(targetCase.id);
       }
     }
-  };
+  }, []);
 
-  const handleInspectCase = (caseId) => {
+  const handleInspectCase = useCallback((caseId) => {
     setSelectedCaseId(caseId);
     setViewMode('dossier-roster');
-  };
+  }, []);
 
   const handleNextCase = () => {
     if (filteredCases.length === 0) return;

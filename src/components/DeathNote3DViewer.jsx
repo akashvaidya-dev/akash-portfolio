@@ -7,8 +7,6 @@ import {
   RotateCcw,
   ChevronLeft,
   ChevronRight,
-  Play,
-  Pause,
   BookOpen,
 } from 'lucide-react';
 import { bugCases } from '../data/bugs';
@@ -25,6 +23,7 @@ import {
 /**
  * Animated 3D Book Slider based on pakagronglb/animated-book-slider-threejs
  * Realistic Death Note skinning, bone bending page-turning curves, and interactive 3D physics.
+ * Configured with free OrbitControls zoom/pan and stable Three.js lifecycle to prevent loop resets.
  */
 
 const insideCurveStrength = 0.18;
@@ -61,7 +60,6 @@ export default function DeathNote3DViewer({
   const [internalPage, setInternalPage] = useState(currentPage);
   const activePage = onPageChange ? currentPage : internalPage;
   const [soundEnabled, setSoundEnabled] = useState(true);
-  const [isPlaying, setIsPlaying] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
 
   // References for Three.js state
@@ -71,21 +69,33 @@ export default function DeathNote3DViewer({
   const controlsRef = useRef(null);
   const pagesDataRef = useRef([]);
   const bookGroupRef = useRef(null);
-  const delayedPageRef = useRef(0);
-  const targetPageRef = useRef(0);
+  const delayedPageRef = useRef(currentPage || 0);
+  const targetPageRef = useRef(currentPage || 0);
   const turnedAtRef = useRef({});
   const lastOpenedRef = useRef({});
   const animationFrameIdRef = useRef(null);
   const audioRef = useRef(null);
 
-  // Sync external page changes
+  // Keep callback refs stable across parent re-renders
+  const onPageChangeRef = useRef(onPageChange);
   useEffect(() => {
-    targetPageRef.current = currentPage;
+    onPageChangeRef.current = onPageChange;
+  }, [onPageChange]);
+
+  const soundEnabledRef = useRef(soundEnabled);
+  useEffect(() => {
+    soundEnabledRef.current = soundEnabled;
+  }, [soundEnabled]);
+
+  // Sync external page changes into targetPageRef without remounting Three.js
+  useEffect(() => {
+    const clamped = Math.max(0, Math.min(currentPage, 8));
+    targetPageRef.current = clamped;
   }, [currentPage]);
 
   // Audio effect player
   const playFlipSound = useCallback(() => {
-    if (!soundEnabled) return;
+    if (!soundEnabledRef.current) return;
     try {
       if (!audioRef.current) {
         audioRef.current = new Audio('/audios/page-flip.mp3');
@@ -96,30 +106,18 @@ export default function DeathNote3DViewer({
     } catch {
       // Audio autoplay restrictions fallback
     }
-  }, [soundEnabled]);
+  }, []);
 
-  // Change page handler
-  const setPage = useCallback(
-    (nextPage) => {
-      const clamped = Math.max(0, Math.min(nextPage, 8));
-      targetPageRef.current = clamped;
-      if (onPageChange) {
-        onPageChange(clamped);
-      } else {
-        setInternalPage(clamped);
-      }
-    },
-    [onPageChange]
-  );
-
-  // Auto-play interval
-  useEffect(() => {
-    if (!isPlaying) return;
-    const interval = setInterval(() => {
-      setPage((targetPageRef.current + 1) % 9);
-    }, 4000);
-    return () => clearInterval(interval);
-  }, [isPlaying, setPage]);
+  // Stable change page handler
+  const setPage = useCallback((nextPage) => {
+    const clamped = Math.max(0, Math.min(nextPage, 8));
+    targetPageRef.current = clamped;
+    if (onPageChangeRef.current) {
+      onPageChangeRef.current(clamped);
+    } else {
+      setInternalPage(clamped);
+    }
+  }, []);
 
   // Keyboard navigation
   useEffect(() => {
@@ -134,7 +132,7 @@ export default function DeathNote3DViewer({
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [setPage]);
 
-  // Three.js Mount Lifecycle
+  // Three.js Mount Lifecycle (Runs once to preserve camera and state)
   useEffect(() => {
     const container = mountRef.current;
     if (!container || !isWebGLSupported) return;
@@ -175,14 +173,21 @@ export default function DeathNote3DViewer({
       return;
     }
 
-    // 4. OrbitControls
+    // 4. OrbitControls: Fully free zoom, pan, and rotation
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
     controls.dampingFactor = 0.05;
-    controls.maxPolarAngle = Math.PI / 2 + 0.1;
-    controls.minDistance = 2.4;
-    controls.maxDistance = 5.8;
-    controls.enablePan = false;
+    controls.enableZoom = true;
+    controls.zoomSpeed = 1.0;
+    // Allow generous close-up and far zoom so user can zoom as much as they want
+    controls.minDistance = 0.4;
+    controls.maxDistance = 25.0;
+    // Allow panning freely
+    controls.enablePan = true;
+    controls.panSpeed = 1.0;
+    // Full angular range
+    controls.maxPolarAngle = Math.PI - 0.02;
+    controls.minPolarAngle = 0.02;
     controlsRef.current = controls;
 
     // 5. Lighting
@@ -249,17 +254,17 @@ export default function DeathNote3DViewer({
     const textures = [
       // Page 0: Front Cover & Inside Cover
       { front: createCoverTexture(), back: createInsideCoverTexture(), isCover: true },
-      // Page 1: How To Use It (Rules I, II & Rules III, IV)
+      // Page 1: How To Use It (Rules Spread 1 & 2)
       { front: createRulesTexturePart1(), back: createRulesTexturePart2() },
-      // Page 2: Case #001 (Riverpod Auth Stampede)
+      // Page 2: Case #001 (Zombie Intersection Observer)
       { front: createCaseLeftPageTexture(bugCases[0]), back: createCaseRightPageTexture(bugCases[0]) },
-      // Page 3: Case #002 (Zombie Thermal Buffer)
+      // Page 3: Case #002 (Silent Print Spooler Deadlock)
       { front: createCaseLeftPageTexture(bugCases[1]), back: createCaseRightPageTexture(bugCases[1]) },
-      // Page 4: Case #003 (Phantom Hive Overwrite)
+      // Page 4: Case #003 (Phantom IndexedDB Mutex Lock)
       { front: createCaseLeftPageTexture(bugCases[2]), back: createCaseRightPageTexture(bugCases[2]) },
-      // Page 5: Case #004 (Runaway WebSocket Storm)
+      // Page 5: Case #004 (Rogue Re-render Cyclone in Chat)
       { front: createCaseLeftPageTexture(bugCases[3]), back: createCaseRightPageTexture(bugCases[3]) },
-      // Page 6: Case #005 (Teleporting GPS Pin)
+      // Page 6: Case #005 (The Timezone Ghost in Geofencing)
       { front: createCaseLeftPageTexture(bugCases[4]), back: createCaseRightPageTexture(bugCases[4]) },
       // Page 7: Case #006 (Vanishing Parental Signature)
       { front: createCaseLeftPageTexture(bugCases[5]), back: createCaseRightPageTexture(bugCases[5]) },
@@ -272,7 +277,6 @@ export default function DeathNote3DViewer({
     let roughnessMap = null;
     textureLoader.load('/textures/book-cover-roughness.jpg', (tex) => {
       roughnessMap = tex;
-      // Apply roughness to covers
       if (pagesDataRef.current[0]) {
         pagesDataRef.current[0].mesh.material[4].roughnessMap = tex;
         pagesDataRef.current[0].mesh.material[4].needsUpdate = true;
@@ -357,11 +361,32 @@ export default function DeathNote3DViewer({
 
     pagesDataRef.current = pagesData;
 
-    // 10. Click Raycasting to turn pages
+    // 10. Click Raycasting to turn pages (distinguishing drag/orbit from a clean click)
     const raycaster = new THREE.Raycaster();
     const mouse = new THREE.Vector2();
 
-    const handleCanvasClick = (e) => {
+    let isDragging = false;
+    let downPos = { x: 0, y: 0 };
+    let downTime = 0;
+
+    const handlePointerDown = (e) => {
+      downPos = { x: e.clientX, y: e.clientY };
+      downTime = Date.now();
+      isDragging = false;
+    };
+
+    const handlePointerMove = (e) => {
+      if (Math.hypot(e.clientX - downPos.x, e.clientY - downPos.y) > 6) {
+        isDragging = true;
+      }
+    };
+
+    const handlePointerUp = (e) => {
+      // If the user was dragging/orbiting the camera or holding down, do not turn page
+      if (isDragging || Date.now() - downTime > 320) {
+        return;
+      }
+
       const rect = renderer.domElement.getBoundingClientRect();
       mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
       mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
@@ -372,17 +397,27 @@ export default function DeathNote3DViewer({
 
       if (intersects.length > 0) {
         const point = intersects[0].point;
-        // If clicked on left side of open book -> previous page
-        // If clicked on right side of open book -> next page
-        if (point.x < 0) {
-          setPage(targetPageRef.current - 1);
+        if (targetPageRef.current === 0) {
+          // Closed front cover: clicking opens the notebook
+          setPage(1);
+        } else if (targetPageRef.current === 8) {
+          // Closed back cover: clicking returns to case pages
+          setPage(7);
         } else {
-          setPage(targetPageRef.current + 1);
+          // Open spread: left side turns back, right side turns forward
+          if (point.x < 0) {
+            setPage(targetPageRef.current - 1);
+          } else {
+            setPage(targetPageRef.current + 1);
+          }
         }
       }
     };
 
-    renderer.domElement.addEventListener('click', handleCanvasClick);
+    const domElement = renderer.domElement;
+    domElement.addEventListener('pointerdown', handlePointerDown);
+    domElement.addEventListener('pointermove', handlePointerMove);
+    domElement.addEventListener('pointerup', handlePointerUp);
 
     // 11. Render Animation Loop
     const clock = new THREE.Clock();
@@ -392,14 +427,16 @@ export default function DeathNote3DViewer({
       animationFrameIdRef.current = requestAnimationFrame(animate);
 
       const delta = Math.min(clock.getDelta(), 0.1);
-      const elapsedTime = clock.getElapsedTime();
 
-      // Controls update
+      // Controls update for smooth damping
       controls.update();
 
-      // Smooth step towards targetPage
+      // Smooth step towards targetPage without jarring jump
       stepTimer += delta;
-      if (stepTimer > (Math.abs(targetPageRef.current - delayedPageRef.current) > 2 ? 0.05 : 0.16)) {
+      const pageDiff = Math.abs(targetPageRef.current - delayedPageRef.current);
+      const stepThreshold = pageDiff > 2 ? 0.05 : 0.16;
+
+      if (stepTimer > stepThreshold) {
         stepTimer = 0;
         if (delayedPageRef.current < targetPageRef.current) {
           delayedPageRef.current += 1;
@@ -413,10 +450,10 @@ export default function DeathNote3DViewer({
       const delayedPage = delayedPageRef.current;
       const isBookClosed = delayedPage === 0 || delayedPage === pageCount;
 
-      // Gentle floating / breathing idle motion
+      // Keep book group stationary and stable (no artificial looping floating)
       if (bookGroupRef.current) {
-        bookGroupRef.current.position.y = Math.sin(elapsedTime * 1.4) * 0.025;
-        bookGroupRef.current.rotation.x = Math.sin(elapsedTime * 0.9) * 0.015;
+        bookGroupRef.current.position.y = 0;
+        bookGroupRef.current.rotation.x = 0;
       }
 
       // Animate Each Page & Bones
@@ -509,13 +546,15 @@ export default function DeathNote3DViewer({
     // Cleanup on unmount
     return () => {
       window.removeEventListener('resize', handleResize);
-      if (renderer) {
-        if (renderer.domElement) {
-          renderer.domElement.removeEventListener('click', handleCanvasClick);
-          if (container.contains(renderer.domElement)) {
-            container.removeChild(renderer.domElement);
-          }
+      if (domElement) {
+        domElement.removeEventListener('pointerdown', handlePointerDown);
+        domElement.removeEventListener('pointermove', handlePointerMove);
+        domElement.removeEventListener('pointerup', handlePointerUp);
+        if (container.contains(domElement)) {
+          container.removeChild(domElement);
         }
+      }
+      if (renderer) {
         renderer.dispose();
       }
       cancelAnimationFrame(animationFrameIdRef.current);
@@ -700,8 +739,9 @@ export default function DeathNote3DViewer({
   const handleResetCamera = () => {
     if (!cameraRef.current || !controlsRef.current) return;
     cameraRef.current.position.set(-0.35, 1.25, 4.3);
+    controlsRef.current.target.set(0, 0, 0);
     cameraRef.current.lookAt(0, 0, 0);
-    controlsRef.current.reset();
+    controlsRef.current.update();
   };
 
   // Human-readable page titles for scrubber
@@ -772,23 +812,12 @@ export default function DeathNote3DViewer({
             {soundEnabled ? <Volume2 size={15} /> : <VolumeX size={15} />}
           </button>
 
-          {/* Auto-play flip toggle */}
-          <button
-            type="button"
-            className={`d3d-icon-btn ${isPlaying ? 'd3d-active-btn' : ''}`}
-            onClick={() => setIsPlaying((prev) => !prev)}
-            title={isPlaying ? 'Pause auto turn' : 'Auto turn pages'}
-            aria-label="Toggle autoplay"
-          >
-            {isPlaying ? <Pause size={14} /> : <Play size={14} />}
-          </button>
-
           {/* Reset View */}
           <button
             type="button"
             className="d3d-icon-btn"
             onClick={handleResetCamera}
-            title="Reset 3D camera angle"
+            title="Reset 3D camera angle & zoom"
             aria-label="Reset camera"
           >
             <RotateCcw size={14} />
@@ -819,7 +848,7 @@ export default function DeathNote3DViewer({
 
       {/* Floating 3D Interaction Hint */}
       <div className={`d3d-interaction-hint ${isHovered ? 'hint-dim' : ''}`}>
-        <span>Drag to orbit 3D book · Click pages or buttons below to turn</span>
+        <span>Drag to orbit · Scroll to zoom freely · Click pages or pills to turn</span>
       </div>
 
       {/* Quick Navigation Scrubber Dock */}
