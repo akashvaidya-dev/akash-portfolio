@@ -5681,3 +5681,947 @@
   background: #0f172a;
   border-color: rgba(255, 255, 255, 0.2);
 }
+
+/* ==========================================================================
+   Death Note — The Bug Log Component Styles
+   ========================================================================== */
+
+.bug-death-note-section {
+  position: relative;
+  overflow: hidden;
+}
+
+.death-note-header-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: var(--space-8);
+}
+
+.death-note-ribbon-bar {
+  margin-top: var(--space-4);
+}
+
+.ribbon-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 8px 18px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-full);
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  box-shadow: var(--shadow-sm);
+}
+
+.ribbon-action-btn:hover,
+.ribbon-action-btn.ribbon-active {
+  border-color: var(--accent-primary);
+  background: var(--accent-bg);
+  box-shadow: 0 0 15px var(--accent-glow);
+}
+
+.ribbon-pill {
+  padding: 2px 8px;
+  background: rgba(220, 38, 38, 0.15);
+  border: 1px solid rgba(220, 38, 38, 0.4);
+  color: #ef4444;
+  border-radius: var(--radius-full);
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+
+/* Collapsible Rules Dossier */
+.death-note-rules-dossier {
+  overflow: hidden;
+  margin-bottom: var(--space-8);
+}
+
+.rules-dossier-inner {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: var(--space-6);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-medium);
+  border-left: 4px solid #ef4444;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+}
+
+.rules-dossier-title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
+}
+
+.rules-dossier-title h4 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.rules-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--space-4);
+}
+
+.rule-card {
+  padding: var(--space-4);
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.rule-number-tag {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #ef4444;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.rule-text {
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+/* ==========================================================================
+   The Tactile Notebook Book Chassis
+   ========================================================================== */
+
+.death-note-book-wrapper {
+  max-width: 1160px;
+  margin: 0 auto;
+  perspective: 1200px;
+}
+
+.death-note-book-chassis {
+  position: relative;
+  background: #080b10;
+  border: 2px solid rgba(255, 255, 255, 0.12);
+  border-radius: 18px;
+  padding: 18px;
+  box-shadow: 
+    0 25px 60px rgba(0, 0, 0, 0.75),
+    0 0 0 1px rgba(0, 0, 0, 0.8),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  background-image: 
+    radial-gradient(ellipse at 50% 0%, rgba(var(--accent-rgb), 0.08), transparent 70%),
+    linear-gradient(180deg, #121822 0%, #0a0d13 100%);
+}
+
+[data-theme="light"] .death-note-book-chassis {
+  background: #1e2532;
+  border-color: rgba(15, 23, 42, 0.2);
+  background-image: 
+    radial-gradient(ellipse at 50% 0%, rgba(var(--accent-rgb), 0.12), transparent 70%),
+    linear-gradient(180deg, #2a3446 0%, #171d29 100%);
+}
+
+/* Top Bookmark Ribbon */
+.book-ribbon-tab {
+  position: absolute;
+  top: -10px;
+  right: 60px;
+  width: 24px;
+  height: 52px;
+  background: #dc2626;
+  border-radius: 2px 2px 0 0;
+  cursor: pointer;
+  z-index: 10;
+  box-shadow: 0 4px 10px rgba(220, 38, 38, 0.4);
+  transition: transform var(--transition-fast);
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 82%, 0 100%);
+}
+
+.book-ribbon-tab:hover {
+  transform: translateY(4px);
+}
+
+.ribbon-tape {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.25) 0%, transparent 60%);
+}
+
+/* Binder Spine Stitch Marks */
+.notebook-spine-stitch {
+  position: absolute;
+  top: 36px;
+  bottom: 36px;
+  left: 358px;
+  width: 2px;
+  background: repeating-linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.15) 0,
+    rgba(255, 255, 255, 0.15) 8px,
+    transparent 8px,
+    transparent 16px
+  );
+  z-index: 5;
+  pointer-events: none;
+}
+
+@media (max-width: 1024px) {
+  .notebook-spine-stitch {
+    display: none;
+  }
+}
+
+/* The Open Spread Grid */
+.notebook-spread-grid {
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  gap: 18px;
+  min-height: 720px;
+}
+
+@media (max-width: 1024px) {
+  .notebook-spread-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
+
+/* General Notebook Page Surfaces */
+.notebook-page {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: inset 0 0 25px rgba(0, 0, 0, 0.25);
+  background-image: 
+    linear-gradient(90deg, rgba(220, 38, 38, 0.08) 1px, transparent 1px),
+    repeating-linear-gradient(transparent, transparent 27px, rgba(255, 255, 255, 0.03) 28px);
+  background-size: 100% 100%, 100% 28px;
+}
+
+[data-theme="light"] .notebook-page {
+  background: #fdfcf9;
+  border-color: rgba(15, 23, 42, 0.12);
+  box-shadow: inset 0 0 25px rgba(15, 23, 42, 0.04);
+  background-image: 
+    linear-gradient(90deg, rgba(220, 38, 38, 0.15) 1px, transparent 1px),
+    repeating-linear-gradient(transparent, transparent 27px, rgba(15, 23, 42, 0.04) 28px);
+  background-size: 100% 100%, 100% 28px;
+}
+
+/* ==========================================================================
+   Left Page: Case Directory & Investigation Index
+   ========================================================================== */
+
+.notebook-left-page {
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-5);
+  border-right: 2px solid var(--border-medium);
+}
+
+.page-header-band {
+  border-bottom: 2px solid var(--border-subtle);
+  padding-bottom: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+
+.page-badge-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.page-serial {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--text-accent);
+}
+
+.page-counter-badge {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  padding: 1px 6px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+}
+
+.page-main-heading {
+  font-size: 1.15rem;
+  font-weight: 800;
+  font-family: var(--font-mono);
+  color: var(--text-primary);
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+/* Search Box */
+.notebook-search-box {
+  position: relative;
+  margin-bottom: var(--space-3);
+}
+
+.notebook-search-box .search-icon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+}
+
+.notebook-search-input {
+  width: 100%;
+  padding: 8px 28px 8px 30px;
+  background: var(--bg-input);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  font-size: 0.8rem;
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  outline: none;
+  transition: border-color var(--transition-fast);
+}
+
+.notebook-search-input:focus {
+  border-color: var(--accent-primary);
+}
+
+.search-clear-btn {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1rem;
+  cursor: pointer;
+  line-height: 1;
+}
+
+/* Category Tabs */
+.notebook-category-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-bottom: var(--space-4);
+}
+
+.notebook-cat-btn {
+  padding: 3px 8px;
+  font-size: 0.72rem;
+  font-family: var(--font-mono);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.notebook-cat-btn:hover {
+  color: var(--text-primary);
+  border-color: var(--border-medium);
+}
+
+.notebook-cat-btn.active {
+  background: var(--accent-primary);
+  color: var(--text-inverse);
+  border-color: var(--accent-primary);
+  font-weight: 700;
+}
+
+/* Case Directory List */
+.notebook-case-roster {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-right: 4px;
+  max-height: 520px;
+}
+
+.notebook-case-roster::-webkit-scrollbar {
+  width: 4px;
+}
+
+.notebook-case-roster::-webkit-scrollbar-thumb {
+  background: var(--border-medium);
+  border-radius: 4px;
+}
+
+.roster-item-btn {
+  text-align: left;
+  padding: 10px 12px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  transition: all var(--transition-fast);
+}
+
+.roster-item-btn:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--border-medium);
+  transform: translateX(2px);
+}
+
+.roster-item-btn.roster-item-active {
+  background: var(--accent-bg);
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 12px var(--accent-glow);
+}
+
+.roster-item-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.roster-case-num {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--text-accent);
+}
+
+.roster-stamp-tag {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 800;
+  padding: 1px 6px;
+  border-radius: 3px;
+  letter-spacing: 0.04em;
+}
+
+.stamp-eliminated {
+  background: rgba(220, 38, 38, 0.12);
+  border: 1px solid rgba(220, 38, 38, 0.4);
+  color: #ef4444;
+}
+
+.stamp-pending {
+  background: rgba(245, 158, 11, 0.12);
+  border: 1px solid rgba(245, 158, 11, 0.4);
+  color: #f59e0b;
+}
+
+.roster-item-title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.3;
+  margin: 2px 0;
+}
+
+.roster-title-striked {
+  text-decoration: line-through;
+  text-decoration-color: #ef4444;
+  text-decoration-thickness: 2px;
+}
+
+.roster-item-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+}
+
+/* Empty Search */
+.notebook-empty-search {
+  padding: var(--space-8) var(--space-4);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  color: var(--text-muted);
+}
+
+.notebook-empty-search .empty-icon {
+  opacity: 0.4;
+}
+
+/* Navigation Footer */
+.notebook-left-footer {
+  margin-top: var(--space-4);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--border-subtle);
+}
+
+.roster-nav-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-page-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.nav-page-btn:hover:not(:disabled) {
+  border-color: var(--accent-primary);
+  color: var(--text-primary);
+}
+
+.nav-page-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.roster-page-indicator {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+/* ==========================================================================
+   Right Page: Inscribed Case File & Resolution Dossier
+   ========================================================================== */
+
+.notebook-right-page {
+  padding: var(--space-6) var(--space-7);
+  overflow-y: auto;
+  max-height: 760px;
+}
+
+@media (max-width: 768px) {
+  .notebook-right-page {
+    padding: var(--space-5);
+  }
+}
+
+.case-dossier-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+/* Header Strip */
+.case-header-strip {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  border-bottom: 2px dashed var(--border-medium);
+  padding-bottom: var(--space-3);
+}
+
+.case-serial-block {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.case-file-no {
+  font-weight: 800;
+  color: var(--text-accent);
+}
+
+.case-project-name {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.case-dot {
+  color: var(--text-muted);
+}
+
+.severity-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.severity-critical {
+  background: rgba(220, 38, 38, 0.15);
+  border: 1px solid rgba(220, 38, 38, 0.4);
+  color: #ef4444;
+}
+
+.severity-high {
+  background: rgba(245, 158, 11, 0.15);
+  border: 1px solid rgba(245, 158, 11, 0.4);
+  color: #f59e0b;
+}
+
+.severity-medium {
+  background: rgba(59, 130, 246, 0.15);
+  border: 1px solid rgba(59, 130, 246, 0.4);
+  color: #3b82f6;
+}
+
+/* Headline Section */
+.case-headline-section {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.headline-meta-row {
+  display: flex;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-accent);
+}
+
+.headline-title-wrap {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.case-headline-title {
+  font-size: 1.55rem;
+  font-weight: 800;
+  font-family: var(--font-sans);
+  color: var(--text-primary);
+  margin: 0;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  transition: all var(--transition-fast);
+}
+
+.case-headline-title.title-struck {
+  text-decoration: line-through;
+  text-decoration-color: #ef4444;
+  text-decoration-thickness: 3px;
+}
+
+/* The Death Note ELIMINATED Stamp */
+.case-elimination-stamp {
+  flex-shrink: 0;
+  transform: rotate(-10deg);
+  user-select: none;
+  pointer-events: none;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.case-elimination-stamp.stamp-visible {
+  opacity: 1;
+  transform: rotate(-10deg) scale(1);
+}
+
+.case-elimination-stamp.stamp-hidden {
+  opacity: 0;
+  transform: rotate(15deg) scale(0.6);
+}
+
+.stamp-inner {
+  padding: 4px;
+  background: rgba(220, 38, 38, 0.08);
+  border: 3px double #ef4444;
+  border-radius: 6px;
+  box-shadow: 0 0 15px rgba(220, 38, 38, 0.25);
+}
+
+.stamp-border {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid #ef4444;
+  padding: 2px 10px;
+  border-radius: 3px;
+}
+
+.stamp-text {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 900;
+  letter-spacing: 0.15em;
+  color: #ef4444;
+  text-shadow: 0 0 8px rgba(220, 38, 38, 0.4);
+}
+
+.stamp-date {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  font-weight: 700;
+  color: #ef4444;
+  letter-spacing: 0.05em;
+}
+
+.case-story-lead {
+  font-size: 0.96rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  margin: var(--space-2) 0 0 0;
+}
+
+/* Stamp & Strike Toggle Button */
+.stamp-control-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  margin-top: var(--space-3);
+  padding: var(--space-2) 0;
+}
+
+.btn-stamp-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  background: rgba(220, 38, 38, 0.1);
+  border: 1px solid rgba(220, 38, 38, 0.4);
+  color: #ef4444;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.btn-stamp-trigger:hover {
+  background: rgba(220, 38, 38, 0.2);
+  border-color: #ef4444;
+  box-shadow: 0 0 12px rgba(220, 38, 38, 0.35);
+}
+
+.btn-stamp-trigger.btn-stamp-active {
+  background: #dc2626;
+  color: #ffffff;
+  border-color: #b91c1c;
+}
+
+.stamp-status-hint {
+  font-size: 0.76rem;
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+}
+
+/* Body Section Cards */
+.case-body-sections {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.case-section-card {
+  padding: var(--space-4) var(--space-5);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  position: relative;
+}
+
+.incident-card {
+  border-left: 3px solid #ef4444;
+}
+
+.culprit-card {
+  border-left: 3px solid #f59e0b;
+}
+
+.verdict-card {
+  border-left: 3px solid var(--accent-primary);
+}
+
+.card-section-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: var(--space-2);
+}
+
+.card-section-label h4 {
+  font-size: 0.84rem;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.label-icon {
+  font-size: 0.9rem;
+}
+
+.section-narrative {
+  font-size: 0.88rem;
+  line-height: 1.65;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+/* Code Snippet Dossier */
+.case-code-dossier {
+  background: #090d14;
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+[data-theme="light"] .case-code-dossier {
+  background: #0f172a;
+}
+
+.code-dossier-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 14px;
+  background: rgba(255, 255, 255, 0.04);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.code-header-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.code-title {
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.code-copy-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.code-copy-btn:hover {
+  background: rgba(255, 255, 255, 0.14);
+  color: var(--text-primary);
+}
+
+.code-dossier-pre {
+  margin: 0;
+  padding: var(--space-4);
+  overflow-x: auto;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  line-height: 1.65;
+  color: #e2e8f0;
+}
+
+/* Inscribed Architectural Law */
+.case-law-callout {
+  display: flex;
+  gap: var(--space-4);
+  padding: var(--space-4) var(--space-5);
+  background: var(--accent-bg);
+  border: 1px solid var(--accent-border);
+  border-radius: var(--radius-md);
+  box-shadow: 0 0 20px var(--accent-glow);
+}
+
+.law-icon-wrap {
+  margin-top: 2px;
+}
+
+.law-text-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.law-heading {
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-accent);
+}
+
+.law-quote {
+  font-size: 0.95rem;
+  font-style: italic;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+  line-height: 1.45;
+}
+
+.law-impact {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  margin-top: 4px;
+}
+
+/* Bottom Page Navigation */
+.case-bottom-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--border-subtle);
+  margin-top: var(--space-2);
+}
+
+.nav-center-serial {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}

@@ -56,6 +56,9 @@ function Footer() {
                 <Link to="/contact">Contact</Link>
               </li>
               <li>
+                <a href="#death-note-bug-log">Death Note — The Bug Log</a>
+              </li>
+              <li>
                 <a href="#developer-status">Live GitHub Status</a>
               </li>
             </ul>

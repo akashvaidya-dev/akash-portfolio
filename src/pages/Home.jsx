@@ -19,6 +19,7 @@ import SectionTitle from '../components/SectionTitle';
 import CodePlayground from '../components/CodePlayground';
 import TechTicker from '../components/TechTicker';
 import ThemePlayground from '../components/ThemePlayground';
+import BugDeathNote from '../components/BugDeathNote';
 
 const rotatingRoles = [
   'Senior Flutter Developer',
@@ -231,6 +232,11 @@ function Home() {
           </div>
         </div>
       </section>
+
+      {/* =========================================================================
+          Death Note — The Bug Log
+          ========================================================================= */}
+      <BugDeathNote />
 
       {/* =========================================================================
           Featured Projects Section

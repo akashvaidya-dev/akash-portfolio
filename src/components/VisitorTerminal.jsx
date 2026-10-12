@@ -74,6 +74,7 @@ Type 'help' to view available commands, or click the quick action chips below.`,
   projects          List all 6 commercial engineering systems & metrics
   project <id>      Deep-dive architecture specs for a specific project
                     (e.g., 'project xtream-arena', 'project vedic-mitra')
+  bugs              Death Note: Inscribed & eliminated production bugs
   skills            View categorized mobile, web, and hardware skill tree
   about             Akash's engineering background, philosophy, & stack
   experience        Timeline of commercial experienceTimeline
@@ -82,6 +83,46 @@ Type 'help' to view available commands, or click the quick action chips below.`,
   theme <name>      Switch terminal theme: 'emerald', 'cyan', 'amber', 'matrix'
   clear             Wipe terminal buffer
   exit              Close the visitor terminal shell`,
+          },
+        ]);
+        break;
+
+      case 'bugs':
+      case 'deathnote':
+      case 'buglog':
+        setHistory((prev) => [
+          ...prev,
+          {
+            type: 'output',
+            text: `DEATH NOTE — THE BUG LOG (ELIMINATED DEFECTS):
+--------------------------------------------------------------------------------
+RULE: "The bug whose root cause is accurately inscribed shall never crash production again."
+
+#001 [ELIMINATED] The Case of the Expired Token Stampede
+     Target: Riverpod Auth Interceptor · REST API
+     Fix: Thread-safe Async Mutex & Queued Request Single-Flight Barrier
+
+#002 [ELIMINATED] The Case of the Zombie Thermal Buffer
+     Target: Xtream Arena · ESC/POS Hardware Printing Engine
+     Fix: 512-Byte Chunking with Real-time DLE EOT 1 Status Backpressure
+
+#003 [ELIMINATED] The Case of the Phantom Hive Overwrite
+     Target: VedicMitra · Offline Hive NoSQL Cache
+     Fix: Optimistic Revision Versioning & Monotonic Dirty Delta Queue
+
+#004 [ELIMINATED] The Case of the Runaway WebSocket Storm
+     Target: WhatsApp CRM · Real-time Chat Engine
+     Fix: BroadcastChannel Cross-Tab IPC & Single-Leader Election
+
+#005 [ELIMINATED] The Case of the Teleporting GPS Pin
+     Target: SIH Fixly · Geolocation Sensor Pipeline
+     Fix: <20m Accuracy Gating Threshold + Kalman Moving Average Smoothing
+
+#006 [ELIMINATED] The Case of the Vanishing Parental Signature
+     Target: DigiSlips · Touch Canvas & Cryptographic Sealing
+     Fix: Catmull-Rom Distance Deduplication + SVG Stroke Bounding Verification
+
+Scroll to "#death-note-bug-log" on the Home page to inspect the interactive notebook dossier.`,
           },
         ]);
         break;
