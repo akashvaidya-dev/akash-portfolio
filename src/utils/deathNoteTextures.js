@@ -38,55 +38,46 @@ function wrapText(ctx, text, x, y, maxWidth, lineHeight, maxLines = 12) {
 
 /** Draws leather texture with grain noise and dark borders */
 function drawLeatherBackground(ctx, isFront = true) {
-  // Deep obsidian/charcoal gradient
+  // Rich obsidian/charcoal matte leather background (clean & smooth, zero visual noise)
   const grad = ctx.createRadialGradient(
     CANVAS_WIDTH / 2,
     CANVAS_HEIGHT / 2,
-    100,
+    150,
     CANVAS_WIDTH / 2,
     CANVAS_HEIGHT / 2,
-    CANVAS_WIDTH
+    CANVAS_WIDTH * 0.9
   );
-  grad.addColorStop(0, '#161a22');
-  grad.addColorStop(0.6, '#0f1218');
-  grad.addColorStop(1, '#080a0e');
+  grad.addColorStop(0, '#131720');
+  grad.addColorStop(0.5, '#0d1017');
+  grad.addColorStop(1, '#06080c');
 
   ctx.fillStyle = grad;
   ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
-  // Procedural subtle leather noise
-  ctx.fillStyle = 'rgba(255, 255, 255, 0.015)';
-  for (let i = 0; i < 4000; i++) {
-    const rx = Math.random() * CANVAS_WIDTH;
-    const ry = Math.random() * CANVAS_HEIGHT;
-    const size = Math.random() * 2 + 1;
-    ctx.fillRect(rx, ry, size, size);
-  }
-
-  // Worn edge vignette
+  // Soft worn edge vignette
   const edgeGrad = ctx.createLinearGradient(0, 0, CANVAS_WIDTH, 0);
   if (isFront) {
-    edgeGrad.addColorStop(0, 'rgba(0, 0, 0, 0.7)'); // spine side is darker
-    edgeGrad.addColorStop(0.1, 'rgba(0, 0, 0, 0.1)');
-    edgeGrad.addColorStop(0.95, 'rgba(0, 0, 0, 0.1)');
-    edgeGrad.addColorStop(1, 'rgba(0, 0, 0, 0.6)');
+    edgeGrad.addColorStop(0, 'rgba(0, 0, 0, 0.65)'); // spine side is darker
+    edgeGrad.addColorStop(0.08, 'rgba(0, 0, 0, 0.05)');
+    edgeGrad.addColorStop(0.92, 'rgba(0, 0, 0, 0.05)');
+    edgeGrad.addColorStop(1, 'rgba(0, 0, 0, 0.55)');
   } else {
-    edgeGrad.addColorStop(0, 'rgba(0, 0, 0, 0.6)');
-    edgeGrad.addColorStop(0.05, 'rgba(0, 0, 0, 0.1)');
-    edgeGrad.addColorStop(0.9, 'rgba(0, 0, 0, 0.1)');
-    edgeGrad.addColorStop(1, 'rgba(0, 0, 0, 0.7)'); // spine side is darker
+    edgeGrad.addColorStop(0, 'rgba(0, 0, 0, 0.55)');
+    edgeGrad.addColorStop(0.08, 'rgba(0, 0, 0, 0.05)');
+    edgeGrad.addColorStop(0.92, 'rgba(0, 0, 0, 0.05)');
+    edgeGrad.addColorStop(1, 'rgba(0, 0, 0, 0.65)');
   }
   ctx.fillStyle = edgeGrad;
   ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
-  // Outer border embossing
-  ctx.strokeStyle = 'rgba(255, 255, 255, 0.08)';
-  ctx.lineWidth = 4;
-  ctx.strokeRect(30, 30, CANVAS_WIDTH - 60, CANVAS_HEIGHT - 60);
+  // Outer border embossing (crisp double line)
+  ctx.strokeStyle = 'rgba(255, 255, 255, 0.12)';
+  ctx.lineWidth = 3;
+  ctx.strokeRect(32, 32, CANVAS_WIDTH - 64, CANVAS_HEIGHT - 64);
 
-  ctx.strokeStyle = 'rgba(0, 0, 0, 0.6)';
+  ctx.strokeStyle = 'rgba(0, 0, 0, 0.7)';
   ctx.lineWidth = 2;
-  ctx.strokeRect(36, 36, CANVAS_WIDTH - 72, CANVAS_HEIGHT - 72);
+  ctx.strokeRect(38, 38, CANVAS_WIDTH - 76, CANVAS_HEIGHT - 76);
 }
 
 /** Draws aged parchment paper with ruled lines and subtle stains */
@@ -185,50 +176,55 @@ export function createCoverTexture() {
 
   drawLeatherBackground(ctx, true);
 
-  // Ornate Gothic Title Frame
   ctx.textAlign = 'center';
 
-  // Death Note Gothic Capitals
-  ctx.fillStyle = '#f8fafc';
-  ctx.shadowColor = 'rgba(255, 255, 255, 0.35)';
-  ctx.shadowBlur = 12;
-  ctx.font = 'bold 82px "Times New Roman", Georgia, serif';
-  ctx.fillText('DEATH NOTE', CANVAS_WIDTH / 2, 480);
+  // Death Note Gothic Capitals - Clean, bold, unmistakable clarity
+  ctx.fillStyle = '#ffffff';
+  ctx.shadowColor = 'rgba(0, 0, 0, 0.9)';
+  ctx.shadowBlur = 6;
+  ctx.shadowOffsetX = 0;
+  ctx.shadowOffsetY = 4;
+  ctx.font = 'bold 94px "Cinzel", "Times New Roman", Georgia, serif';
+  ctx.fillText('D E A T H   N O T E', CANVAS_WIDTH / 2, 490);
 
-  ctx.shadowBlur = 0; // reset shadow
+  // Reset shadow immediately so subsequent text remains pin-sharp
+  ctx.shadowColor = 'transparent';
+  ctx.shadowBlur = 0;
+  ctx.shadowOffsetX = 0;
+  ctx.shadowOffsetY = 0;
 
   // Horizontal filigree divider
-  ctx.strokeStyle = 'rgba(255, 255, 255, 0.4)';
+  ctx.strokeStyle = 'rgba(255, 255, 255, 0.45)';
   ctx.lineWidth = 2;
   ctx.beginPath();
-  ctx.moveTo(CANVAS_WIDTH / 2 - 240, 520);
-  ctx.lineTo(CANVAS_WIDTH / 2 + 240, 520);
+  ctx.moveTo(CANVAS_WIDTH / 2 - 260, 535);
+  ctx.lineTo(CANVAS_WIDTH / 2 + 260, 535);
   ctx.stroke();
 
   // Diamond centerpiece
   ctx.fillStyle = '#ffffff';
   ctx.beginPath();
-  ctx.arc(CANVAS_WIDTH / 2, 520, 6, 0, Math.PI * 2);
+  ctx.arc(CANVAS_WIDTH / 2, 535, 6, 0, Math.PI * 2);
   ctx.fill();
 
-  // Subtitles
-  ctx.font = '700 28px "JetBrains Mono", monospace';
-  ctx.fillStyle = '#cbd5e1';
-  ctx.fillText('THE BUG LOG', CANVAS_WIDTH / 2, 575);
+  // Subtitle
+  ctx.font = '700 30px "JetBrains Mono", monospace';
+  ctx.fillStyle = '#e2e8f0';
+  ctx.fillText('THE BUG LOG', CANVAS_WIDTH / 2, 595);
 
-  ctx.font = '500 19px "Inter", sans-serif';
+  ctx.font = '600 18px "JetBrains Mono", monospace';
   ctx.fillStyle = '#94a3b8';
-  ctx.fillText('CLASSIFIED ENGINEERING DEFECTS', CANVAS_WIDTH / 2, 620);
-  ctx.fillText('INSCRIBED & EXTERMINATED IN PRODUCTION', CANVAS_WIDTH / 2, 650);
+  ctx.fillText('CLASSIFIED ENGINEERING DEFECTS', CANVAS_WIDTH / 2, 640);
+  ctx.fillText('INSCRIBED & EXTERMINATED IN PRODUCTION', CANVAS_WIDTH / 2, 670);
 
-  // Author seal
-  ctx.font = '700 20px "JetBrains Mono", monospace';
+  // Author seal at bottom
+  ctx.font = '700 22px "JetBrains Mono", monospace';
   ctx.fillStyle = '#f8fafc';
-  ctx.fillText('< AKASH VAIDYA />', CANVAS_WIDTH / 2, 1120);
+  ctx.fillText('< AKASH VAIDYA />', CANVAS_WIDTH / 2, 1140);
 
   ctx.font = '500 15px "JetBrains Mono", monospace';
   ctx.fillStyle = '#64748b';
-  ctx.fillText('SENIOR FLUTTER DEVELOPER & REACT ARCHITECT', CANVAS_WIDTH / 2, 1150);
+  ctx.fillText('SENIOR FLUTTER DEVELOPER & REACT ARCHITECT', CANVAS_WIDTH / 2, 1175);
 
   const tex = new THREE.CanvasTexture(canvas);
   tex.colorSpace = THREE.SRGBColorSpace;

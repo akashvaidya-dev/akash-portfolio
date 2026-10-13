@@ -164,7 +164,7 @@ export default function DeathNote3DViewer({
       renderer.shadowMap.enabled = true;
       renderer.shadowMap.type = THREE.PCFSoftShadowMap;
       renderer.toneMapping = THREE.ACESFilmicToneMapping;
-      renderer.toneMappingExposure = 1.1;
+      renderer.toneMappingExposure = 1.0;
       renderer.outputColorSpace = THREE.SRGBColorSpace;
       container.appendChild(renderer.domElement);
       rendererRef.current = renderer;
@@ -190,12 +190,12 @@ export default function DeathNote3DViewer({
     controls.minPolarAngle = 0.02;
     controlsRef.current = controls;
 
-    // 5. Lighting
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.9);
+    // 5. Lighting - Natural, clean studio illumination (zero red tint, zero specular glare)
+    const ambientLight = new THREE.AmbientLight(0xffffff, 1.3);
     scene.add(ambientLight);
 
-    const dirLight = new THREE.DirectionalLight(0xfff5ea, 2.2);
-    dirLight.position.set(2.8, 6.5, 3.8);
+    const dirLight = new THREE.DirectionalLight(0xffffff, 1.5);
+    dirLight.position.set(2.5, 5.5, 4.0);
     dirLight.castShadow = true;
     dirLight.shadow.mapSize.width = 2048;
     dirLight.shadow.mapSize.height = 2048;
@@ -204,9 +204,9 @@ export default function DeathNote3DViewer({
     dirLight.shadow.camera.far = 15;
     scene.add(dirLight);
 
-    const pointLight = new THREE.PointLight(0xef4444, 0.6, 6);
-    pointLight.position.set(-2, 1.8, 1);
-    scene.add(pointLight);
+    const fillLight = new THREE.DirectionalLight(0xf8fafc, 0.7);
+    fillLight.position.set(-2.5, 3.0, 3.5);
+    scene.add(fillLight);
 
     // 6. Floor shadow receiver
     const floorGeo = new THREE.PlaneGeometry(30, 30);
@@ -272,20 +272,7 @@ export default function DeathNote3DViewer({
       { front: createInsideCoverTexture(), back: createBackCoverTexture(), isCover: true },
     ];
 
-    // Optional texture roughness loader for realistic leather micro-bumps
-    const textureLoader = new THREE.TextureLoader();
-    let roughnessMap = null;
-    textureLoader.load('/textures/book-cover-roughness.jpg', (tex) => {
-      roughnessMap = tex;
-      if (pagesDataRef.current[0]) {
-        pagesDataRef.current[0].mesh.material[4].roughnessMap = tex;
-        pagesDataRef.current[0].mesh.material[4].needsUpdate = true;
-      }
-      if (pagesDataRef.current[8]) {
-        pagesDataRef.current[8].mesh.material[5].roughnessMap = tex;
-        pagesDataRef.current[8].mesh.material[5].needsUpdate = true;
-      }
-    });
+    // Matte leather finish with smooth PBR shading (zero noisy roughness map)
 
     // 9. Instantiate Book Group
     const bookGroup = new THREE.Group();
@@ -325,13 +312,13 @@ export default function DeathNote3DViewer({
         paperWhiteMat,
         new THREE.MeshStandardMaterial({
           map: texData.front,
-          roughness: texData.isCover ? 0.6 : 0.85,
-          roughnessMap: texData.isCover ? roughnessMap : null,
+          roughness: texData.isCover ? 0.88 : 0.85,
+          metalness: texData.isCover ? 0.04 : 0.0,
         }),
         new THREE.MeshStandardMaterial({
           map: texData.back,
-          roughness: texData.isCover ? 0.6 : 0.85,
-          roughnessMap: texData.isCover ? roughnessMap : null,
+          roughness: texData.isCover ? 0.88 : 0.85,
+          metalness: texData.isCover ? 0.04 : 0.0,
         }),
       ];
 
