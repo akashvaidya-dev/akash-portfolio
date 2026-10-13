@@ -1,6 +1,9 @@
-import { motion } from 'framer-motion';
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import avatarPhoto from '../assets/images/akash-vaidya-avatar.jpg';
+import fullPhoto from '../assets/images/akash-vaidya-full.jpg';
 import { Link } from 'react-router-dom';
-import { ArrowRight, CheckCircle2, Code2, Sparkles, BookOpen, ExternalLink } from 'lucide-react';
+import { ArrowRight, CheckCircle2, Code2, Sparkles, BookOpen, ExternalLink, X, Maximize2 } from 'lucide-react';
 import { skillCategories } from '../data/skills';
 import { socialLinks } from '../data/socials';
 import SectionTitle from '../components/SectionTitle';
@@ -11,6 +14,7 @@ import SectionTitle from '../components/SectionTitle';
  * and genuine career trajectory without fabricated claims.
  */
 function About() {
+  const [isPhotoOpen, setIsPhotoOpen] = useState(false);
   return (
     <div className="page-wrapper about-page">
       {/* Page Header */}
@@ -94,8 +98,22 @@ function About() {
             <div className="about-sidebar-col">
               <div className="fact-card">
                 <div className="fact-card-header">
-                  <div className="avatar-placeholder">
-                    <span className="avatar-initials">AV</span>
+                  <div
+                    className="about-photo-avatar-wrapper"
+                    onClick={() => setIsPhotoOpen(true)}
+                    title="Click to view Akash Vaidya photo"
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') setIsPhotoOpen(true);
+                    }}
+                  >
+                    <img
+                      src={avatarPhoto}
+                      alt={socialLinks.name}
+                      className="about-photo-avatar-img"
+                    />
+                    <span className="about-avatar-status-dot" title="Active & Open for Roles" />
                   </div>
                   <div>
                     <h4 className="fact-name">{socialLinks.name}</h4>
@@ -246,6 +264,52 @@ function About() {
           </div>
         </div>
       </section>
+
+      {/* Photo Lightbox Modal */}
+      <AnimatePresence>
+        {isPhotoOpen && (
+          <motion.div
+            className="photo-lightbox-backdrop"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setIsPhotoOpen(false)}
+          >
+            <motion.div
+              className="photo-lightbox-dialog"
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              transition={{ type: 'spring', damping: 25, stiffness: 280 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button
+                className="photo-lightbox-close"
+                onClick={() => setIsPhotoOpen(false)}
+                aria-label="Close photo preview"
+              >
+                <X size={20} />
+              </button>
+              <div className="photo-lightbox-img-wrap">
+                <img
+                  src={fullPhoto}
+                  alt={socialLinks.name}
+                  className="photo-lightbox-img"
+                />
+              </div>
+              <div className="photo-lightbox-caption">
+                <div className="photo-lightbox-header">
+                  <h3 className="photo-lightbox-name">{socialLinks.name}</h3>
+                  <span className="badge badge-subtle">{socialLinks.role}</span>
+                </div>
+                <p className="photo-lightbox-desc">
+                  Senior Flutter Developer &amp; Frontend Engineer crafting high-performance mobile and web software.
+                </p>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

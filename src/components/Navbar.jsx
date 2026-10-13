@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, ArrowUpRight, Terminal, Sun, Moon, Palette } from 'lucide-react';
 import { socialLinks } from '../data/socials';
 import { useTheme } from '../context/useTheme';
+import avatarPhoto from '../assets/images/akash-vaidya-avatar.jpg';
 
 const NAV_ITEMS = [
   { id: 'home', name: 'Home', path: '/' },
@@ -184,6 +185,10 @@ function Navbar({ onOpenTerminal, onOpenThemeStudio }) {
       <div className="navbar-container">
         {/* Brand */}
         <Link to="/" className="navbar-brand" onClick={closeMenu} aria-label="Akash Vaidya Portfolio Home">
+          <span className="brand-avatar-mini">
+            <img src={avatarPhoto} alt="AV" className="brand-avatar-img" />
+            <span className="brand-avatar-dot" />
+          </span>
           <span className="brand-bracket">&lt;</span>
           <span className="brand-name">Akash</span>
           <span className="brand-dot">.</span>

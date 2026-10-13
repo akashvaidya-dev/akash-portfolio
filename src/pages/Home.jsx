@@ -20,6 +20,7 @@ import CodePlayground from '../components/CodePlayground';
 import TechTicker from '../components/TechTicker';
 import ThemePlayground from '../components/ThemePlayground';
 import BugDeathNote from '../components/BugDeathNote';
+import Hero3DExperience from '../components/Hero3DExperience';
 
 const rotatingRoles = [
   'Senior Flutter Developer',
@@ -52,7 +53,8 @@ function Home() {
           ========================================================================= */}
       <section className="hero-section" aria-label="Introduction">
         <div className="container">
-          <div className="hero-content">
+          <div className="hero-split-grid">
+            <div className="hero-content hero-content-split">
             {/* Availability Status Badge */}
             <motion.div
               className="hero-badge-wrap"
@@ -160,6 +162,17 @@ function Home() {
                 <div className="stat-number">React 19 &amp; Vite</div>
                 <div className="stat-label">Expanding Web Architecture</div>
               </div>
+            </motion.div>
+            </div>
+
+            {/* Interactive 3D Room & Developer Workspace Experience */}
+            <motion.div
+              className="hero-photo-column"
+              initial={{ opacity: 0, scale: 0.9, y: 30 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.2 }}
+            >
+              <Hero3DExperience />
             </motion.div>
           </div>
         </div>
