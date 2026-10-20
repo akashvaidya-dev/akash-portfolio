@@ -234,13 +234,12 @@ function About() {
               <div className="education-header">
                 <BookOpen size={20} className="text-accent" />
                 <div>
-                  <h3 className="education-title">B.Tech — Computer Science &amp; Engineering</h3>
-                  <span className="education-subtitle">JK Institute of Engineering · 2022 – 2025 · Bilaspur, CG</span>
+                  <h3 className="education-title">Diploma in Computer Science (Polytechnic)</h3>
+                  <span className="education-subtitle">JK Institute of Engineering · 2019 – 2021 · Score 81%</span>
                 </div>
               </div>
               <p className="education-desc">
-                B.Tech CSE with parallel industry work in Flutter. Diploma in Computer Science (2019–2021, 81%)
-                from the same institute; Matriculation 2018 (66%).
+                Polytechnic diploma — programming foundations and applied computer science before B.Tech.
               </p>
             </div>
 
@@ -248,13 +247,12 @@ function About() {
               <div className="education-header">
                 <Sparkles size={20} className="text-accent" />
                 <div>
-                  <h3 className="education-title">Smart India Hackathon — Fixly</h3>
-                  <span className="education-subtitle">On-demand services marketplace</span>
+                  <h3 className="education-title">B.Tech — Computer Science &amp; Engineering</h3>
+                  <span className="education-subtitle">JK Institute of Engineering · 2022 – 2025 · Bilaspur, CG</span>
                 </div>
               </div>
               <p className="education-desc">
-                Built Fixly: role-based bookings, Mapbox live location, Razorpay payments, Socket.IO updates,
-                and WebRTC calling under hackathon deadlines.
+                B.Tech CSE with hands-on Flutter / mobile development. Matriculation 2018 (66%).
               </p>
             </div>
           </div>

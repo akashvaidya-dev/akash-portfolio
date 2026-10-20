@@ -1,48 +1,50 @@
 /**
- * Experience — no company names. 1.5 years junior Flutter work.
+ * Journey: Diploma → B.Tech → Job (chronological).
  */
 
 export const experienceTimeline = [
   {
-    period: '1.5 years · Present',
-    role: 'Junior Software Developer — Flutter',
-    organization: 'Industry experience (Android & iOS)',
-    badge: '1.5 yrs',
+    period: '2019 — 2021',
+    role: 'Diploma in Computer Science (Polytechnic)',
+    organization: 'JK Institute of Engineering, Bilaspur',
+    badge: 'Diploma',
     description:
-      'About one and a half years building and shipping Flutter apps for Android and iOS — UI, APIs, Firebase, maps, payments, push notifications, and release support with the team.',
+      'Polytechnic diploma in Computer Science — programming foundations, computer systems, and applied software projects. Score: 81%.',
     achievements: [
-      'Shipped cross-platform Flutter features from screen design to store-ready builds.',
-      'Integrated REST APIs (Dio/HTTP), Firebase (Auth, FCM, Firestore, Crashlytics), maps, and payments.',
-      'Used GetX, Riverpod, and BLoC depending on the app’s structure.',
-      'Fixed bugs, handled notifications, local storage, and day-to-day release tasks.',
+      'Completed diploma with 81%.',
+      'Built early software and app projects during the program.',
+      'Strong base in programming and problem-solving before B.Tech.',
     ],
-    tech: ['Flutter', 'Dart', 'GetX', 'Riverpod', 'BLoC', 'Dio', 'Firebase', 'Google Maps', 'Mapbox', 'Razorpay', 'Stripe'],
+    tech: ['C++', 'Java', 'HTML', 'CSS', 'Computer Science fundamentals'],
   },
   {
     period: '2022 — 2025',
     role: 'B.Tech — Computer Science & Engineering',
     organization: 'JK Institute of Engineering, Bilaspur',
-    badge: 'Education',
+    badge: 'B.Tech',
     description:
-      'Computer Science degree while working hands-on with Flutter and Dart on real mobile problems.',
+      'Bachelor of Technology in CSE while growing into Flutter / mobile development and industry-ready skills.',
     achievements: [
-      'Diploma in Computer Science (2019–2021) — 81%.',
-      'Matriculation (2018) — 66%.',
+      'Studied core CS: data structures, OOP, networks, and software engineering.',
+      'Focused on Flutter and Dart for Android & iOS apps.',
+      'Combined college learning with real hands-on mobile work.',
     ],
     tech: ['Dart', 'Flutter', 'Java', 'C++', 'JavaScript'],
   },
   {
-    period: 'Hackathon',
-    role: 'Flutter Developer — Fixly (SIH)',
-    organization: 'Smart India Hackathon',
-    badge: 'SIH',
+    period: '1.5 years · Present',
+    role: 'Junior Software Developer — Flutter',
+    organization: 'Industry experience (Android & iOS)',
+    badge: 'Job',
     description:
-      'Built Fixly, a role-based on-demand services app with bookings, maps, payments, and video calling.',
+      'About one and a half years building and shipping Flutter apps — UI, APIs, Firebase, maps, payments, push notifications, and release support.',
     achievements: [
-      'Customer/worker flows with BLoC and GoRouter.',
-      'Mapbox, Razorpay, Socket.IO, WebRTC, and FCM under tight deadlines.',
+      'Shipped cross-platform Flutter features from screens to store-ready builds.',
+      'Integrated REST (Dio/HTTP), Firebase (Auth, FCM, Firestore, Crashlytics), maps, and payments.',
+      'Used GetX, Riverpod, and BLoC depending on the app.',
+      'Handled bugs, notifications, local storage, and day-to-day releases with the team.',
     ],
-    tech: ['Flutter', 'Dart', 'BLoC', 'Mapbox', 'WebRTC', 'Razorpay', 'Socket.IO'],
+    tech: ['Flutter', 'Dart', 'GetX', 'Riverpod', 'BLoC', 'Dio', 'Firebase', 'Google Maps', 'Mapbox', 'Razorpay', 'Stripe'],
   },
 ];
 

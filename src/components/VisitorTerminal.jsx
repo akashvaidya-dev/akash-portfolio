@@ -72,11 +72,11 @@ Type 'help' to view available commands, or click the quick action chips below.`,
             text: `COMMANDS:
   help              Show this list
   projects          Personal / public projects only
-  project <id>      Details (sih-fixly | portfolio-site)
+  project <id>      Details (portfolio-site)
   bugs              Notes on bugs I've fixed
   skills            Flutter skill list
   about             Short bio
-  experience        1.5 years junior Flutter + education
+  experience        Diploma → B.Tech → Flutter job
   contact           Email, GitHub, LinkedIn
   clear             Clear screen
   exit              Close terminal`,
@@ -112,7 +112,7 @@ RULE: "The bug whose root cause is accurately inscribed shall never crash produc
      Fix: Socket.IO reconnect backoff & single-flight message queue
 
 #005 [ELIMINATED] The Case of the Teleporting GPS Pin
-     Target: Fixly (SIH) · Mapbox Location Pipeline
+     Target: Delivery App · Mapbox Location Pipeline
      Fix: Accuracy gating threshold + smoothed location updates
 
 #006 [ELIMINATED] The Case of the Vanishing Parental Signature
@@ -131,12 +131,7 @@ Scroll to "#death-note-bug-log" on the Home page to inspect the interactive note
             type: 'output',
             text: `PERSONAL / PUBLIC PROJECTS (office apps not listed):
 --------------------------------------------------------------------------------
-1. FIXLY (SIH)
-   • Bookings, Mapbox, Razorpay, WebRTC
-   • Flutter · BLoC · GoRouter · Socket.IO
-   • project sih-fixly
-
-2. THIS PORTFOLIO
+1. THIS PORTFOLIO
    • React + Vite, handmade
    • project portfolio-site
 --------------------------------------------------------------------------------
@@ -152,7 +147,7 @@ Client work stays private. Ask in an interview if you want details.`,
             ...prev,
             {
               type: 'error',
-              text: "Usage: project <id>\nAvailable IDs: sih-fixly, portfolio-site",
+              text: "Usage: project <id>\nAvailable IDs: portfolio-site",
             },
           ]);
           break;

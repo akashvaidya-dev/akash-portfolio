@@ -6,9 +6,9 @@ import { experienceTimeline, engineeringPrinciples } from '../data/experience';
 import SectionTitle from '../components/SectionTitle';
 
 const filters = [
-  { id: 'all', label: 'All' },
-  { id: 'mobile', label: 'Flutter' },
+  { id: 'all', label: 'Full journey' },
   { id: 'education', label: 'Education' },
+  { id: 'job', label: 'Job' },
 ];
 
 /**
@@ -21,8 +21,8 @@ function Experience() {
 
   const filteredTimeline = experienceTimeline.filter((item) => {
     if (activeFilter === 'all') return true;
-    if (activeFilter === 'mobile') return item.tech.includes('Flutter') || item.tech.includes('Dart');
-    if (activeFilter === 'education') return item.badge === 'Education';
+    if (activeFilter === 'education') return item.badge === 'Diploma' || item.badge === 'B.Tech';
+    if (activeFilter === 'job') return item.badge === 'Job';
     return true;
   });
 
@@ -34,7 +34,7 @@ function Experience() {
           <SectionTitle
             badge="Career & Milestones"
             title="Engineering Experience &amp; Journey"
-            subtitle="1.5 years as a junior Flutter developer, plus education and SIH Fixly."
+            subtitle="Diploma → B.Tech → Junior Flutter Developer (1.5 years)."
           />
 
           {/* Interactive Filter Pills */}

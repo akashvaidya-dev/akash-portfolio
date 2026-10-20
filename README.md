@@ -118,7 +118,7 @@ Spins up a local server to test the generated production bundle.
    git init
    git add .
    git commit -m "feat: complete senior portfolio with React 19, Vite, and Framer Motion"
-   git remote add origin https://github.com/arao62916-sys/portfolio.git
+   git remote add origin https://github.com/akashvaidya-dev/portfolio.git
    git push -u origin main
    ```
 

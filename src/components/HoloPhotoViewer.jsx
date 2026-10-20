@@ -103,8 +103,8 @@ const TECH_PANELS = [
     color: '#e2e8f0',
     glowColor: 'rgba(226, 232, 240, 0.9)',
     desc: 'Trunk-based branch workflows, GitHub Actions automated build matrices, semantic releases, and open-source contributions.',
-    projectTitle: 'SIH Fixly — Civic Grievance & Geotagged Issue Tracker',
-    projectMetric: 'Smart India Hackathon project with automated CI audit trails',
+    projectTitle: 'Flutter Maps — Live Location & Delivery Tracking',
+    projectMetric: 'Accurate GPS gating for noisy urban signals',
     highlights: [
       'Automated APK bundling and static code analysis workflows',
       'Geotagged camera EXIF pipeline with cryptographic verification',

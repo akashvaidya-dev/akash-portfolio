@@ -12,7 +12,7 @@ function SocialLinks({ showLabels = false, className = '' }) {
       name: 'GitHub',
       href: socialLinks.github,
       icon: Github,
-      label: 'Visit GitHub Profile (arao62916-sys)',
+      label: 'Visit GitHub Profile (akashvaidya-dev)',
     },
     {
       name: 'LinkedIn',

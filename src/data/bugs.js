@@ -213,7 +213,7 @@ function claimLeadership() {
     caseNumber: '#005',
     title: 'The Case of the Teleporting GPS Pin',
     alias: 'The 800-Meter Concrete Drift',
-    project: 'SIH Fixly (Civic Grievance App)',
+    project: 'Maps / Delivery Tracking',
     subsystem: 'Geolocation Sensor Pipeline',
     category: 'hardware-mobile',
     severity: 'MEDIUM',
@@ -222,7 +222,7 @@ function claimLeadership() {
     storySummary:
       'Civic complaint photos taken inside high-density residential concrete apartments placed garbage and road grievance pins up to 1.2 kilometers away at a nearby cell tower.',
     incident:
-      'During field testing of SIH Fixly in multi-story urban housing, GPS satellite signals were blocked by reinforced concrete ceilings. The mobile OS silently fell back to coarse GSM cell-tower and Wi-Fi SSID triangulation. The app captured the first available `Position` coordinate without checking the accuracy envelope, submitting municipal pothole complaints with coordinates pointing to an industrial tower 1.2km away across a river.',
+      'During field testing in multi-story urban housing, GPS satellite signals were blocked by reinforced concrete. The OS fell back to coarse cell-tower / Wi-Fi triangulation. The app took the first `Position` without checking accuracy, so pins landed ~1.2km off.',
     culprit:
       'Accepting unverified raw single-shot GPS coordinates without an accuracy gating threshold or multi-sample filtering.',
     verdict:
@@ -240,7 +240,7 @@ Stream<Position> getVerifiedPositionStream() {
     return position.accuracy <= 20.0;
   }).take(3); // Gather 3 high-confidence samples to average
 }`,
-    impact: 'Location precision improved for Fixly worker/customer live map tracking under noisy GPS conditions.',
+    impact: 'Location precision improved for live map tracking under noisy GPS conditions.',
   },
   {
     id: 'signature-bezier-nan',

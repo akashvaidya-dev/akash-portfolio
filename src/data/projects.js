@@ -1,34 +1,8 @@
 /**
- * Personal / public projects only. Client & office work stays off the site.
+ * Personal / public projects only.
  */
 
 export const projects = [
-  {
-    id: 'sih-fixly',
-    title: 'Fixly — On-Demand Services (SIH)',
-    category: 'Hackathon · Flutter',
-    categoryFilter: 'mobile',
-    featured: true,
-    tagline: 'Role-based service marketplace I built for Smart India Hackathon.',
-    description:
-      'A Flutter app that connects customers and workers — bookings, reviews, live maps, payments, and video calling. Built under SIH timelines with a focus on clear flows and realtime updates.',
-    tags: ['Flutter', 'Dart', 'BLoC', 'GoRouter', 'Mapbox', 'WebRTC', 'Razorpay', 'Socket.IO', 'Firebase'],
-    githubUrl: null,
-    liveUrl: null,
-    isProprietary: false,
-    metric: 'Customer + worker roles · maps · pay · video call',
-    architecture: 'Flutter · BLoC · GoRouter · Mapbox · Socket.IO / WebRTC',
-    problem:
-      'On-demand help needs trusted booking, live location, payment, and a way to talk — in one mobile flow.',
-    solution:
-      'I built Fixly with separate customer/worker roles, Mapbox tracking, Razorpay checkout, Socket.IO updates, and WebRTC calling.',
-    highlights: [
-      'Bookings, payments, and reviews for both roles',
-      'Mapbox live location and Socket.IO status updates',
-      'WebRTC video calling and push notifications',
-      'Secure storage and multilingual UI',
-    ],
-  },
   {
     id: 'portfolio-site',
     title: 'Personal Portfolio (this site)',
@@ -37,9 +11,9 @@ export const projects = [
     featured: true,
     tagline: 'Hand-built React portfolio — pages, motion, and my own content.',
     description:
-      'The site you are on now. React + Vite, custom CSS, Framer Motion where it helps, and copy I wrote about my Flutter work. No client repos, no fake case studies.',
+      'The site you are on now. React + Vite, custom CSS, Framer Motion where it helps, and copy about my Flutter work. Client / office apps stay private.',
     tags: ['React', 'Vite', 'JavaScript', 'CSS', 'Framer Motion', 'React Router'],
-    githubUrl: 'https://github.com/arao62916-sys',
+    githubUrl: 'https://github.com/akashvaidya-dev',
     liveUrl: null,
     isProprietary: false,
     metric: 'Custom UI · dark/light theme · project case cards',

@@ -7,9 +7,9 @@
  * Strictly provides graceful fallback states without fabricating fake data.
  */
 
-export const PRIMARY_USERNAME = 'arao62916-sys';
-export const ALT_USERNAME = 'akashvadh12';
-const CACHE_KEY = 'akash_github_live_status_v2';
+export const PRIMARY_USERNAME = 'akashvaidya-dev';
+export const ALT_USERNAME = 'akashvaidya-dev';
+const CACHE_KEY = 'akash_github_live_status_v3';
 const CACHE_TTL_MS = 10 * 60 * 1000; // 10 minutes
 
 /**
@@ -254,46 +254,18 @@ export function groupActivityByMonth(commits = []) {
 export function getPinnedRepositories(repositories = []) {
   const defaults = [
     {
-      id: 'meatwaala',
-      name: 'MeatWaala',
-      owner: 'arao62916-sys',
-      fullName: 'arao62916-sys/MeatWaala',
-      description: 'High-performance meat delivery application with real-time cart tracking, Play Store auto-updates, and COD charge engine.',
-      topics: ['flutter', 'dart', 'rest-api', 'cart-engine'],
-      language: 'Dart',
+      id: 'portfolio',
+      name: 'Portfolio',
+      owner: PRIMARY_USERNAME,
+      fullName: `${PRIMARY_USERNAME}`,
+      description: 'Personal Flutter developer portfolio — React + Vite, projects, and live GitHub status.',
+      topics: ['react', 'vite', 'portfolio', 'flutter'],
+      language: 'JavaScript',
       stars: 0,
       forks: 0,
       license: 'MIT',
-      updatedAt: '2026-04-29T05:56:33Z',
-      htmlUrl: 'https://github.com/arao62916-sys/MeatWaala',
-    },
-    {
-      id: 'digi-slip',
-      name: 'Digi-Slip',
-      owner: 'akashvadh12',
-      fullName: 'akashvadh12/Digi-Slip',
-      description: 'Paperless school consent platform featuring cryptographic digital signatures, parent verification, and sub-100ms offline Hive caching.',
-      topics: ['flutter', 'riverpod', 'hive-cache', 'crypto-signatures'],
-      language: 'Dart',
-      stars: 0,
-      forks: 0,
-      license: 'MIT',
-      updatedAt: '2026-06-15T12:45:00Z',
-      htmlUrl: 'https://github.com/akashvadh12/Digi-Slip',
-    },
-    {
-      id: 'xtream-arena',
-      name: 'Xtream-Arena',
-      owner: 'arao62916-sys',
-      fullName: 'arao62916-sys/Xtream-Arena',
-      description: 'Voice-dictated POS counter terminal with hardware-level ESC/POS raw Bluetooth thermal receipt streaming and audio parsing.',
-      topics: ['flutter', 'esc-pos', 'thermal-printer', 'voice-pos'],
-      language: 'Dart',
-      stars: 0,
-      forks: 0,
-      license: 'MIT',
-      updatedAt: '2026-04-18T10:20:00Z',
-      htmlUrl: 'https://github.com/arao62916-sys',
+      updatedAt: new Date().toISOString(),
+      htmlUrl: `https://github.com/${PRIMARY_USERNAME}`,
     },
   ];
 

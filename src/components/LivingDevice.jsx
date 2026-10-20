@@ -666,7 +666,7 @@ function renderProjectAppUI(project, state) {
               <p>React + Vite portfolio</p>
             </div>
             <div className="chat-bubble customer">
-              <p>Flutter skills · Fixly · contact</p>
+              <p>Flutter skills · journey · contact</p>
             </div>
           </div>
           <div className="crm-typing-bar">
@@ -680,7 +680,7 @@ function renderProjectAppUI(project, state) {
       return (
         <div className="mock-app sih-app">
           <div className="sih-header">
-            <span className="sih-badge">Fixly Marketplace</span>
+            <span className="sih-badge">Flutter App</span>
             <span className="sih-id">BK-5582</span>
           </div>
           <div className="sih-map-preview">
