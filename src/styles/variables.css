@@ -8,9 +8,9 @@
    ========================================================================== */
 
 /* --------------------------------------------------------------------------
-   1. Base & Dark Theme (Default)
+   1. Dark Theme (only when data-theme="dark")
+   Default site boot is light + blue via index.html + ThemeContext
    -------------------------------------------------------------------------- */
-:root,
 html[data-theme="dark"] {
   color-scheme: dark;
 
@@ -49,8 +49,9 @@ html[data-theme="dark"] {
 }
 
 /* --------------------------------------------------------------------------
-   2. Light Theme (Clean · Bright · Minimal)
+   2. Light Theme (site default)
    -------------------------------------------------------------------------- */
+:root,
 html[data-theme="light"] {
   color-scheme: light;
 
@@ -250,14 +251,14 @@ html[data-time-period="night"] {
    3. Dynamic Accent Colors (6 Curated Palettes)
    -------------------------------------------------------------------------- */
 
-/* Default Fallback */
+/* Default fallback = Electric blue (matches DEFAULT_SETTINGS) */
 :root {
-  --accent-rgb: 16, 185, 129;
-  --accent-light-rgb: 52, 211, 153;
-  --accent-primary: #10b981;
-  --accent-light: #34d399;
-  --accent-dark: #059669;
-  --text-accent: #34d399;
+  --accent-rgb: 59, 130, 246;
+  --accent-light-rgb: 96, 165, 250;
+  --accent-primary: #3b82f6;
+  --accent-light: #60a5fa;
+  --accent-dark: #2563eb;
+  --text-accent: #2563eb;
 }
 
 /* Emerald */

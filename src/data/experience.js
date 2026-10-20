@@ -1,77 +1,74 @@
 /**
- * Professional experience, journey, and engineering principles.
- * Accurately represents Flutter mobile engineering and expansion into React web.
+ * Experience — no company names. 1.5 years junior Flutter work.
  */
 
 export const experienceTimeline = [
   {
-    period: 'Current / Recent',
-    role: 'Senior Flutter & Mobile Application Developer',
-    organization: 'Client Solutions & Enterprise Products',
-    badge: 'Mobile Specialist',
+    period: '1.5 years · Present',
+    role: 'Junior Software Developer — Flutter',
+    organization: 'Industry experience (Android & iOS)',
+    badge: '1.5 yrs',
     description:
-      'Architected and delivered multiple commercial Flutter applications spanning retail POS, healthcare operations, and consultation marketplaces. Specialized in complex hardware integrations, custom audio/voice pipelines, and deterministic state management.',
+      'About one and a half years building and shipping Flutter apps for Android and iOS — UI, APIs, Firebase, maps, payments, push notifications, and release support with the team.',
     achievements: [
-      'Engineered Xtream Arena: hybrid voice-dictation and touch POS system with ESC/POS thermal printing.',
-      'Developed VedicMitra: dual-audience mobile app with Hive offline caching and declarative GoRouter navigation.',
-      'Created Clinic Management suite: doctor and reception apps coordinating patient intake and digital prescriptions.',
-      'Integrated physical Bluetooth & WiFi thermal printers using direct binary ESC/POS command streams.',
+      'Shipped cross-platform Flutter features from screen design to store-ready builds.',
+      'Integrated REST APIs (Dio/HTTP), Firebase (Auth, FCM, Firestore, Crashlytics), maps, and payments.',
+      'Used GetX, Riverpod, and BLoC depending on the app’s structure.',
+      'Fixed bugs, handled notifications, local storage, and day-to-day release tasks.',
     ],
-    tech: ['Flutter', 'Dart', 'Riverpod', 'Dio', 'Hive', 'Speech-to-Text', 'Thermal Printers'],
+    tech: ['Flutter', 'Dart', 'GetX', 'Riverpod', 'BLoC', 'Dio', 'Firebase', 'Google Maps', 'Mapbox', 'Razorpay', 'Stripe'],
   },
   {
-    period: 'Recent',
-    role: 'Modern Web & Frontend Development',
-    organization: 'React & Web Architecture Expansion',
-    badge: 'Web Expansion',
+    period: '2022 — 2025',
+    role: 'B.Tech — Computer Science & Engineering',
+    organization: 'JK Institute of Engineering, Bilaspur',
+    badge: 'Education',
     description:
-      'Applying mobile engineering rigors (deterministic state, clean architecture, performance optimization) to modern web applications. Building responsive SPAs with React 19, Vite, and WebSocket real-time architectures.',
+      'Computer Science degree while working hands-on with Flutter and Dart on real mobile problems.',
     achievements: [
-      'Built multi-agent WhatsApp CRM web dashboard with real-time WebSocket communication.',
-      'Engineered production-grade developer portfolio with React 19, Framer Motion, and custom design tokens.',
-      'Implemented clean component hierarchies, accessible keyboard navigation, and responsive CSS Grid/Flexbox layouts.',
+      'Diploma in Computer Science (2019–2021) — 81%.',
+      'Matriculation (2018) — 66%.',
     ],
-    tech: ['React 19', 'JavaScript (ES6+)', 'Vite', 'React Router', 'Framer Motion', 'Modern CSS'],
+    tech: ['Dart', 'Flutter', 'Java', 'C++', 'JavaScript'],
   },
   {
-    period: 'Milestone',
-    role: 'Project Lead & Mobile Developer',
-    organization: 'Smart India Hackathon (SIH)',
-    badge: 'Hackathon Innovation',
+    period: 'Hackathon',
+    role: 'Flutter Developer — Fixly (SIH)',
+    organization: 'Smart India Hackathon',
+    badge: 'SIH',
     description:
-      'Designed and developed SIH-Fixly, a civic infrastructure reporting platform enabling citizens to report public defects with tamper-resistant geotagged camera verification.',
+      'Built Fixly, a role-based on-demand services app with bookings, maps, payments, and video calling.',
     achievements: [
-      'Integrated on-device camera hardware and GPS location sensors to bind tamper-proof EXIF coordinates.',
-      'Designed client-side image compression pipeline cutting upload bandwidth by over 70%.',
-      'Built interactive multi-stage municipal ticket lifecycle tracking interface.',
+      'Customer/worker flows with BLoC and GoRouter.',
+      'Mapbox, Razorpay, Socket.IO, WebRTC, and FCM under tight deadlines.',
     ],
-    tech: ['Flutter', 'Dart', 'GPS / Geolocation', 'Camera API', 'REST API'],
+    tech: ['Flutter', 'Dart', 'BLoC', 'Mapbox', 'WebRTC', 'Razorpay', 'Socket.IO'],
   },
 ];
 
 export const engineeringPrinciples = [
   {
-    title: 'Architecture Over Shortcuts',
-    subtitle: 'Strict Separation of Concerns',
+    title: 'Ship what works',
+    subtitle: 'Real devices, real users',
     description:
-      'Whether using Riverpod in Flutter or modular components in React, I isolate presentation from business logic and data persistence. This guarantees that features remain testable, refactorable, and bug-resistant.',
+      'I care that the app runs on a phone in someone’s hand — not just that the demo looks pretty. Android and iOS both matter.',
   },
   {
-    title: 'Hardware-Software Synergy',
-    subtitle: 'Real-World Peripheral Reliability',
+    title: 'Clear state',
+    subtitle: 'GetX · Riverpod · BLoC',
     description:
-      'Software is only as good as its real-world performance. Having integrated thermal printers, microphones, and sensors, I build resilient error handlers, buffer streams, and reconnect logic for unpredictable environments.',
+      'Pick the state tool that fits the project. Keep screens thin and data flow easy to follow for the next person.',
   },
   {
-    title: 'Performance & 60 FPS Fluidity',
-    subtitle: 'Zero-Jank User Interfaces',
+    title: 'Wire it properly',
+    subtitle: 'APIs · Firebase · maps · pay',
     description:
-      'A great app feels weightless. I eliminate unnecessary re-renders, leverage skeleton shimmer loaders, implement lightweight physics animations, and benchmark frame budgets rigorously.',
+      'Most mobile work is integration. I hook up REST, Firebase, maps, payments, and push — and handle bad networks without panic.',
   },
   {
-    title: 'Honest, Craftsmanship-Driven Code',
-    subtitle: 'Production-Ready Maintainability',
+    title: 'Readable code',
+    subtitle: 'Written for humans',
     description:
-      'No boilerplate spaghetti or blind library imports. Every package in package.json and pubspec.yaml has a clear purpose. Code is written for clarity, maintainability, and longevity.',
+      'Names that make sense, small modules, no magic. Future-me (and teammates) should not need a treasure map.',
   },
 ];

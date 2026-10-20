@@ -55,11 +55,11 @@ const TECH_PANELS = [
     color: '#00b4d8',
     glowColor: 'rgba(0, 180, 216, 0.9)',
     desc: 'Strongly typed asynchronous programming, StreamControllers, isolate background thread workers, and robust serialization.',
-    projectTitle: 'VedicMitra — Scalable Lifestyle & Consultation Platform',
-    projectMetric: 'Zero UI jank with background isolate DTO parsing & Hive',
+    projectTitle: 'FitPassio — Gym Management (BLoC · Hive · Mapbox)',
+    projectMetric: 'Offline-friendly Hive cache with Mapbox gym discovery',
     highlights: [
       'Declarative deep-link navigation with GoRouter',
-      'Reactive Stream-based state pipelines for live availability',
+      'BLoC state pipelines for memberships and workouts',
       'Strongly typed DTO serialization and schema validation'
     ],
     tags: ['Dart 3.x', 'Streams', 'Isolates', 'GoRouter', 'OOP'],

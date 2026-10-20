@@ -23,7 +23,7 @@ function About() {
           <SectionTitle
             badge="Engineering Profile"
             title="About Akash Vaidya"
-            subtitle="Senior Flutter Developer & Frontend Engineer crafting robust mobile apps and modern web systems."
+            subtitle="Junior Flutter developer · 1.5 years · Android & iOS · Bilaspur, India"
           />
         </div>
       </section>
@@ -37,22 +37,18 @@ function About() {
               <h3 className="about-col-title">// Professional Background</h3>
               <div className="prose">
                 <p>
-                  My engineering foundation is built on <strong>Flutter and Dart</strong> mobile application
-                  development. Over the course of my career, I have designed, architected, and shipped production
-                  mobile applications that solve real operational bottlenecks across retail, outpatient healthcare,
-                  lifestyle consultation, and public infrastructure.
+                  I am a <strong>Junior Software Developer</strong> focused on <strong>Flutter</strong>, with about{' '}
+                  <strong>1.5 years</strong> of hands-on experience building Android and iOS apps. I am finishing a
+                  B.Tech in Computer Science &amp; Engineering at JK Institute of Engineering, Bilaspur.
                 </p>
                 <p>
-                  Beyond standard UI screens, my work frequently involves <strong>hardware-level integrations</strong>.
-                  I have built systems that interface directly with physical Bluetooth and WiFi thermal receipt
-                  printers using binary ESC/POS streams, speech-to-text voice dictation engines for high-speed POS
-                  order entry, and camera sensor pipelines with cryptographic geolocation tags.
+                  Most days I work in Dart: screens, navigation, <strong>GetX / Riverpod / BLoC</strong>, Dio REST
+                  calls, Firebase (Auth, FCM, Firestore), maps, payments, and push. I like code that is easy to
+                  read and apps that survive a bad network.
                 </p>
                 <p>
-                  I am actively expanding my mobile architectural expertise into <strong>modern React and web development</strong>.
-                  The same disciplines that make mobile applications robust—deterministic state management with Riverpod,
-                  clean architecture, offline resilience with Hive, and 60 FPS animation budgets—translate directly to
-                  building exceptional, responsive SPAs with React 19, Vite, and modern CSS.
+                  This portfolio is something I coded myself in React + Vite. Client and office projects stay private —
+                  only personal / public work is listed on the Projects page.
                 </p>
               </div>
 
@@ -63,31 +59,31 @@ function About() {
                   <li>
                     <CheckCircle2 size={16} className="text-accent" />
                     <span>
-                      <strong>Cross-Platform Mastery:</strong> Building native-feeling Android and iOS applications with Flutter &amp; Dart.
+                      <strong>Flutter &amp; Dart:</strong> Production Android/iOS apps across CRM, health, commerce, and ops.
                     </span>
                   </li>
                   <li>
                     <CheckCircle2 size={16} className="text-accent" />
                     <span>
-                      <strong>Predictable State Architecture:</strong> Proven implementations of Riverpod, Hooks Riverpod, and BLoC.
+                      <strong>State that scales:</strong> GetX, Riverpod, and BLoC for clear, testable UI flows.
                     </span>
                   </li>
                   <li>
                     <CheckCircle2 size={16} className="text-accent" />
                     <span>
-                      <strong>Hardware &amp; Peripherals:</strong> ESC/POS thermal printers, speech recognition, camera sensors, and audio streams.
+                      <strong>APIs &amp; Cloud:</strong> Dio/REST, Firebase Auth/FCM/Firestore, Crashlytics, Remote Config.
                     </span>
                   </li>
                   <li>
                     <CheckCircle2 size={16} className="text-accent" />
                     <span>
-                      <strong>Offline-First Systems:</strong> Sub-millisecond local caching using Hive and SQLite with sync queues.
+                      <strong>Maps &amp; Payments:</strong> Google Maps, Mapbox, Razorpay, Stripe, QR/barcode.
                     </span>
                   </li>
                   <li>
                     <CheckCircle2 size={16} className="text-accent" />
                     <span>
-                      <strong>Modern Web Expansion:</strong> React 19, Vite, React Router DOM, Framer Motion, and WebSocket APIs.
+                      <strong>Realtime:</strong> Socket.IO, SignalR, WebRTC, Agora — chat, live ops, and calls.
                     </span>
                   </li>
                 </ul>
@@ -124,15 +120,15 @@ function About() {
                 <div className="fact-details-list">
                   <div className="fact-item">
                     <span className="fact-label">Primary Stack:</span>
-                    <span className="fact-val">Flutter, Dart, React, Vite</span>
+                    <span className="fact-val">Flutter, Dart, Firebase</span>
                   </div>
                   <div className="fact-item">
                     <span className="fact-label">State Management:</span>
-                    <span className="fact-val">Riverpod, Hooks, BLoC</span>
+                    <span className="fact-val">GetX, Riverpod, BLoC</span>
                   </div>
                   <div className="fact-item">
-                    <span className="fact-label">Peripherals:</span>
-                    <span className="fact-val">ESC/POS Thermal, Voice POS</span>
+                    <span className="fact-label">Location:</span>
+                    <span className="fact-val">{socialLinks.location}</span>
                   </div>
                   <div className="fact-item">
                     <span className="fact-label">GitHub:</span>
@@ -238,13 +234,13 @@ function About() {
               <div className="education-header">
                 <BookOpen size={20} className="text-accent" />
                 <div>
-                  <h3 className="education-title">Computer Science &amp; Software Engineering</h3>
-                  <span className="education-subtitle">Academic Background &amp; Practical Systems Engineering</span>
+                  <h3 className="education-title">B.Tech — Computer Science &amp; Engineering</h3>
+                  <span className="education-subtitle">JK Institute of Engineering · 2022 – 2025 · Bilaspur, CG</span>
                 </div>
               </div>
               <p className="education-desc">
-                Rigorous focus on core computer science foundations: object-oriented programming, data structures,
-                asynchronous stream architectures, relational and NoSQL databases, and network protocols.
+                B.Tech CSE with parallel industry work in Flutter. Diploma in Computer Science (2019–2021, 81%)
+                from the same institute; Matriculation 2018 (66%).
               </p>
             </div>
 
@@ -252,13 +248,13 @@ function About() {
               <div className="education-header">
                 <Sparkles size={20} className="text-accent" />
                 <div>
-                  <h3 className="education-title">Smart India Hackathon (SIH)</h3>
-                  <span className="education-subtitle">National Technical Innovation Competitions</span>
+                  <h3 className="education-title">Smart India Hackathon — Fixly</h3>
+                  <span className="education-subtitle">On-demand services marketplace</span>
                 </div>
               </div>
               <p className="education-desc">
-                Led mobile development for SIH-Fixly, solving civic infrastructure reporting challenges with on-device
-                sensors, image compression pipelines, and municipal audit workflows under tight event deadlines.
+                Built Fixly: role-based bookings, Mapbox live location, Razorpay payments, Socket.IO updates,
+                and WebRTC calling under hackathon deadlines.
               </p>
             </div>
           </div>
@@ -303,7 +299,7 @@ function About() {
                   <span className="badge badge-subtle">{socialLinks.role}</span>
                 </div>
                 <p className="photo-lightbox-desc">
-                  Senior Flutter Developer &amp; Frontend Engineer crafting high-performance mobile and web software.
+                  Junior Flutter developer · 1.5 years · Android &amp; iOS apps with Dart and Firebase.
                 </p>
               </div>
             </motion.div>

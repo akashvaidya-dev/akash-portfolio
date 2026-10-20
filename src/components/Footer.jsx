@@ -27,8 +27,8 @@ function Footer() {
               <span className="brand-bracket">/&gt;</span>
             </Link>
             <p className="footer-brand-bio">
-              Senior Flutter Developer &amp; Modern Frontend Engineer. Specializing in high-performance
-              cross-platform mobile architectures, hardware-level POS integrations, and modern React web interfaces.
+              Junior Software Developer · Flutter · 1.5 years. I build Android &amp; iOS apps with Dart,
+              Firebase, and careful state management. This site is handmade.
             </p>
             <div className="pulsing-dot-wrap">
               <span className="pulsing-dot" aria-hidden="true" />

@@ -126,7 +126,7 @@ Future<void> sendSafePrintJob(Socket socket, List<int> rawBytes) async {
     caseNumber: '#003',
     title: 'The Case of the Phantom Hive Overwrite',
     alias: 'The Blind Sync Regression',
-    project: 'VedicMitra Multi-Tenant App',
+    project: 'FitPassio Gym App',
     subsystem: 'Hive NoSQL Local Storage',
     category: 'state-cache',
     severity: 'HIGH',
@@ -135,7 +135,7 @@ Future<void> sendSafePrintJob(Socket socket, List<int> rawBytes) async {
     storySummary:
       'Consultation notes written while offline disappeared when the device reconnected to Wi-Fi. The background cloud sync wiped recent offline user entries with outdated server state.',
     incident:
-      'Users in remote clinics often consult patients without connectivity. They typed extensive assessment notes into VedicMitra. When network returned, the background synchronization worker performed a blanket `GET /records` and executed a blind `await box.putAll(remoteRecords)`. Because the server records lacked the offline changes, the local sub-100ms Hive storage was overwritten with yesterday’s stale cloud snapshots, effectively vaporizing offline consult notes.',
+      'Gym members edited workout notes offline in FitPassio. When network returned, a sync worker ran a blanket `GET /records` and blind `await box.putAll(remoteRecords)`. Server snapshots lacked offline edits, so Hive cache overwrote local notes with stale cloud data.',
     culprit:
       'Lacking entity revision hashing and dirty-mutation tracking in the Hive repository layer. The sync engine assumed server state was unconditionally superior to client state.',
     verdict:
@@ -240,7 +240,7 @@ Stream<Position> getVerifiedPositionStream() {
     return position.accuracy <= 20.0;
   }).take(3); // Gather 3 high-confidence samples to average
 }`,
-    impact: 'Location precision improved from ±850m to ±7.5m across 500+ tested civic complaint tickets.',
+    impact: 'Location precision improved for Fixly worker/customer live map tracking under noisy GPS conditions.',
   },
   {
     id: 'signature-bezier-nan',

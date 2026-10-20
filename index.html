@@ -1,31 +1,59 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="light" data-accent="blue" data-living-time="false">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#0a0d12" />
+    <meta name="theme-color" content="#f8fafc" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    
-    <!-- Primary Meta Tags -->
-    <title>Akash Vaidya | Senior Flutter & Frontend Developer Portfolio</title>
-    <meta name="title" content="Akash Vaidya | Senior Flutter & Frontend Developer Portfolio" />
-    <meta name="description" content="Portfolio of Akash Vaidya, Senior Flutter Developer & Modern Frontend Engineer specializing in enterprise mobile architecture, hardware integrations (thermal printers, voice POS), and React web apps." />
-    <meta name="keywords" content="Akash Vaidya, Flutter Developer, React Developer, Mobile App Engineer, Riverpod, Dart, ESC/POS, Voice POS, Web Developer Portfolio" />
+
+    <!-- Apply saved theme BEFORE paint (no dark flash) -->
+    <script>
+      (function () {
+        try {
+          var KEY = 'akash_portfolio_design_system_v3';
+          var raw =
+            localStorage.getItem(KEY) ||
+            localStorage.getItem('akash_portfolio_design_system_v2');
+          var theme = 'light';
+          var accent = 'blue';
+          var living = false;
+          if (raw) {
+            var s = JSON.parse(raw);
+            if (s.theme === 'dark' || s.theme === 'light') theme = s.theme;
+            if (s.accent) accent = s.accent;
+            living = !!s.livingTimeEnabled;
+          }
+          // Living time can force light/dark from clock — still apply accent from save
+          if (living) {
+            var h = new Date().getHours();
+            if (h >= 6 && h < 17) theme = 'light';
+            else theme = 'dark';
+          }
+          var root = document.documentElement;
+          root.setAttribute('data-theme', theme);
+          root.setAttribute('data-accent', accent);
+          root.setAttribute('data-living-time', living ? 'true' : 'false');
+          root.style.colorScheme = theme;
+          var meta = document.querySelector('meta[name="theme-color"]');
+          if (meta) meta.setAttribute('content', theme === 'light' ? '#f8fafc' : '#0a0d12');
+        } catch (e) {}
+      })();
+    </script>
+
+    <title>Akash Vaidya | Junior Flutter Developer</title>
+    <meta name="title" content="Akash Vaidya | Junior Flutter Developer" />
+    <meta name="description" content="Junior Software Developer with 1.5 years of Flutter experience. Android & iOS apps with Dart, Firebase, GetX, Riverpod, and BLoC. Handmade portfolio." />
+    <meta name="keywords" content="Akash Vaidya, Flutter Developer, Junior Software Developer, Dart, Firebase, Riverpod, GetX, BLoC" />
     <meta name="author" content="Akash Vaidya" />
 
-    <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://akash-vaidya.dev/" />
-    <meta property="og:title" content="Akash Vaidya | Senior Flutter & Frontend Developer Portfolio" />
-    <meta property="og:description" content="Engineering high-performance mobile apps, hardware-level POS integrations, and modern React web platforms." />
+    <meta property="og:title" content="Akash Vaidya | Junior Flutter Developer" />
+    <meta property="og:description" content="1.5 years Flutter · Android & iOS · Dart, Firebase, GetX / Riverpod / BLoC. Handmade portfolio." />
 
-    <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="https://akash-vaidya.dev/" />
-    <meta property="twitter:title" content="Akash Vaidya | Senior Flutter & Frontend Developer Portfolio" />
-    <meta property="twitter:description" content="Engineering high-performance mobile apps, hardware-level POS integrations, and modern React web platforms." />
+    <meta property="twitter:title" content="Akash Vaidya | Junior Flutter Developer" />
+    <meta property="twitter:description" content="1.5 years Flutter · Android & iOS · Dart, Firebase, GetX / Riverpod / BLoC." />
 
-    <!-- Google Fonts Preconnect -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />

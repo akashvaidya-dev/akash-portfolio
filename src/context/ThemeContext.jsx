@@ -21,17 +21,18 @@ function getInitialSettings() {
     if (saved) {
       const parsed = JSON.parse(saved);
       return {
-        theme: parsed.theme === 'light' ? 'light' : 'dark',
+        theme: parsed.theme === 'dark' ? 'dark' : 'light',
         accent: ACCENT_PALETTES.some((a) => a.id === parsed.accent)
           ? parsed.accent
-          : 'emerald',
+          : DEFAULT_SETTINGS.accent,
+        // Keep living time only if user left it on; manual light/dark stays free
         livingTimeEnabled: Boolean(parsed.livingTimeEnabled),
       };
     }
   } catch (err) {
     console.warn('Could not read design system settings from localStorage', err);
   }
-  return DEFAULT_SETTINGS;
+  return { ...DEFAULT_SETTINGS };
 }
 
 /**
@@ -71,6 +72,14 @@ export function ThemeProvider({ children }) {
     } else {
       root.removeAttribute('data-time-period');
       root.setAttribute('data-living-time', 'false');
+    }
+
+    const themeColorMeta = document.querySelector('meta[name="theme-color"]');
+    if (themeColorMeta) {
+      themeColorMeta.setAttribute(
+        'content',
+        effectiveTheme === 'light' ? '#f8fafc' : '#0a0d12'
+      );
     }
 
     try {

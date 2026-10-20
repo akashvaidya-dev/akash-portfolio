@@ -23,20 +23,16 @@ import BugDeathNote from '../components/BugDeathNote';
 import Hero3DExperience from '../components/Hero3DExperience';
 
 const rotatingRoles = [
-  'Senior Flutter Developer',
-  'Hardware & POS Integrator',
-  'Riverpod & Offline Architect',
-  'Modern React Web Engineer',
+  'Flutter Developer',
+  'Android & iOS',
+  'Firebase · Dio · Maps',
+  'GetX · Riverpod · BLoC',
 ];
 
-/**
- * Home Page Component
- * Ultra-premium, animated, editorial layout introducing Akash Vaidya's mobile & web engineering work,
- * featuring interactive code playground, live architecture blueprints, and real flagship systems.
- */
+/** Home — simple intro, personal projects only. */
 function Home() {
   const [roleIndex, setRoleIndex] = useState(0);
-  const featuredProjects = projects.filter((p) => p.featured).slice(0, 3);
+  const featuredProjects = projects.filter((p) => p.featured);
 
   // Auto-rotate role title every 3 seconds
   useEffect(() => {
@@ -75,7 +71,7 @@ function Home() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
             >
-              Engineering <span className="text-gradient">High-Performance</span> Mobile Apps &amp; Modern Systems
+              Hi — I build <span className="text-gradient">Flutter</span> apps for Android &amp; iOS
             </motion.h1>
 
             {/* Dynamic Animated Role Badge */}
@@ -85,7 +81,7 @@ function Home() {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.2 }}
             >
-              <span className="role-prefix">// Specializing in: </span>
+              <span className="role-prefix">// Focus: </span>
               <AnimatePresence mode="wait">
                 <motion.span
                   key={rotatingRoles[roleIndex]}
@@ -107,11 +103,11 @@ function Home() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.25 }}
             >
-              I am <strong className="text-primary-light">Akash Vaidya</strong>, a senior{' '}
-              <span className="text-accent">Flutter Developer</span> specializing in production mobile
-              architecture, real-world hardware integrations (thermal printers, voice POS dictation), and modern{' '}
-              <span className="text-accent">React</span> web applications. Focused on deterministic state management,
-              sub-millisecond local caching, and 60 FPS fluidity.
+              I am <strong className="text-primary-light">Akash Vaidya</strong> — a{' '}
+              <span className="text-accent">Junior Software Developer</span> with{' '}
+              <strong>1.5 years</strong> of Flutter experience. I write Dart every day: screens,
+              REST APIs, Firebase, maps, payments, and push notifications. This site is handmade —
+              just my personal / public work (client apps stay private).
             </motion.p>
 
             {/* Primary Calls to Action */}
@@ -147,20 +143,20 @@ function Home() {
               transition={{ duration: 0.6, delay: 0.45 }}
             >
               <div className="stat-card">
+                <div className="stat-number">1.5 years</div>
+                <div className="stat-label">Junior Flutter Developer</div>
+              </div>
+              <div className="stat-card">
                 <div className="stat-number">Flutter &amp; Dart</div>
-                <div className="stat-label">Core Mobile Specialization</div>
+                <div className="stat-label">Android &amp; iOS</div>
               </div>
               <div className="stat-card">
-                <div className="stat-number">Hardware &amp; IoT</div>
-                <div className="stat-label">Thermal Printers &amp; Voice POS</div>
+                <div className="stat-number">Firebase</div>
+                <div className="stat-label">Auth · FCM · Firestore</div>
               </div>
               <div className="stat-card">
-                <div className="stat-number">Riverpod &amp; Hive</div>
-                <div className="stat-label">Deterministic &amp; Offline-First</div>
-              </div>
-              <div className="stat-card">
-                <div className="stat-number">React 19 &amp; Vite</div>
-                <div className="stat-label">Expanding Web Architecture</div>
+                <div className="stat-number">State</div>
+                <div className="stat-label">GetX · Riverpod · BLoC</div>
               </div>
             </motion.div>
             </div>
@@ -187,9 +183,9 @@ function Home() {
       <section className="section-padding bg-surface" aria-label="Interactive Code & Architecture">
         <div className="container">
           <SectionTitle
-            badge="Engineering Depth"
-            title="Production Code &amp; Architectural Blueprints"
-            subtitle="Explore real architectural patterns: hardware-level ESC/POS streaming, immutable Riverpod state flows, and WebSocket sync."
+            badge="Code"
+            title="A few patterns I use"
+            subtitle="Small playgrounds — state, networking ideas, nothing fancy. I wrote this site myself."
             align="center"
           />
 
@@ -216,9 +212,9 @@ function Home() {
       <section className="section-padding" aria-label="Engineering Principles">
         <div className="container">
           <SectionTitle
-            badge="Engineering Rigor"
-            title="How I Build Software"
-            subtitle="I approach both mobile applications and web platforms with architectural discipline, real-world fault tolerance, and zero-compromise UX."
+            badge="How I work"
+            title="Simple rules I try to follow"
+            subtitle="Ship on real phones, keep state clear, wire APIs carefully, write code people can read."
           />
 
           <div className="principles-grid">
@@ -258,9 +254,9 @@ function Home() {
         <div className="container">
           <div className="section-header-flex">
             <SectionTitle
-              badge="Selected Work"
-              title="Featured Engineering Projects"
-              subtitle="Real commercial mobile applications, hardware automation systems, and full-stack web platforms."
+              badge="Projects"
+              title="Personal &amp; public work"
+              subtitle="Only things I can show here. Client / office apps are not listed."
             />
             <Link to="/projects" className="btn btn-outline btn-sm desktop-only-btn">
               <span>View All Projects ({projects.length})</span>
@@ -289,13 +285,13 @@ function Home() {
       <section className="section-padding" aria-label="Technical Skills Overview">
         <div className="container">
           <SectionTitle
-            badge="Technical Toolkit"
-            title="Core Technologies &amp; Capabilities"
-            subtitle="Hands-on experience across the mobile and web stack, focused on tools with proven production value."
+            badge="Skills"
+            title="What I use in Flutter"
+            subtitle="Full stack I work with — state, Firebase, maps, payments, storage, and tools."
           />
 
           <div className="skills-overview-grid">
-            {skillCategories.slice(0, 4).map((category, catIdx) => (
+            {skillCategories.map((category, catIdx) => (
               <motion.div
                 key={category.id}
                 className="skill-card"
@@ -340,13 +336,13 @@ function Home() {
         <div className="container">
           <div className="cta-card">
             <div className="cta-content">
-              <span className="section-badge">Ready to Collaborate</span>
+              <span className="section-badge">Say hello</span>
               <h2 className="cta-title">
-                Looking for an engineer who treats mobile &amp; web architecture seriously?
+                Need a junior Flutter developer on your team?
               </h2>
               <p className="cta-desc">
-                Whether you need a Flutter specialist to build or scale your flagship application, integrate
-                hardware peripherals, or engineer a responsive React web interface, let’s discuss how I can help.
+                1.5 years building Android &amp; iOS apps with Dart, Firebase, and clean state
+                management. Happy to talk about roles or freelance Flutter work.
               </p>
               <div className="cta-actions">
                 <Link to="/contact" className="btn btn-primary btn-lg">

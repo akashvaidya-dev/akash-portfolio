@@ -72,7 +72,7 @@ export function getTimePeriod(date = new Date()) {
 export const STORAGE_KEY = 'akash_portfolio_design_system_v3';
 
 export const DEFAULT_SETTINGS = {
-  theme: 'dark', // Manually selected appearance: 'dark' | 'light'
-  accent: 'emerald', // Selected accent color
-  livingTimeEnabled: false, // Default is OFF: visitor retains full manual control
+  theme: 'light',
+  accent: 'blue',
+  livingTimeEnabled: false, // OFF = your saved light/dark + accent always win
 };

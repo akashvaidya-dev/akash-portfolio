@@ -69,20 +69,17 @@ Type 'help' to view available commands, or click the quick action chips below.`,
           ...prev,
           {
             type: 'output',
-            text: `AVAILABLE OS COMMANDS:
-  help              Display this command directory
-  projects          List all 6 commercial engineering systems & metrics
-  project <id>      Deep-dive architecture specs for a specific project
-                    (e.g., 'project xtream-arena', 'project vedic-mitra')
-  bugs              Death Note: Inscribed & eliminated production bugs
-  skills            View categorized mobile, web, and hardware skill tree
-  about             Akash's engineering background, philosophy, & stack
-  experience        Timeline of commercial experienceTimeline
-  contact           Direct communication channels, email, & GitHub
-  neofetch          Display system architecture & environment specifications
-  theme <name>      Switch terminal theme: 'emerald', 'cyan', 'amber', 'matrix'
-  clear             Wipe terminal buffer
-  exit              Close the visitor terminal shell`,
+            text: `COMMANDS:
+  help              Show this list
+  projects          Personal / public projects only
+  project <id>      Details (sih-fixly | portfolio-site)
+  bugs              Notes on bugs I've fixed
+  skills            Flutter skill list
+  about             Short bio
+  experience        1.5 years junior Flutter + education
+  contact           Email, GitHub, LinkedIn
+  clear             Clear screen
+  exit              Close terminal`,
           },
         ]);
         break;
@@ -107,16 +104,16 @@ RULE: "The bug whose root cause is accurately inscribed shall never crash produc
      Fix: 512-Byte Chunking with Real-time DLE EOT 1 Status Backpressure
 
 #003 [ELIMINATED] The Case of the Phantom Hive Overwrite
-     Target: VedicMitra · Offline Hive NoSQL Cache
+     Target: FitPassio · Offline Hive NoSQL Cache
      Fix: Optimistic Revision Versioning & Monotonic Dirty Delta Queue
 
 #004 [ELIMINATED] The Case of the Runaway WebSocket Storm
-     Target: WhatsApp CRM · Real-time Chat Engine
-     Fix: BroadcastChannel Cross-Tab IPC & Single-Leader Election
+     Target: ResilioHub CRM · Real-time Chat Engine
+     Fix: Socket.IO reconnect backoff & single-flight message queue
 
 #005 [ELIMINATED] The Case of the Teleporting GPS Pin
-     Target: SIH Fixly · Geolocation Sensor Pipeline
-     Fix: <20m Accuracy Gating Threshold + Kalman Moving Average Smoothing
+     Target: Fixly (SIH) · Mapbox Location Pipeline
+     Fix: Accuracy gating threshold + smoothed location updates
 
 #006 [ELIMINATED] The Case of the Vanishing Parental Signature
      Target: DigiSlips · Touch Canvas & Cryptographic Sealing
@@ -132,40 +129,18 @@ Scroll to "#death-note-bug-log" on the Home page to inspect the interactive note
           ...prev,
           {
             type: 'output',
-            text: `PRODUCTION PROJECTS & COMMERCIAL SYSTEMS:
+            text: `PERSONAL / PUBLIC PROJECTS (office apps not listed):
 --------------------------------------------------------------------------------
-1. XTREAM ARENA (Mobile & Hardware)
-   • Metric: 65% faster table ordering & instant thermal receipt printing
-   • Stack: Flutter, Riverpod, ESC/POS Binary, Speech-to-Text
-   • Command: 'project xtream-arena'
+1. FIXLY (SIH)
+   • Bookings, Mapbox, Razorpay, WebRTC
+   • Flutter · BLoC · GoRouter · Socket.IO
+   • project sih-fixly
 
-2. VEDICMITRA (Mobile Ecosystem)
-   • Metric: Sub-100ms screen transitions & 100% offline Hive NoSQL storage
-   • Stack: Flutter, Hooks Riverpod, Hive, Dio, GoRouter
-   • GitHub: https://github.com/arao62916-sys/VedicMitra
-   • Command: 'project vedic-mitra'
-
-3. WHATSAPP CRM (Web & Fullstack)
-   • Metric: Real-time multi-agent conversation routing with WebSocket sync
-   • Stack: React 19, TypeScript, Node.js, WebSocket, WhatsApp Cloud API
-   • Command: 'project whatsapp-crm'
-
-4. CLINIC MANAGEMENT SUITE (Mobile & Healthcare)
-   • Metric: Streamlined waiting room triage & digital prescription generation
-   • Stack: Flutter, Riverpod, REST API, SQLite, Print Service
-   • Command: 'project clinic-management'
-
-5. DIGISLIPS (Mobile Circulars)
-   • Metric: 98% parent consent return rate with cryptographic glass signing
-   • Stack: Flutter, FCM Push Notifications, Digital Signatures, REST
-   • Command: 'project digislips'
-
-6. SIH FIXLY (Civic Tech & Smart India Hackathon)
-   • Metric: GPS camera sensor synchronization & tamper-proof audit trail
-   • Stack: Flutter, Geolocation Sensors, Camera Hardware, REST
-   • Command: 'project sih-fixly'
+2. THIS PORTFOLIO
+   • React + Vite, handmade
+   • project portfolio-site
 --------------------------------------------------------------------------------
-Tip: Type 'project <id>' to inspect full technical specs.`,
+Client work stays private. Ask in an interview if you want details.`,
           },
         ]);
         break;
@@ -177,7 +152,7 @@ Tip: Type 'project <id>' to inspect full technical specs.`,
             ...prev,
             {
               type: 'error',
-              text: "Usage: project <id>\nAvailable IDs: xtream-arena, vedic-mitra, whatsapp-crm, clinic-management, digislips, sih-fixly",
+              text: "Usage: project <id>\nAvailable IDs: sih-fixly, portfolio-site",
             },
           ]);
           break;

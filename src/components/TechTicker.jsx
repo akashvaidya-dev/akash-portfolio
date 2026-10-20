@@ -2,22 +2,27 @@ import { motion } from 'framer-motion';
 
 const skillsTicker = [
   'Flutter & Dart',
-  'ESC/POS Thermal Printing',
-  'Riverpod State Architecture',
-  'Voice POS Dictation',
-  'Hive NoSQL Offline Cache',
-  'React 19 & Vite',
-  'GoRouter Deep-Linking',
-  'WebSocket Live Inboxes',
-  'Dio REST Networking',
-  'Framer Motion',
-  'Clean Architecture',
-  'Smart India Hackathon',
+  'GetX',
+  'Riverpod',
+  'BLoC',
+  'GoRouter',
+  'Dio & REST',
+  'Firebase Auth',
+  'FCM',
+  'Firestore',
+  'Google Maps',
+  'Mapbox',
+  'Razorpay',
+  'Stripe',
+  'Hive & Sqflite',
+  'WebRTC',
+  'Socket.IO',
+  '1.5 years Flutter',
 ];
 
 export default function TechTicker() {
   return (
-    <div className="ticker-container" aria-label="Core Technology Highlights">
+    <div className="ticker-container" aria-label="Skills ticker">
       <div className="ticker-fade-left" />
       <div className="ticker-fade-right" />
       <motion.div
@@ -26,7 +31,7 @@ export default function TechTicker() {
         transition={{
           repeat: Infinity,
           ease: 'linear',
-          duration: 25,
+          duration: 28,
         }}
       >
         {[...skillsTicker, ...skillsTicker].map((item, idx) => (

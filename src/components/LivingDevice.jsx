@@ -34,7 +34,7 @@ import { Github } from './Icons';
  * - Hover / Tab story & architecture reveal
  */
 function LivingDevice({ project, onOpenDetails, index = 0 }) {
-  const defaultType = project.id === 'whatsapp-crm' ? 'laptop' : 'phone';
+  const defaultType = project.id === 'portfolio-site' ? 'laptop' : 'phone';
   const [deviceType, setDeviceType] = useState(defaultType);
   const [activeScreen, setActiveScreen] = useState(0); // 0: App UI, 1: Live Simulator, 2: Architecture
 
@@ -572,36 +572,36 @@ function renderProjectAppUI(project, state) {
         </div>
       );
 
-    case 'vedic-mitra':
+    case 'fitpassio':
       return (
         <div className="mock-app vedic-app">
           <div className="vedic-header">
-            <div className="vedic-brand">VedicMitra ✨</div>
-            <span className="vedic-badge">Kundli Live</span>
+            <div className="vedic-brand">FitPassio ✨</div>
+            <span className="vedic-badge">Gym Live</span>
           </div>
           <div className="astrologer-card">
-            <div className="astrologer-avatar">🪐</div>
+            <div className="astrologer-avatar">💪</div>
             <div className="astrologer-info">
-              <strong>Acharya Raman</strong>
-              <span>Vedic Astrologer • 14y exp</span>
-              <div className="rating">★★★★★ (4.9)</div>
+              <strong>Gold Membership</strong>
+              <span>Nearby gyms · Mapbox</span>
+              <div className="rating">Hive cache ready</div>
             </div>
           </div>
           <div className="vedic-cache-status">
             <CheckCircle2 size={12} className="text-accent" />
-            <span>Sub-100ms Hive Storage Engine</span>
+            <span>Offline Hive Storage Engine</span>
           </div>
           <button type="button" className="vedic-consult-btn">
-            Connect Now (₹25/min)
+            Start Workout
           </button>
         </div>
       );
 
-    case 'whatsapp-crm':
+    case 'resiliohub':
       return (
         <div className="mock-app crm-app">
           <div className="crm-header">
-            <span className="crm-badge">WhatsApp Business Cloud</span>
+            <span className="crm-badge">ResilioHub CRM</span>
             <span className="crm-status">● 3 Agents Online</span>
           </div>
           <div className="crm-chat-body">
@@ -654,22 +654,43 @@ function renderProjectAppUI(project, state) {
         </div>
       );
 
+    case 'portfolio-site':
+      return (
+        <div className="mock-app crm-app">
+          <div className="crm-header">
+            <span className="crm-badge">akashvaidya.dev</span>
+            <span className="crm-status">● handmade</span>
+          </div>
+          <div className="crm-chat-body">
+            <div className="chat-bubble agent">
+              <p>React + Vite portfolio</p>
+            </div>
+            <div className="chat-bubble customer">
+              <p>Flutter skills · Fixly · contact</p>
+            </div>
+          </div>
+          <div className="crm-typing-bar">
+            <span>Coded by hand — no client repos here</span>
+          </div>
+        </div>
+      );
+
     case 'sih-fixly':
     default:
       return (
         <div className="mock-app sih-app">
           <div className="sih-header">
-            <span className="sih-badge">SIH Civic Audit</span>
-            <span className="sih-id">CIV-5582</span>
+            <span className="sih-badge">Fixly Marketplace</span>
+            <span className="sih-id">BK-5582</span>
           </div>
           <div className="sih-map-preview">
             <MapPin size={18} className="map-pin-pulse" />
-            <div className="sih-coords">18.5204° N, 73.8567° E</div>
+            <div className="sih-coords">Worker ETA · Mapbox live</div>
           </div>
           <div className="sih-step-progress">
-            <span className="step done">1. Camera</span>
-            <span className="step done">2. GPS Lock</span>
-            <span className="step active">3. Municipal Sync</span>
+            <span className="step done">1. Book</span>
+            <span className="step done">2. Pay</span>
+            <span className="step active">3. Live Track</span>
           </div>
         </div>
       );
@@ -702,7 +723,7 @@ function renderProjectSimulator(project, state) {
         </div>
       );
 
-    case 'vedic-mitra':
+    case 'fitpassio':
       return (
         <div className="sim-box vedic-sim">
           <div className="sim-title">
@@ -710,7 +731,7 @@ function renderProjectSimulator(project, state) {
             <span>Hive NoSQL Cache Simulator</span>
           </div>
           <p className="sim-desc">
-            Toggle network status to verify 0ms offline profile persistence.
+            Toggle network status to verify offline membership/workout cache.
           </p>
           <button
             type="button"
@@ -728,7 +749,7 @@ function renderProjectSimulator(project, state) {
         </div>
       );
 
-    case 'whatsapp-crm':
+    case 'resiliohub':
       return (
         <div className="sim-box crm-sim">
           <div className="sim-title">

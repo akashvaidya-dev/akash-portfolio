@@ -6,9 +6,9 @@ import ProjectCard from '../components/ProjectCard';
 import SectionTitle from '../components/SectionTitle';
 
 const categories = [
-  { id: 'all', label: 'All Projects', count: projects.length },
-  { id: 'mobile', label: 'Mobile (Flutter & Hardware)', count: projects.filter(p => p.tags.includes('Flutter')).length },
-  { id: 'web', label: 'Web & Fullstack', count: projects.filter(p => p.tags.includes('React') || p.tags.includes('Web')).length },
+  { id: 'all', label: 'All', count: projects.length },
+  { id: 'mobile', label: 'Flutter', count: projects.filter((p) => p.tags.includes('Flutter')).length },
+  { id: 'web', label: 'Web', count: projects.filter((p) => p.categoryFilter === 'web').length },
 ];
 
 /**
@@ -25,9 +25,8 @@ function Projects() {
     return projects.filter((project) => {
       const matchesCategory =
         selectedCategory === 'all' ||
-        project.categoryFilter === selectedCategory ||
         (selectedCategory === 'mobile' && project.tags.includes('Flutter')) ||
-        (selectedCategory === 'web' && (project.tags.includes('React') || project.tags.includes('Web')));
+        (selectedCategory === 'web' && project.categoryFilter === 'web');
 
       const query = searchQuery.toLowerCase().trim();
       const matchesSearch =
@@ -49,7 +48,7 @@ function Projects() {
           <SectionTitle
             badge="Engineering Portfolio"
             title="Projects &amp; Case Studies"
-            subtitle="Commercial mobile applications, hardware automation systems, and modern web platforms built with Flutter and React."
+            subtitle="Personal and public work only. Client / office apps are not shown here."
           />
 
           {/* Filter & Search Bar */}
@@ -171,11 +170,10 @@ function Projects() {
               <Layers size={20} className="text-accent" />
             </div>
             <div>
-              <h4 className="proprietary-title">Note on Commercial &amp; Client Repositories</h4>
+              <h4 className="proprietary-title">About office / client work</h4>
               <p className="proprietary-desc">
-                Several projects featured above were built under commercial client arrangements and remain proprietary.
-                Detailed architectural walkthroughs, sanitized code samples, and live demonstrations are available during
-                technical interviews.
+                I have built more Flutter apps at work, but those repos stay private. Happy to walk through
+                sanitized examples or live demos in an interview — just ask.
               </p>
             </div>
           </div>

@@ -98,7 +98,7 @@ ${formData.message}`;
           <SectionTitle
             badge="Get in Touch"
             title="Start a Conversation"
-            subtitle="Available for Flutter engineering contracts, full-time senior mobile/frontend roles, and technical collaborations."
+            subtitle="Junior Flutter developer · 1.5 years · Bilaspur, Chhattisgarh, India"
           />
         </div>
       </section>

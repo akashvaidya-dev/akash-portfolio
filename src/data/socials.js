@@ -1,14 +1,15 @@
 /**
- * Verified contact and social links for Akash Vaidya.
+ * Contact — public profile links.
  */
 
 export const socialLinks = {
   name: 'Akash Vaidya',
   handle: 'arao62916-sys',
-  email: 'akshvadh@resiliencesoft.com',
+  email: 'raoakash606@gmail.com',
+  phone: '+91-7879848993',
   github: 'https://github.com/arao62916-sys',
-  linkedin: 'https://linkedin.com/in/akash-vaidya-dev',
-  role: 'Senior Flutter Developer & Frontend Engineer',
-  location: 'India',
-  availability: 'Open to Full-Time Roles & High-Impact Contracts',
+  linkedin: 'https://www.linkedin.com/in/akash-rao-90a92a283',
+  role: 'Junior Software Developer · Flutter',
+  location: 'Bilaspur, Chhattisgarh, India',
+  availability: 'Open to Flutter roles · 1.5 years experience',
 };
