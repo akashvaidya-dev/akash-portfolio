@@ -8,7 +8,6 @@ import SectionTitle from '../components/SectionTitle';
 const categories = [
   { id: 'all', label: 'All', count: projects.length },
   { id: 'mobile', label: 'Flutter', count: projects.filter((p) => p.tags.includes('Flutter')).length },
-  { id: 'web', label: 'Web', count: projects.filter((p) => p.categoryFilter === 'web').length },
 ];
 
 /**
@@ -25,8 +24,7 @@ function Projects() {
     return projects.filter((project) => {
       const matchesCategory =
         selectedCategory === 'all' ||
-        (selectedCategory === 'mobile' && project.tags.includes('Flutter')) ||
-        (selectedCategory === 'web' && project.categoryFilter === 'web');
+        (selectedCategory === 'mobile' && project.tags.includes('Flutter'));
 
       const query = searchQuery.toLowerCase().trim();
       const matchesSearch =
@@ -46,9 +44,9 @@ function Projects() {
       <section className="page-header-section">
         <div className="container">
           <SectionTitle
-            badge="Engineering Portfolio"
-            title="Projects &amp; Case Studies"
-            subtitle="Personal and public work only. Client / office apps are not shown here."
+            badge="Google Play"
+            title="Published Apps"
+            subtitle="Flutter apps live on the Play Store — swipe screenshots, open the listing."
           />
 
           {/* Filter & Search Bar */}

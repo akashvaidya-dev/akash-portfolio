@@ -288,8 +288,8 @@ function Home() {
           <div className="section-header-flex">
             <SectionTitle
               badge="Projects"
-              title="Personal &amp; public work"
-              subtitle="Only things I can show here. Client / office apps are not listed."
+              title="Apps on Google Play"
+              subtitle="Production Flutter apps — screenshots and Play Store links."
             />
             <Link to="/projects" className="btn btn-outline btn-sm desktop-only-btn">
               <span>View All Projects ({projects.length})</span>

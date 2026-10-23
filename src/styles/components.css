@@ -525,6 +525,25 @@
   gap: var(--space-2);
 }
 
+.modal-shot-row {
+  display: flex;
+  gap: var(--space-3);
+  overflow-x: auto;
+  padding-bottom: var(--space-2);
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+
+.modal-shot {
+  flex: 0 0 auto;
+  height: 220px;
+  width: auto;
+  border-radius: 10px;
+  scroll-snap-align: start;
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-secondary);
+}
+
 .modal-footer {
   padding: var(--space-4) var(--space-6);
   border-top: 1px solid var(--border-subtle);
@@ -2465,6 +2484,62 @@
 .crm-typing-bar {
   font-size: 9px;
   color: var(--text-muted);
+}
+
+/* Play Store / real screenshot gallery inside phone mock */
+.store-shot-gallery {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: #0b1220;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.store-shot-icon {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 2;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+}
+
+.store-shot-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center top;
+  display: block;
+}
+
+.store-shot-dots {
+  position: absolute;
+  bottom: 8px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  z-index: 2;
+}
+
+.store-shot-dots span {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.35);
+}
+
+.store-shot-dots span.active {
+  background: var(--accent, #3b82f6);
 }
 
 /* Simulator View Box */

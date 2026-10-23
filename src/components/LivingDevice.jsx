@@ -500,6 +500,17 @@ function LivingDevice({ project, onOpenDetails, index = 0 }) {
               <span>Explore Case Study</span>
               <ArrowUpRight size={14} />
             </button>
+            {project.liveUrl && (
+              <a
+                href={project.liveUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-secondary btn-sm"
+              >
+                <ArrowUpRight size={14} />
+                <span>{project.liveLabel || 'Live Demo'}</span>
+              </a>
+            )}
             {project.githubUrl && (
               <a
                 href={project.githubUrl}
@@ -522,6 +533,10 @@ function LivingDevice({ project, onOpenDetails, index = 0 }) {
 // Helper: Render Project Specific App UI
 // =============================================================================
 function renderProjectAppUI(project, state) {
+  if (project.images?.length) {
+    return <StoreShotGallery project={project} />;
+  }
+
   switch (project.id) {
     case 'xtream-arena':
       return (
@@ -700,7 +715,63 @@ function renderProjectAppUI(project, state) {
 // =============================================================================
 // Helper: Render Project Simulator
 // =============================================================================
+function StoreShotGallery({ project }) {
+  const [shot, setShot] = useState(0);
+  const images = project.images;
+  const next = (e) => {
+    e?.stopPropagation();
+    setShot((i) => (i + 1) % images.length);
+  };
+
+  return (
+    <button
+      type="button"
+      className="store-shot-gallery"
+      onClick={next}
+      aria-label="Next app screenshot"
+      title="Tap for next screenshot"
+    >
+      {project.icon && (
+        <img className="store-shot-icon" src={project.icon} alt="" width={28} height={28} />
+      )}
+      <img
+        className="store-shot-img"
+        src={images[shot]}
+        alt={`${project.title} screenshot ${shot + 1}`}
+      />
+      <span className="store-shot-dots">
+        {images.map((_, i) => (
+          <span key={i} className={i === shot ? 'active' : ''} />
+        ))}
+      </span>
+    </button>
+  );
+}
+
 function renderProjectSimulator(project, state) {
+  if (project.liveUrl && project.images?.length) {
+    return (
+      <div className="sim-box store-sim">
+        <div className="sim-title">
+          <Smartphone size={16} className="text-accent" />
+          <span>{project.liveLabel || 'Live App'}</span>
+        </div>
+        <p className="sim-desc">
+          Real screenshots from the published listing. Open the store page to install and try the full app.
+        </p>
+        <a
+          href={project.liveUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="btn btn-primary btn-sm btn-block"
+          onClick={(e) => e.stopPropagation()}
+        >
+          {project.liveLabel || 'Open Live Link'}
+        </a>
+      </div>
+    );
+  }
+
   switch (project.id) {
     case 'xtream-arena':
       return (

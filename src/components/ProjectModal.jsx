@@ -154,6 +154,23 @@ function ProjectModal({ project, isOpen, onClose }) {
                   ))}
                 </div>
               </div>
+
+              {project.images?.length > 0 && (
+                <div className="modal-section">
+                  <h4 className="modal-section-title">App Screenshots</h4>
+                  <div className="modal-shot-row">
+                    {project.images.map((src, idx) => (
+                      <img
+                        key={src}
+                        src={src}
+                        alt={`${project.title} screen ${idx + 1}`}
+                        className="modal-shot"
+                        loading="lazy"
+                      />
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Modal Footer Actions */}
@@ -182,7 +199,7 @@ function ProjectModal({ project, isOpen, onClose }) {
                     className="btn btn-primary btn-sm"
                   >
                     <ExternalLink size={15} />
-                    Live Demo
+                    {project.liveLabel || 'Live Demo'}
                   </a>
                 )}
               </div>

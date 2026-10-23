@@ -602,8 +602,106 @@ code, kbd, samp, pre {
 
 .projects-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: var(--space-6);
+  grid-template-columns: 1fr;
+  gap: var(--space-8);
+}
+
+/* Flat Play Store project cards (shots already framed) */
+.store-project-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-5);
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+}
+
+.store-project-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.store-project-identity {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  min-width: 0;
+  flex: 1;
+}
+
+.store-project-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  flex-shrink: 0;
+  object-fit: cover;
+  background: var(--bg-secondary);
+}
+
+.store-project-cat {
+  margin: 0;
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+  letter-spacing: 0.02em;
+}
+
+.store-project-title {
+  margin: 2px 0 4px;
+  font-size: var(--fs-lg);
+  font-weight: 650;
+  color: var(--text-primary);
+  line-height: 1.25;
+}
+
+.store-project-tagline {
+  margin: 0;
+  font-size: var(--fs-sm);
+  color: var(--text-secondary);
+  line-height: 1.45;
+  max-width: 42rem;
+}
+
+.store-project-cta {
+  flex-shrink: 0;
+}
+
+.store-shot-strip {
+  display: flex;
+  gap: var(--space-3);
+  overflow-x: auto;
+  padding: var(--space-2) 2px var(--space-3);
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+
+.store-shot-strip::-webkit-scrollbar {
+  height: 6px;
+}
+
+.store-shot-strip::-webkit-scrollbar-thumb {
+  background: rgba(var(--accent-rgb), 0.35);
+  border-radius: 999px;
+}
+
+.store-shot {
+  flex: 0 0 auto;
+  height: 280px;
+  width: auto;
+  max-width: min(160px, 42vw);
+  object-fit: contain;
+  scroll-snap-align: start;
+  border-radius: 8px;
+  background: transparent;
+}
+
+.store-project-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
 }
 
 .project-card {

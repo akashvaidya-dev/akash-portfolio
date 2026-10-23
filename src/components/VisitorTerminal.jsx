@@ -71,8 +71,8 @@ Type 'help' to view available commands, or click the quick action chips below.`,
             type: 'output',
             text: `COMMANDS:
   help              Show this list
-  projects          Personal / public projects only
-  project <id>      Details (portfolio-site)
+  projects          Play Store apps
+  project <id>      App details + Play link
   bugs              Notes on bugs I've fixed
   skills            Flutter skill list
   about             Short bio
@@ -130,13 +130,15 @@ Scroll to "#death-note-bug-log" on the Home page to inspect the interactive note
           ...prev,
           {
             type: 'output',
-            text: `PERSONAL / PUBLIC PROJECTS (office apps not listed):
+            text: `PLAY STORE APPS:
 --------------------------------------------------------------------------------
-1. THIS PORTFOLIO
-   • React + Vite, handmade
-   • project portfolio-site
---------------------------------------------------------------------------------
-Client work stays private. Ask in an interview if you want details.`,
+${projects
+  .map(
+    (p, i) =>
+      `${i + 1}. ${p.title}\n   • ${p.tagline}\n   • project ${p.id}\n   • ${p.liveUrl || '—'}`
+  )
+  .join('\n--------------------------------------------------------------------------------\n')}
+--------------------------------------------------------------------------------`,
           },
         ]);
         break;
@@ -148,7 +150,7 @@ Client work stays private. Ask in an interview if you want details.`,
             ...prev,
             {
               type: 'error',
-              text: "Usage: project <id>\nAvailable IDs: portfolio-site",
+              text: `Usage: project <id>\nAvailable IDs: ${projects.map((p) => p.id).join(', ')}`,
             },
           ]);
           break;
@@ -164,24 +166,13 @@ Client work stays private. Ask in an interview if you want details.`,
             {
               type: 'output',
               text: `================================================================================
-PROJECT BLUEPRINT: ${match.title.toUpperCase()}
+${match.title.toUpperCase()}
 ================================================================================
-Category:     ${match.category}
-Architecture: ${match.architecture}
-Key Result:   ${match.metric}
+Category:  ${match.category}
+${match.description}
 
-PROBLEM STATEMENT:
-${match.problem}
-
-ENGINEERING SOLUTION:
-${match.solution}
-
-HIGHLIGHTS:
-${match.highlights.map((h) => `  • ${h}`).join('\n')}
-
-TECHNOLOGIES:
-[ ${match.tags.join(' | ')} ]
-${match.githubUrl ? `GitHub: ${match.githubUrl}` : 'Proprietary Commercial Codebase'}
+TECH: [ ${match.tags.join(' | ')} ]
+${match.liveUrl ? `Play Store: ${match.liveUrl}` : ''}
 ================================================================================`,
             },
           ]);
