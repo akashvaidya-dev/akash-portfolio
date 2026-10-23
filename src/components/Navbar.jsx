@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { NavLink, Link, useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, ArrowUpRight, Terminal, Sun, Moon, Palette } from 'lucide-react';
+import { Menu, X, ArrowUpRight, Terminal, Sun, Moon, Palette, FileText } from 'lucide-react';
 import { socialLinks } from '../data/socials';
 import { useTheme } from '../context/useTheme';
 import avatarPhoto from '../assets/images/akash-vaidya-avatar.jpg';
@@ -29,7 +29,7 @@ const NAV_ITEMS = [
  *    - 🎨 Palette button to launch the full Design System Studio drawer.
  * 4. Mobile Responsive Drawer & Akash-OS Terminal launcher.
  */
-function Navbar({ onOpenTerminal, onOpenThemeStudio }) {
+function Navbar({ onOpenTerminal, onOpenThemeStudio, onOpenResume }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [isDraggingNotch, setIsDraggingNotch] = useState(false);
@@ -309,6 +309,20 @@ function Navbar({ onOpenTerminal, onOpenThemeStudio }) {
             </button>
           )}
 
+          {/* Resume Viewer & Download Trigger */}
+          {onOpenResume && (
+            <button
+              type="button"
+              className="btn btn-secondary btn-sm nav-glass-btn nav-resume-btn"
+              onClick={onOpenResume}
+              aria-label="View and Download Resume"
+              title="Preview & Download Resume (PDF)"
+            >
+              <FileText size={14} className="text-accent" />
+              <span>Resume</span>
+            </button>
+          )}
+
           {/* Terminal Launcher */}
           {onOpenTerminal && (
             <button
@@ -415,6 +429,20 @@ function Navbar({ onOpenTerminal, onOpenThemeStudio }) {
                     </button>
                   )}
                 </div>
+
+                {onOpenResume && (
+                  <button
+                    type="button"
+                    className="btn btn-secondary btn-block mb-2"
+                    onClick={() => {
+                      closeMenu();
+                      onOpenResume();
+                    }}
+                  >
+                    <FileText size={16} className="text-accent" />
+                    <span>View & Download Resume</span>
+                  </button>
+                )}
 
                 {onOpenTerminal && (
                   <button

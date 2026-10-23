@@ -12,4 +12,5 @@ export const socialLinks = {
   role: 'Junior Software Developer · Flutter',
   location: 'Bilaspur, Chhattisgarh, India',
   availability: 'Open to Flutter roles · 1.5 years experience',
+  resumeUrl: '/Akash_Vaidya_resume.pdf',
 };

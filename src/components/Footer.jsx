@@ -8,7 +8,7 @@ import { ArrowUp } from 'lucide-react';
  * Minimal, modern footer with site navigation, availability status indicator,
  * and social channels.
  */
-function Footer() {
+function Footer({ onOpenResume }) {
   const currentYear = new Date().getFullYear();
 
   const scrollToTop = () => {
@@ -56,6 +56,29 @@ function Footer() {
                 <Link to="/contact">Contact</Link>
               </li>
               <li>
+                {onOpenResume ? (
+                  <button
+                    type="button"
+                    onClick={onOpenResume}
+                    style={{
+                      background: "none",
+                      border: "none",
+                      padding: 0,
+                      font: "inherit",
+                      color: "var(--accent-light)",
+                      cursor: "pointer",
+                      textAlign: "left"
+                    }}
+                  >
+                    Resume (Read &amp; Download PDF)
+                  </button>
+                ) : (
+                  <a href="/Akash_Vaidya_resume.pdf" download="Akash_Vaidya_resume.pdf" className="text-accent">
+                    Download Resume (PDF)
+                  </a>
+                )}
+              </li>
+              <li>
                 <a href="#death-note-bug-log">Death Note — The Bug Log</a>
               </li>
               <li>
@@ -74,23 +97,20 @@ function Footer() {
           </div>
         </div>
 
-        {/* Bottom Bar */}
+        {/* Bottom bar — left copyright + subtle stack; Akash-OS stays floating HUD */}
         <div className="footer-bottom">
-          <p>© {currentYear} Akash Vaidya. Built with craftsmanship &amp; clean code.</p>
-          <div className="footer-bottom-actions">
-            <p className="footer-stack-note">
-              React 19 • Vite • GitHub REST API • Framer Motion
-            </p>
-            <button
-              type="button"
-              className="scroll-top-btn"
-              onClick={scrollToTop}
-              aria-label="Scroll to top of page"
-              title="Back to top"
-            >
-              <ArrowUp size={16} />
-            </button>
-          </div>
+          <p className="footer-copyright">
+            © {currentYear} Akash Vaidya. Built with care &amp; clean code.
+          </p>
+          <button
+            type="button"
+            className="scroll-top-btn"
+            onClick={scrollToTop}
+            aria-label="Scroll to top of page"
+            title="Back to top"
+          >
+            <ArrowUp size={16} />
+          </button>
         </div>
       </div>
     </footer>

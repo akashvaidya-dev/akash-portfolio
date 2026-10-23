@@ -316,15 +316,16 @@
 .footer-wrap {
   border-top: 1px solid var(--border-subtle);
   background-color: var(--bg-secondary);
-  padding-block: var(--space-16) var(--space-8);
+  padding-block: var(--space-10) var(--space-5);
   margin-top: auto;
 }
 
 .footer-top {
   display: grid;
   grid-template-columns: 2fr 1fr 1fr;
-  gap: var(--space-12);
-  margin-bottom: var(--space-12);
+  gap: var(--space-10);
+  margin-bottom: 0;
+  padding-bottom: var(--space-6);
 }
 
 .footer-brand-bio {
@@ -369,10 +370,11 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-top: var(--space-8);
+  padding-top: var(--space-4);
   border-top: 1px solid var(--border-subtle);
   font-size: var(--fs-xs);
   color: var(--text-muted);
+  gap: var(--space-3);
 }
 
 /* Social Links Component */

@@ -12,7 +12,7 @@ import { experienceTimeline } from '../data/experience';
  * Allows interactive exploration of projects, skills, contact, and architecture via commands.
  * Accessible globally via hotkey (~ or Ctrl+K) or persistent OS HUD button.
  */
-function VisitorTerminal({ isOpen, onClose }) {
+function VisitorTerminal({ isOpen, onClose, onOpenResume }) {
   const [inputVal, setInputVal] = useState('');
   const [history, setHistory] = useState([
     {
@@ -77,6 +77,7 @@ Type 'help' to view available commands, or click the quick action chips below.`,
   skills            Flutter skill list
   about             Short bio
   experience        Diploma → B.Tech → Flutter job
+  resume            Read & download Akash's resume (PDF)
   contact           Email, GitHub, LinkedIn
   clear             Clear screen
   exit              Close terminal`,
@@ -256,6 +257,28 @@ Engineering Philosophy:
         break;
       }
 
+      case 'resume':
+      case 'cv':
+        if (onOpenResume) {
+          onOpenResume();
+        }
+        window.open('/Akash_Vaidya_resume.pdf', '_blank');
+        setHistory((prev) => [
+          ...prev,
+          {
+            type: 'output',
+            text: `AKASH VAIDYA // RESUME & CREDENTIALS (PDF)
+--------------------------------------------------------------------------------
+Role:      Junior Software Developer (Flutter · Dart · 1.5 Years)
+Document:  Akash_Vaidya_resume.pdf (110 KB)
+Path:      /Akash_Vaidya_resume.pdf
+Action:    Opened PDF viewer modal & launched document in browser tab.
+Download:  Direct link ready at /Akash_Vaidya_resume.pdf
+--------------------------------------------------------------------------------`,
+          },
+        ]);
+        break;
+
       case 'contact':
         setHistory((prev) => [
           ...prev,
@@ -352,7 +375,7 @@ Status:    ${socialLinks.availability}
       }
     } else if (e.key === 'Tab') {
       e.preventDefault();
-      const commands = ['help', 'projects', 'skills', 'about', 'experience', 'contact', 'neofetch', 'clear', 'exit'];
+      const commands = ['help', 'resume', 'cv', 'projects', 'skills', 'about', 'experience', 'contact', 'neofetch', 'clear', 'exit'];
       const match = commands.find((c) => c.startsWith(inputVal.toLowerCase().trim()));
       if (match) {
         setInputVal(match);
@@ -437,6 +460,7 @@ Status:    ${socialLinks.availability}
               { label: 'help', cmd: 'help' },
               { label: 'projects', cmd: 'projects' },
               { label: 'skills', cmd: 'skills' },
+              { label: 'resume', cmd: 'resume' },
               { label: 'about', cmd: 'about' },
               { label: 'contact', cmd: 'contact' },
               { label: 'sysinfo', cmd: 'neofetch' },

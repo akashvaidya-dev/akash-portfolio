@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useOutletContext } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   ArrowRight,
@@ -9,6 +9,8 @@ import {
   Zap,
   Terminal,
   ExternalLink,
+  FileText,
+  Download,
 } from 'lucide-react';
 import { projects } from '../data/projects';
 import { skillCategories } from '../data/skills';
@@ -31,6 +33,7 @@ const rotatingRoles = [
 
 /** Home — simple intro, personal projects only. */
 function Home() {
+  const { onOpenResume } = useOutletContext() || {};
   const [roleIndex, setRoleIndex] = useState(0);
   const featuredProjects = projects.filter((p) => p.featured);
 
@@ -71,7 +74,7 @@ function Home() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
             >
-              Hi — I build <span className="text-gradient">Flutter</span> apps for Android &amp; iOS
+              Hey, I&apos;m <span className="text-gradient">Akash Vaidya</span> 👋
             </motion.h1>
 
             {/* Dynamic Animated Role Badge */}
@@ -96,19 +99,29 @@ function Home() {
               </AnimatePresence>
             </motion.div>
 
-            {/* Subtitle / Positioning */}
-            <motion.p
-              className="hero-subtitle"
+            {/* Intro copy */}
+            <motion.div
+              className="hero-subtitle hero-intro"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.25 }}
             >
-              I am <strong className="text-primary-light">Akash Vaidya</strong> — a{' '}
-              <span className="text-accent">Junior Software Developer</span> with{' '}
-              <strong>1.5 years</strong> of Flutter experience. I write Dart every day: screens,
-              REST APIs, Firebase, maps, payments, and push notifications. This site is handmade —
-              just my personal / public work (client apps stay private).
-            </motion.p>
+              <p>
+                I&apos;m a <span className="text-accent">Junior Software Developer</span> who
+                loves turning ideas into apps people enjoy using. With{' '}
+                <strong className="text-primary-light">1.5 years of experience in Flutter</strong>,
+                I work with Dart to build cross-platform mobile apps, integrate REST APIs and
+                Firebase, and bring features like maps, payments, and push notifications to life.
+              </p>
+              <p>
+                This is my little corner of the internet — a collection of personal projects,
+                experiments, and things I&apos;ve built along the way. Some of my professional work
+                stays private, but there&apos;s plenty here to explore.
+              </p>
+              <p>
+                <strong>Take a look around. There&apos;s more than just code here.</strong> 🚀
+              </p>
+            </motion.div>
 
             {/* Primary Calls to Action */}
             <motion.div
@@ -133,6 +146,26 @@ function Home() {
                 <span>GitHub Profile</span>
                 <ExternalLink size={16} aria-hidden="true" />
               </a>
+              {onOpenResume ? (
+                <button
+                  type="button"
+                  className="btn btn-outline btn-lg"
+                  onClick={onOpenResume}
+                  title="Read or Download Resume"
+                >
+                  <FileText size={16} className="text-accent" />
+                  <span>Resume (PDF)</span>
+                </button>
+              ) : (
+                <a
+                  href="/Akash_Vaidya_resume.pdf"
+                  download="Akash_Vaidya_resume.pdf"
+                  className="btn btn-outline btn-lg"
+                >
+                  <Download size={16} className="text-accent" />
+                  <span>Resume (PDF)</span>
+                </a>
+              )}
             </motion.div>
 
             {/* Quick Metrics / Proof Points */}
@@ -352,6 +385,16 @@ function Home() {
                 <a href={`mailto:${socialLinks.email}`} className="btn btn-outline btn-lg">
                   <span>{socialLinks.email}</span>
                 </a>
+                {onOpenResume && (
+                  <button
+                    type="button"
+                    className="btn btn-secondary btn-lg"
+                    onClick={onOpenResume}
+                  >
+                    <FileText size={16} className="text-accent" />
+                    <span>View Resume (PDF)</span>
+                  </button>
+                )}
               </div>
             </div>
           </div>

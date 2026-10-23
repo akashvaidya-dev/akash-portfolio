@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import avatarPhoto from '../assets/images/akash-vaidya-avatar.jpg';
 import fullPhoto from '../assets/images/akash-vaidya-full.jpg';
-import { Link } from 'react-router-dom';
-import { ArrowRight, CheckCircle2, Code2, Sparkles, BookOpen, ExternalLink, X, Maximize2 } from 'lucide-react';
+import { Link, useOutletContext } from 'react-router-dom';
+import { ArrowRight, CheckCircle2, Code2, Sparkles, BookOpen, ExternalLink, X, Maximize2, FileText, Download } from 'lucide-react';
 import { skillCategories } from '../data/skills';
 import { socialLinks } from '../data/socials';
 import SectionTitle from '../components/SectionTitle';
@@ -14,6 +14,7 @@ import SectionTitle from '../components/SectionTitle';
  * and genuine career trajectory without fabricated claims.
  */
 function About() {
+  const { onOpenResume } = useOutletContext() || {};
   const [isPhotoOpen, setIsPhotoOpen] = useState(false);
   return (
     <div className="page-wrapper about-page">
@@ -158,6 +159,26 @@ function About() {
                     <span>Contact Me</span>
                     <ArrowRight size={15} />
                   </Link>
+                  {onOpenResume ? (
+                    <button
+                      type="button"
+                      className="btn btn-secondary btn-block"
+                      onClick={onOpenResume}
+                      title="Read and download Akash's resume"
+                    >
+                      <FileText size={15} className="text-accent" />
+                      <span>Read & Download Resume</span>
+                    </button>
+                  ) : (
+                    <a
+                      href="/Akash_Vaidya_resume.pdf"
+                      download="Akash_Vaidya_resume.pdf"
+                      className="btn btn-secondary btn-block"
+                    >
+                      <Download size={15} className="text-accent" />
+                      <span>Download Resume (PDF)</span>
+                    </a>
+                  )}
                   <Link to="/projects" className="btn btn-outline btn-block">
                     <span>View Projects</span>
                   </Link>

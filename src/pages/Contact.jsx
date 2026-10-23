@@ -1,14 +1,14 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Mail, Send, Copy, Check, AlertCircle, Info, ExternalLink } from 'lucide-react';
+import { Mail, Send, Copy, Check, AlertCircle, Info, ExternalLink, Loader2, CheckCircle2 } from 'lucide-react';
 import { Github, Linkedin } from '../components/Icons';
 import { socialLinks } from '../data/socials';
 import SectionTitle from '../components/SectionTitle';
 
 /**
  * Contact Page Component
- * Validated contact form with direct mailto generation, clipboard payload helper,
- * verified direct contact channels, and honest configuration notice.
+ * Direct REST API email transmission directly to Akash's inbox (FormSubmit / custom API endpoint),
+ * with validation, loading indicator, real-time feedback, and fallback mail options.
  */
 function Contact() {
   const [formData, setFormData] = useState({
@@ -20,7 +20,11 @@ function Contact() {
 
   const [errors, setErrors] = useState({});
   const [copiedEmail, setCopiedEmail] = useState(false);
-  const [submittedMode, setSubmittedMode] = useState(null); // 'mailto' | 'copied' | null
+  const [copiedPayload, setCopiedPayload] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submissionStatus, setSubmissionStatus] = useState('idle'); // 'idle' | 'success' | 'activation' | 'error'
+  const [statusMessage, setStatusMessage] = useState('');
+  const [lastSentDetails, setLastSentDetails] = useState(null);
 
   // Validate form fields
   const validate = () => {
@@ -28,7 +32,7 @@ function Contact() {
     if (!formData.name.trim() || formData.name.trim().length < 2) {
       newErrors.name = 'Please enter your name (at least 2 characters).';
     }
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const emailRegex = /^[^s@]+@[^s@]+.[^s@]+$/;
     if (!formData.email.trim() || !emailRegex.test(formData.email.trim())) {
       newErrors.email = 'Please provide a valid email address.';
     }
@@ -56,29 +60,96 @@ function Contact() {
     setTimeout(() => setCopiedEmail(false), 2500);
   };
 
-  const handleSubmit = (e) => {
+  // Direct email delivery via REST API
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validate()) return;
 
-    // Construct mailto link with pre-filled fields
-    const subjectEncoded = encodeURIComponent(`[Portfolio Inquiry] ${formData.subject}`);
+    setIsSubmitting(true);
+    setSubmissionStatus('idle');
+    setStatusMessage('');
+
+    const senderName = formData.name.trim();
+    const senderEmail = formData.email.trim();
+    const messageSubject = formData.subject.trim();
+    const messageContent = formData.message.trim();
+
+    try {
+      const endpoint =
+        import.meta.env.VITE_CONTACT_ENDPOINT ||
+        `https://formsubmit.co/ajax/${socialLinks.email}`;
+
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify({
+          name: senderName,
+          email: senderEmail,
+          _subject: `[Portfolio Contact] ${messageSubject} - from ${senderName}`,
+          subject: messageSubject,
+          message: messageContent,
+          _replyto: senderEmail,
+          _captcha: 'false',
+          _template: 'box',
+        }),
+      });
+
+      const data = await response.json().catch(() => ({}));
+
+      if (response.ok && (data.success === 'true' || data.success === true)) {
+        setSubmissionStatus('success');
+        setLastSentDetails({ name: senderName, email: senderEmail });
+        setStatusMessage(
+          `Your message has been directly sent to Akash (${socialLinks.email})! Akash will reply back to ${senderEmail} shortly.`
+        );
+        // Clear form
+        setFormData({ name: '', email: '', subject: '', message: '' });
+      } else if (
+        data.message &&
+        (data.message.toLowerCase().includes('activation') ||
+          data.message.toLowerCase().includes('activate'))
+      ) {
+        setSubmissionStatus('activation');
+        setStatusMessage(
+          `FormSubmit requires one-time activation. A confirmation link has been sent to ${socialLinks.email}. Akash, please click 'Activate Form' in your email inbox once to enable continuous direct delivery!`
+        );
+      } else {
+        setSubmissionStatus('error');
+        setStatusMessage(
+          data.message || 'Unable to send message directly at this moment. Please try again or use the fallback mail options.'
+        );
+      }
+    } catch (err) {
+      console.error('Contact form error:', err);
+      setSubmissionStatus('error');
+      setStatusMessage(
+        'Network request failed. Please check your internet connection or use the fallback mail button below.'
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  // Fallback to local mail client if desired
+  const handleLaunchEmailClient = () => {
+    const subjectEncoded = encodeURIComponent(`[Portfolio Inquiry] ${formData.subject || 'Hello Akash'}`);
     const bodyEncoded = encodeURIComponent(
       `Hello Akash,
 
-Name: ${formData.name}
-Email: ${formData.email}
+Name: ${formData.name || 'Anonymous'}
+Email: ${formData.email || 'Not specified'}
 
 Message:
-${formData.message}
+${formData.message || ''}
 `
     );
-    const mailtoUrl = `mailto:${socialLinks.email}?subject=${subjectEncoded}&body=${bodyEncoded}`;
-
-    // Open user's default email client
-    window.location.href = mailtoUrl;
-    setSubmittedMode('mailto');
+    window.location.href = `mailto:${socialLinks.email}?subject=${subjectEncoded}&body=${bodyEncoded}`;
   };
 
+  // Copy message payload to clipboard
   const handleCopyMessagePayload = () => {
     const payload = `Name: ${formData.name}
 Email: ${formData.email}
@@ -87,7 +158,8 @@ Subject: ${formData.subject}
 Message:
 ${formData.message}`;
     navigator.clipboard.writeText(payload);
-    setSubmittedMode('copied');
+    setCopiedPayload(true);
+    setTimeout(() => setCopiedPayload(false), 3000);
   };
 
   return (
@@ -207,10 +279,9 @@ ${formData.message}`;
             {/* Interactive Contact Form Column */}
             <div className="contact-form-col">
               <div className="contact-form-card">
-                <h3 className="form-card-title">// Send a Message</h3>
+                <h3 className="form-card-title">// Send a Message Directly</h3>
                 <p className="form-card-desc">
-                  Fill in your details below. Clicking "Launch in Email Client" will format your message and open your
-                  default mail application directly.
+                  Fill in your details below. Clicking "Send Message Directly" will deliver your message directly to Akash's email inbox ({socialLinks.email}) without opening your email client.
                 </p>
 
                 <form onSubmit={handleSubmit} noValidate className="contact-form">
@@ -226,6 +297,7 @@ ${formData.message}`;
                       placeholder="e.g. Sarah Connor"
                       value={formData.name}
                       onChange={handleChange}
+                      disabled={isSubmitting}
                       className={`form-input ${errors.name ? 'input-error' : ''}`}
                       aria-invalid={!!errors.name}
                       aria-describedby={errors.name ? 'name-error' : undefined}
@@ -250,6 +322,7 @@ ${formData.message}`;
                       placeholder="e.g. sarah@example.com"
                       value={formData.email}
                       onChange={handleChange}
+                      disabled={isSubmitting}
                       className={`form-input ${errors.email ? 'input-error' : ''}`}
                       aria-invalid={!!errors.email}
                       aria-describedby={errors.email ? 'email-error' : undefined}
@@ -274,6 +347,7 @@ ${formData.message}`;
                       placeholder="e.g. Flutter mobile app architecture discussion"
                       value={formData.subject}
                       onChange={handleChange}
+                      disabled={isSubmitting}
                       className={`form-input ${errors.subject ? 'input-error' : ''}`}
                       aria-invalid={!!errors.subject}
                       aria-describedby={errors.subject ? 'subject-error' : undefined}
@@ -298,6 +372,7 @@ ${formData.message}`;
                       placeholder="Tell me about your project, timeline, tech requirements, or role details..."
                       value={formData.message}
                       onChange={handleChange}
+                      disabled={isSubmitting}
                       className={`form-textarea ${errors.message ? 'input-error' : ''}`}
                       aria-invalid={!!errors.message}
                       aria-describedby={errors.message ? 'message-error' : undefined}
@@ -312,53 +387,86 @@ ${formData.message}`;
 
                   {/* Submit Actions */}
                   <div className="form-actions">
-                    <button type="submit" className="btn btn-primary btn-block">
-                      <Send size={16} />
-                      <span>Launch in Email Client</span>
+                    <button
+                      type="submit"
+                      className="btn btn-primary btn-block"
+                      disabled={isSubmitting}
+                    >
+                      {isSubmitting ? (
+                        <>
+                          <Loader2 size={16} className="spin-loader" />
+                          <span>Sending Message Directly...</span>
+                        </>
+                      ) : (
+                        <>
+                          <Send size={16} />
+                          <span>Send Message Directly</span>
+                        </>
+                      )}
                     </button>
 
                     <button
                       type="button"
                       className="btn btn-secondary btn-block"
                       onClick={handleCopyMessagePayload}
+                      disabled={isSubmitting}
                     >
-                      <Copy size={16} />
-                      <span>Copy Message to Clipboard</span>
+                      {copiedPayload ? <Check size={16} className="text-accent" /> : <Copy size={16} />}
+                      <span>{copiedPayload ? 'Message Copied to Clipboard!' : 'Copy Message to Clipboard'}</span>
                     </button>
                   </div>
                 </form>
 
                 {/* Submission Feedback Banners */}
-                {submittedMode === 'mailto' && (
-                  <motion.div
-                    className="form-feedback-box feedback-info"
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                  >
-                    <Info size={16} className="text-accent" />
-                    <div>
-                      <strong>Mail client triggered!</strong>
-                      <p>
-                        Your default email software opened with this message prefilled. If it didn't open, you can copy the
-                        message above and email directly to <code>{socialLinks.email}</code>.
-                      </p>
-                    </div>
-                  </motion.div>
-                )}
-
-                {submittedMode === 'copied' && (
+                {submissionStatus === 'success' && (
                   <motion.div
                     className="form-feedback-box feedback-success"
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                   >
-                    <Check size={16} className="text-accent" />
+                    <CheckCircle2 size={18} className="text-accent" style={{ flexShrink: 0, marginTop: 2 }} />
                     <div>
-                      <strong>Message text copied to clipboard!</strong>
+                      <strong>Message Sent Directly to Akash!</strong>
                       <p>
-                        You can now paste it into your email provider or messaging platform and send it to{' '}
-                        <code>{socialLinks.email}</code>.
+                        Thank you{lastSentDetails?.name ? `, ${lastSentDetails.name}` : ''}! Your message was successfully dispatched straight to <code>{socialLinks.email}</code>. Akash will review and reply to <code>{lastSentDetails?.email}</code> soon.
                       </p>
+                    </div>
+                  </motion.div>
+                )}
+
+                {submissionStatus === 'activation' && (
+                  <motion.div
+                    className="form-feedback-box feedback-warning"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                  >
+                    <Info size={18} style={{ color: '#f59e0b', flexShrink: 0, marginTop: 2 }} />
+                    <div>
+                      <strong>First-Time Activation Notice</strong>
+                      <p>{statusMessage}</p>
+                    </div>
+                  </motion.div>
+                )}
+
+                {submissionStatus === 'error' && (
+                  <motion.div
+                    className="form-feedback-box feedback-error"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                  >
+                    <AlertCircle size={18} style={{ color: '#ef4444', flexShrink: 0, marginTop: 2 }} />
+                    <div>
+                      <strong>Delivery Notice</strong>
+                      <p>{statusMessage}</p>
+                      <button
+                        type="button"
+                        className="btn btn-outline btn-sm"
+                        style={{ marginTop: '8px' }}
+                        onClick={handleLaunchEmailClient}
+                      >
+                        <Send size={14} />
+                        <span>Open in Email App Instead</span>
+                      </button>
                     </div>
                   </motion.div>
                 )}
@@ -367,9 +475,8 @@ ${formData.message}`;
                 <div className="form-backend-notice">
                   <Info size={14} className="text-muted" style={{ flexShrink: 0, marginTop: 2 }} />
                   <p>
-                    <strong>Architecture Note:</strong> This static frontend generates client-verified mailto payloads
-                    without pretending to send backend requests. To integrate an automated API gateway (e.g. Resend,
-                    EmailJS, or Formspree), supply a <code>VITE_CONTACT_ENDPOINT</code> environment variable.
+                    <strong>Direct Delivery:</strong> Form submissions are posted directly to{' '}
+                    <code>{socialLinks.email}</code> via FormSubmit REST API without opening your local mail app. To point to an alternate endpoint, configure <code>VITE_CONTACT_ENDPOINT</code>.
                   </p>
                 </div>
               </div>

@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
-import { Terminal, Palette } from 'lucide-react';
+import { Terminal, Palette, FileText } from 'lucide-react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import CursorUniverse from '../components/CursorUniverse';
 import VisitorTerminal from '../components/VisitorTerminal';
 import ThemeCustomizerDrawer from '../components/ThemeCustomizerDrawer';
 import LiveDeveloperStatus from '../components/LiveDeveloperStatus';
+import ResumeModal from '../components/ResumeModal';
 
 /**
  * ScrollToTop Component
@@ -26,11 +27,12 @@ function ScrollToTop() {
  * MainLayout Component
  * Wraps page routes with shared Navbar, Main content wrapper, Footer,
  * 3D CursorUniverse background, interactive Akash-OS VisitorTerminal,
- * and the Adaptive Design System ThemeCustomizerDrawer.
+ * the Adaptive Design System ThemeCustomizerDrawer, and ResumeModal.
  */
 function MainLayout() {
   const [terminalOpen, setTerminalOpen] = useState(false);
   const [themeStudioOpen, setThemeStudioOpen] = useState(false);
+  const [resumeOpen, setResumeOpen] = useState(false);
 
   // Global Keyboard Shortcut: Backtick (`) or Ctrl+K / Cmd+K to toggle terminal
   useEffect(() => {
@@ -63,21 +65,34 @@ function MainLayout() {
       <Navbar
         onOpenTerminal={() => setTerminalOpen(true)}
         onOpenThemeStudio={() => setThemeStudioOpen(true)}
+        onOpenResume={() => setResumeOpen(true)}
       />
 
       {/* Main Content */}
       <main className="main-content" id="main-content" style={{ position: 'relative', zIndex: 1 }}>
-        <Outlet />
+        <Outlet context={{ onOpenResume: () => setResumeOpen(true) }} />
       </main>
 
       {/* Live Developer Status (Bottom Telemetry) */}
       <LiveDeveloperStatus />
 
       {/* Footer */}
-      <Footer />
+      <Footer onOpenResume={() => setResumeOpen(true)} />
 
       {/* Floating Action Triggers HUD */}
       <div className="floating-hud-dock" aria-label="Quick actions dock">
+        {/* Resume Viewer & Download Trigger */}
+        <button
+          type="button"
+          className="floating-hud-btn floating-resume-trigger-btn"
+          onClick={() => setResumeOpen(true)}
+          aria-label="View and Download Resume"
+          title="Read or Download Akash's Resume (PDF)"
+        >
+          <FileText size={14} className="text-accent" />
+          <span>Resume</span>
+        </button>
+
         {/* Design System Studio Trigger */}
         <button
           type="button"
@@ -108,12 +123,19 @@ function MainLayout() {
       <VisitorTerminal
         isOpen={terminalOpen}
         onClose={() => setTerminalOpen(false)}
+        onOpenResume={() => setResumeOpen(true)}
       />
 
       {/* Slide-out Adaptive Design System Customizer Drawer */}
       <ThemeCustomizerDrawer
         isOpen={themeStudioOpen}
         onClose={() => setThemeStudioOpen(false)}
+      />
+
+      {/* Interactive Resume Reader & Downloader Modal */}
+      <ResumeModal
+        isOpen={resumeOpen}
+        onClose={() => setResumeOpen(false)}
       />
     </>
   );

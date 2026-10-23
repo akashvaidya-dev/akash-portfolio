@@ -23,7 +23,7 @@ export const projects = [
     highlights: [
       'Multi-page layout with React Router',
       'Theme tokens and responsive CSS',
-      'Project detail modals and contact mailto flow',
+      'Project detail modals and direct email contact form',
     ],
   },
 ];
